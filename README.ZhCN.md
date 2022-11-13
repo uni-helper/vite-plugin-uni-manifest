@@ -35,4 +35,4 @@ export default defineManifestConfig({...});
 
 ## Configuration
 
-see [types.ts](./src/types.ts)
+查看 [types.ts](./src/types.ts)

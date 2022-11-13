@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "packageManager": "pnpm@7.15.0",
-  "description": "",
+  "description": "Use TypeScript to write manifest.json of uni-app",
   "author": "KeJun",
   "license": "MIT",
   "homepage": "https://github.com/uni-helper/vite-plugin-uni-manifest#readme",
@@ -31,7 +31,7 @@
     "build": "unbuild",
     "dev": "unbuild --stub",
     "prepublishOnly": "pnpm build",
-    "release": "bumpp && npm publish",
+    "release": "bumpp && npm publish --access public",
     "start": "esno src/index.ts",
     "test": "vitest"
   },
