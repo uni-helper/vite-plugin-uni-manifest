@@ -620,6 +620,23 @@ export interface MpQq {
   scopedSlotsCompiler: "auto" | "legacy" | "augmented";
 }
 
+export interface MpKuaishou {
+  /** 快手小程序的 appid */
+  appid: string;
+  /** 优化配置 */
+  optimization: {
+    /** 是否开启分包优化 */
+    subPackages: boolean;
+  };
+  /** uni 统计配置项 */
+  uniStatistics: SimpleUniStatistics;
+  /**
+   * Vue2 作用域插槽编译模式
+   * 默认为 auto
+   */
+  scopedSlotsCompiler: "auto" | "legacy" | "augmented";
+}
+
 export interface ManifestConfig {
   /** 应用名称，安装 APP 后显示的名称 */
   name: string;
@@ -679,7 +696,8 @@ export interface ManifestConfig {
   "mp-lark": MpLark;
   /** QQ 小程序特有配置 */
   "mp-qq": MpQq;
-  "mp-kuaishou": any;
+  /** 快手小程序特有配置 */
+  "mp-kuaishou": MpKuaishou;
   [x: string]: any;
 }
 
