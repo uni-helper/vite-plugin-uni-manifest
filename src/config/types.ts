@@ -526,6 +526,44 @@ export interface MpBaidu {
   scopedSlotsCompiler: "auto" | "legacy" | "augmented";
 }
 
+export interface MpToutiao {
+  /** 字节跳动小程序的 appid */
+  appid: string;
+  /** 字节跳动小程序小程序项目设置 */
+  setting: {
+    /** 是否启用 ES6 转 ES5 */
+    es6: boolean;
+    /** 上传代码时样式是否自动补全 */
+    postcss: boolean;
+    /** 上传代码时是否自动压缩脚本文件 */
+    minified: boolean;
+    /** 是否检查安全域名和 TLS 版本 */
+    urlCheck: boolean;
+    /** 修改文件的时候是否自动编译 */
+    autoCompile: boolean;
+    /** 下次编译是否模拟更新 */
+    mockUpdate: boolean;
+    /** 是否启动自定义处理命令 */
+    scripts: boolean;
+    /** 是否开启宿主登录模拟 */
+    mockLogin: boolean;
+  };
+  /** 需要跳转的字节跳动小程序列表 */
+  navigateToMiniProgramAppIdList: string[];
+  /** 优化配置 */
+  optimization: {
+    /** 是否开启分包优化 */
+    subPackages: boolean;
+  };
+  /** uni 统计配置项 */
+  uniStatistics: SimpleUniStatistics;
+  /**
+   * Vue2 作用域插槽编译模式
+   * 默认为 auto
+   */
+  scopedSlotsCompiler: "auto" | "legacy" | "augmented";
+}
+
 export interface ManifestConfig {
   /** 应用名称，安装 APP 后显示的名称 */
   name: string;
@@ -579,7 +617,8 @@ export interface ManifestConfig {
   "mp-alipay": MpAlipay;
   /** 百度小程序特有配置 */
   "mp-baidu": MpBaidu;
-  "mp-toutiao": any;
+  /** 字节跳动小程序特有配置 */
+  "mp-toutiao": MpToutiao;
   "mp-lark": any;
   "mp-qq": any;
   "mp-kuaishou": any;
