@@ -1,9 +1,29 @@
 import { PartialDeep } from "type-fest";
 
 export interface NetworkTimeout {
+  /**
+   * uni.request 超时时间
+   * 单位为 ms
+   * 默认为 60000
+   */
   request?: number;
+  /**
+   * uni.connectSocket 超时时间
+   * 单位为 ms
+   * 默认为 60000
+   */
   connectSocket?: number;
+  /**
+   * uni.uploadFile 超时时间
+   * 单位为 ms
+   * 默认为 60000
+   */
   uploadFile?: number;
+  /**
+   * uni.downloadFile 超时时间
+   * 单位为 ms
+   * 默认为 60000
+   */
   downloadFile?: number;
 }
 
