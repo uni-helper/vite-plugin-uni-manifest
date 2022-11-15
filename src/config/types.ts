@@ -312,6 +312,154 @@ export interface QuickappWebviewHuawei {
   minPlatformVersion: number;
 }
 
+export interface MpWeixin {
+  /** 微信小程序的 appid */
+  appid: string;
+  /**
+   * 微信小程序项目设置
+   * 更多信息查看 <https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html>
+   */
+  setting: {
+    /** 是否启用 ES6 转 ES5 */
+    es6: boolean;
+    /** 是否使用增强编译 */
+    enhance: boolean;
+    /** 上传代码时样式是否自动补全  */
+    postcss: boolean;
+    /** 上传代码时是否自动压缩脚本文件 */
+    minified: boolean;
+    /** 上传代码时是否自动压缩样式文件 */
+    minifyWXSS: boolean;
+    /** 上传代码时是否自动压缩 WXML 文件 */
+    minifyWXML: boolean;
+    /** 上传时是否代码保护 */
+    uglifyFileName: boolean;
+    /** 上传时是否过滤无依赖文件 */
+    ignoreUploadUnusedFiles: boolean;
+    /** 是否自动运行体验评分 */
+    autoAudits: boolean;
+    /** 是否检查安全域名和 TLS 版本 */
+    urlCheck: boolean;
+    /** 是否启用代码自动热重载 */
+    compileHotReLoad: boolean;
+    /** 是否启用数据预拉取 */
+    preloadBackgroundData: boolean;
+    /** 是否启用懒注入占位组件调试 */
+    lazyloadPlaceholderEnable: boolean;
+    /** 小游戏项目有效，是否开启静态资源服务器 */
+    useStaticServer: boolean;
+    /** 预览及真机调试的时主包、分包体积上限是否调整为小程序 4M、小游戏 8M */
+    bigPackageSizeSupport: boolean;
+    /** 增强编译 Babel 的配置项 */
+    babelSetting: {
+      /**
+       * Babel 辅助函数的输出目录
+       * 默认为 @babel/runtime
+       */
+      outputPath: string;
+      /** 需要跳过 Babel 编译（包括代码压缩）处理的文件或目录 */
+      ignore: string[];
+    };
+    /** 编译插件配置 */
+    useCompilerPlugins: false | string[];
+    /** 将 JS 编译成 ES5 时，是否禁用严格模式 */
+    disableUseStrict: boolean;
+    /**
+     * 上传时是否带上 sourcemap
+     * 默认为 true
+     */
+    uploadWithSourceMap: boolean;
+    /** 在小游戏插件项目中，是否启用 以本地目录为插件资源来源 特性 */
+    localPlugins: boolean;
+    /** 是否手动配置构建 npm 的路径 */
+    packNpmManually: boolean;
+    /** 仅 packNpmManually 为 true 时生效 */
+    packNpmRelationList: {
+      /** node_modules 源对应的 package.json */
+      packageJsonPath: string;
+      /** node_modules 的构建结果目标位置 */
+      miniprogramNpmDistDir: string;
+    }[];
+    /** 是否使用工具渲染 CoverView */
+    coverView: boolean;
+    /**
+     * 预览、真机调试和本地模拟器等开发阶段是否过滤无依赖文件
+     * 默认为 true
+     */
+    ignoreDevUnusedFiles: boolean;
+    /** 是否检查键名 */
+    checkInvalidKey: boolean;
+    /** 是否开启调试器 WXML 面板展示 shadow-root */
+    showShadowRootInWxmlPanel: boolean;
+    /** 是否开启小程序独立域调试特性 */
+    useIsolateContext: boolean;
+    /**
+     * 是否开启模拟器预先载入小程序的某些资源
+     * 设置为 false 时会导致 useIsolateContext 失效
+     */
+    useMultiFrameRuntime: boolean;
+    /** 是否启用 API Hook 功能 */
+    useApiHook: boolean;
+    /** 是否在额外的进程处理一些小程序 API */
+    useApiHostProcess: boolean;
+    /** 小游戏有效，是否开启局域网调试服务器 */
+    useLanDebug: boolean;
+    /** 是否在游戏引擎项目中开启支持引用 node 原生模块的底层加速特性 */
+    enableEngineNative: boolean;
+    /** 是否在本地设置中展示传统的 ES6 转 ES5 开关（对应 es6），增强编译开关 （对应 enhance） */
+    showES6CompileOption: boolean;
+    /** 是否检查 SiteMap 索引 */
+    checkSiteMap: boolean;
+  };
+  /**
+   * 是否启用插件功能页
+   * 默认为 false
+   */
+  functionalPages: boolean;
+  /** 需要在后台使用的能力 */
+  requiredBackgroundModes: ("audio" | "location")[];
+  // TODO better types
+  /** 使用到的插件 */
+  plugins: Record<string, any>;
+  /**
+   * 是否支持 iPad 上屏幕旋转
+   * 默认为 false
+   */
+  resizable: boolean;
+  /** 需要跳转的微信小程序列表 */
+  navigateToMiniProgramAppIdList: string[];
+  // TODO better types
+  /** 接口权限设置 */
+  permission: Record<string, any>;
+  /** Worker 代码目录 */
+  workers: string;
+  /** 优化配置 */
+  optimization: {
+    /** 是否开启分包优化 */
+    subPackages: boolean;
+  };
+  /** 云开发代码目录 */
+  cloudfunctionRoot: string;
+  /** uni 统计配置项 */
+  uniStatistics: SimpleUniStatistics;
+  /**
+   * Vue2 作用域插槽编译模式
+   * 默认为 auto
+   */
+  scopedSlotsCompiler: "auto" | "legacy" | "augmented";
+  /**
+   * 是否合并组件虚拟节点外层属性
+   * 目前仅支持 style、class 属性
+   */
+  mergeVirtualHostAttributes: boolean;
+  /** 要半屏跳转的小程序 appid */
+  embeddedAppIdList: string[];
+  /** 地理位置相关接口 */
+  requiredPrivateInfos: string[];
+  /** 目前仅支持值 requiredComponents，代表开启小程序按需注入特性 */
+  lazyCodeLoading: "requiredComponents";
+}
+
 export interface ManifestConfig {
   /** 应用名称，安装 APP 后显示的名称 */
   name: string;
@@ -359,7 +507,8 @@ export interface ManifestConfig {
   "quickapp-webview-union": QuickappWebviewUnion;
   /** 快应用华为特有配置 */
   "quickapp-webview-huawei": QuickappWebviewHuawei;
-  "mp-weixin": any;
+  /** 微信小程序特有配置 */
+  "mp-weixin": MpWeixin;
   "mp-alipay": any;
   "mp-baidu": any;
   "mp-toutiao": any;
