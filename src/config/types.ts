@@ -564,6 +564,34 @@ export interface MpToutiao {
   scopedSlotsCompiler: "auto" | "legacy" | "augmented";
 }
 
+export interface MpLark {
+  /** 飞书小程序的 appid */
+  appid: string;
+  /** 飞书小程序小程序项目设置 */
+  setting: {
+    /** 是否启用 ES6 转 ES5 */
+    es6: boolean;
+    /** 是否启用脚本代码自动压缩 */
+    minified: boolean;
+    /** 是否启用样式自动补全 */
+    postcss: boolean;
+    /** 是否检查安全域名和 TLS 版本 */
+    urlCheck: boolean;
+    /** Babel 的配置项 */
+    babelSetting: {
+      /** 需要跳过 Babel 编译（包括代码压缩）处理的文件或目录 */
+      ignore: string[];
+    };
+  };
+  /** uni 统计配置项 */
+  uniStatistics: SimpleUniStatistics;
+  /**
+   * Vue2 作用域插槽编译模式
+   * 默认为 auto
+   */
+  scopedSlotsCompiler: "auto" | "legacy" | "augmented";
+}
+
 export interface ManifestConfig {
   /** 应用名称，安装 APP 后显示的名称 */
   name: string;
@@ -619,7 +647,8 @@ export interface ManifestConfig {
   "mp-baidu": MpBaidu;
   /** 字节跳动小程序特有配置 */
   "mp-toutiao": MpToutiao;
-  "mp-lark": any;
+  /** 飞书小程序特有配置 */
+  "mp-lark": MpLark;
   "mp-qq": any;
   "mp-kuaishou": any;
   [x: string]: any;
