@@ -36,7 +36,3 @@ export default defineManifestConfig({...});
 ## Configuration
 
 see [types.ts](./src/types.ts)
-
-## TODO
-
-- [ ] ManifestConfig [Type](./src/config/types.ts)
