@@ -289,6 +289,19 @@ export interface H5 {
   uniStatistics: SimpleUniStatistics;
 }
 
+export interface QuickappWebview {
+  /** 应用图标，推荐尺寸 192x192 */
+  icon: string;
+  /** 应用包名 */
+  package: string;
+  /** 最小平台支持，快应用联盟最低 1063，快应用华为最低 1070 */
+  minPlatformVersion: number;
+  /** 版本名称 */
+  versionName: string;
+  /** 版本号 */
+  versionCode: number;
+}
+
 export interface ManifestConfig {
   /** 应用名称，安装 APP 后显示的名称 */
   name: string;
@@ -330,7 +343,8 @@ export interface ManifestConfig {
   "app-plus": AppPlus;
   /** H5 特有配置 */
   h5: H5;
-  quickapp: any;
+  /** 快应用特有配置 */
+  "quickapp-webview": QuickappWebview;
   "mp-weixin": any;
   "mp-alipay": any;
   "mp-baidu": any;
