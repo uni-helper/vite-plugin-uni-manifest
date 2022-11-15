@@ -592,6 +592,34 @@ export interface MpLark {
   scopedSlotsCompiler: "auto" | "legacy" | "augmented";
 }
 
+export interface MpQq {
+  /** QQ 小程序的 appid */
+  appid: string;
+  /** 需要在后台使用的能力 */
+  requiredBackgroundModes: "audio"[];
+  /** 需要跳转的 QQ 小程序列表 */
+  navigateToMiniProgramAppIdList: string[];
+  // TODO better types
+  /** 接口权限设置 */
+  permission: Record<string, any>;
+  /** Worker 代码目录 */
+  workers: string;
+  /** 需要打开群资料卡的群号列表 */
+  groupIdList: string[];
+  /** 优化配置 */
+  optimization: {
+    /** 是否开启分包优化 */
+    subPackages: boolean;
+  };
+  /** uni 统计配置项 */
+  uniStatistics: SimpleUniStatistics;
+  /**
+   * Vue2 作用域插槽编译模式
+   * 默认为 auto
+   */
+  scopedSlotsCompiler: "auto" | "legacy" | "augmented";
+}
+
 export interface ManifestConfig {
   /** 应用名称，安装 APP 后显示的名称 */
   name: string;
@@ -649,7 +677,8 @@ export interface ManifestConfig {
   "mp-toutiao": MpToutiao;
   /** 飞书小程序特有配置 */
   "mp-lark": MpLark;
-  "mp-qq": any;
+  /** QQ 小程序特有配置 */
+  "mp-qq": MpQq;
   "mp-kuaishou": any;
   [x: string]: any;
 }
