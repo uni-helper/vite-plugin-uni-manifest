@@ -505,6 +505,27 @@ export interface MpAlipay {
   lazyCodeLoading: "requiredComponents";
 }
 
+export interface MpBaidu {
+  /** 百度小程序的 appid */
+  appid: string;
+  /** 需要在后台使用的能力 */
+  requiredBackgroundModes: "audio"[];
+  /** 预请求的所有 url 的列表 */
+  prefetches: string[];
+  /** 优化配置 */
+  optimization: {
+    /** 是否开启分包优化 */
+    subPackages: boolean;
+  };
+  /** uni 统计配置项 */
+  uniStatistics: SimpleUniStatistics;
+  /**
+   * Vue2 作用域插槽编译模式
+   * 默认为 auto
+   */
+  scopedSlotsCompiler: "auto" | "legacy" | "augmented";
+}
+
 export interface ManifestConfig {
   /** 应用名称，安装 APP 后显示的名称 */
   name: string;
@@ -556,7 +577,8 @@ export interface ManifestConfig {
   "mp-weixin": MpWeixin;
   /** 支付宝小程序特有配置 */
   "mp-alipay": MpAlipay;
-  "mp-baidu": any;
+  /** 百度小程序特有配置 */
+  "mp-baidu": MpBaidu;
   "mp-toutiao": any;
   "mp-lark": any;
   "mp-qq": any;
