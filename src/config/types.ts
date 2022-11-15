@@ -302,6 +302,11 @@ export interface QuickappWebview {
   versionCode: number;
 }
 
+export interface QuickappWebviewUnion {
+  /** 最小平台支持，最低 1063 */
+  minPlatformVersion: number;
+}
+
 export interface ManifestConfig {
   /** 应用名称，安装 APP 后显示的名称 */
   name: string;
@@ -345,6 +350,8 @@ export interface ManifestConfig {
   h5: H5;
   /** 快应用特有配置 */
   "quickapp-webview": QuickappWebview;
+  /** 快应用联盟特有配置 */
+  "quickapp-webview-union": QuickappWebviewUnion;
   "mp-weixin": any;
   "mp-alipay": any;
   "mp-baidu": any;
