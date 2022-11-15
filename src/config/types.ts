@@ -197,6 +197,98 @@ export interface AppPlus {
   [x: string]: any;
 }
 
+export interface H5 {
+  /**
+   * 页面标题
+   * 默认使用顶层 name 字段
+   */
+  title: string;
+  /** 相对于应用根目录的 index.html 模板路径 */
+  template: string;
+  /** 路由设置 */
+  router: {
+    /**
+     * 路由跳转模式
+     * 默认为 hash
+     */
+    mode: "hash" | "history";
+    /**
+     * 应用基础路径
+     * 默认为 /
+     */
+    base: string;
+  };
+  /** 加载相关设置 */
+  async: {
+    /**
+     * 页面 JavaScript 加载时使用的组件，需注册为全局组件
+     * 默认为 AsyncLoading
+     */
+    loading: string;
+    /**
+     * 页面 JavaScript 加载失败时使用的组件，需注册为全局组件
+     * 默认为 AsyncError
+     */
+    error: string;
+    /**
+     * 显示加载中组件的延时时间，如果在延时内加载完成，则不会显示加载中组件
+     * 单位为 ms
+     * 默认为 200
+     *
+     */
+    delay: number;
+    /**
+     * 加载超时时间，如果超时，则显示加载失败组件
+     * 单位为 ms
+     * 默认为 60000
+     */
+    timeout: number;
+  };
+  /**
+   * dev server 设置
+   */
+  devServer: {
+    /**
+     * 是否启用 HTTPS 协议
+     * 默认为 false
+     */
+    https: boolean;
+    /**
+     * 是否禁用 host 检查
+     * 默认为 false
+     */
+    disableHostCheck: boolean;
+  };
+  /** 引用资源的地址前缀，仅发布时生效 */
+  publicPath: string;
+  // TODO better types
+  /** SDK 配置  */
+  sdkConfigs: Record<string, any>;
+  /** 优化配置 */
+  optimization: {
+    /**
+     * 资源预获取
+     * 默认为 false
+     */
+    prefetch: boolean;
+    /**
+     * 资源预加载
+     * 默认为 false
+     */
+    preload: boolean;
+    /** 摇树优化 */
+    treeShaking: {
+      /**
+       * 是否开启摇树优化
+       * 默认为 false
+       */
+      enable: boolean;
+    };
+  };
+  /** uni 统计配置项 */
+  uniStatistics: SimpleUniStatistics;
+}
+
 export interface ManifestConfig {
   /** 应用名称，安装 APP 后显示的名称 */
   name: string;
@@ -236,7 +328,8 @@ export interface ManifestConfig {
   uniStatistics: UniStatistics;
   /** APP 特有配置 */
   "app-plus": AppPlus;
-  h5: any;
+  /** H5 特有配置 */
+  h5: H5;
   quickapp: any;
   "mp-weixin": any;
   "mp-alipay": any;
@@ -245,6 +338,7 @@ export interface ManifestConfig {
   "mp-lark": any;
   "mp-qq": any;
   "mp-kuaishou": any;
+  [x: string]: any;
 }
 
 export interface UserManifestConfig extends PartialDeep<ManifestConfig> {}
