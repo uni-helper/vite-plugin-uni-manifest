@@ -1,3 +1,5 @@
+import { PartialDeep } from "type-fest";
+
 export interface NetworkTimeout {
   request?: number;
   connectSocket?: number;
@@ -45,4 +47,4 @@ export interface ManifestConfig {
   "mp-kuaishou": any;
 }
 
-export interface UserManifestConfig extends Partial<ManifestConfig> {}
+export interface UserManifestConfig extends PartialDeep<ManifestConfig> {}
