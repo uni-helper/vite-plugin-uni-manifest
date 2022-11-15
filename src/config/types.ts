@@ -460,6 +460,51 @@ export interface MpWeixin {
   lazyCodeLoading: "requiredComponents";
 }
 
+export interface MpAlipay {
+  // TODO better types
+  /** 使用到的插件 */
+  plugins: Record<string, any>;
+  /**
+   * 是否启用 component2 编译
+   * 默认为 true
+   */
+  component2: boolean;
+  /**
+   * 是否启用小程序基础库 2.0 构建
+   * 默认为 true
+   */
+  enableAppxNg: boolean;
+  /**
+   * 是否开启 axml 严格语法检查
+   * 默认为 false
+   */
+  axmlStrictCheck: boolean;
+  /**
+   * 是否启用多进程编译
+   * 默认为 false
+   */
+  enableParallelLoader: boolean;
+  /**
+   * 是否压缩编译产物，仅在真机预览/真机调试时生效
+   * 默认为 false
+   */
+  enableDistFileMinify: boolean;
+  /** uni 统计配置项 */
+  uniStatistics: SimpleUniStatistics;
+  /**
+   * Vue2 作用域插槽编译模式
+   * 默认为 auto
+   */
+  scopedSlotsCompiler: "auto" | "legacy" | "augmented";
+  /**
+   * 是否合并组件虚拟节点外层属性
+   * 目前仅支持 style、class 属性
+   */
+  mergeVirtualHostAttributes: boolean;
+  /** 目前仅支持值 requiredComponents，代表开启小程序按需注入特性 */
+  lazyCodeLoading: "requiredComponents";
+}
+
 export interface ManifestConfig {
   /** 应用名称，安装 APP 后显示的名称 */
   name: string;
@@ -509,7 +554,8 @@ export interface ManifestConfig {
   "quickapp-webview-huawei": QuickappWebviewHuawei;
   /** 微信小程序特有配置 */
   "mp-weixin": MpWeixin;
-  "mp-alipay": any;
+  /** 支付宝小程序特有配置 */
+  "mp-alipay": MpAlipay;
   "mp-baidu": any;
   "mp-toutiao": any;
   "mp-lark": any;
