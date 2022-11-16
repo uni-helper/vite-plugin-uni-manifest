@@ -1,33 +1,35 @@
 import fs from "fs";
 import { resolve } from "path";
-import { normalizePath, Plugin, ResolvedConfig } from "vite";
-import { ManifestConfig, UserManifestConfig } from "./config/types";
+import { normalizePath, Plugin } from "vite";
+import { ManifestConfig } from "./config/types";
 import { ResolvedOptions, UserOptions } from "./types";
 import { loadConfig } from "unconfig";
-import { logger } from "./utils";
-import { blue, red } from "colorette";
+import { getManifestConfigSourcePaths, logger } from "./utils";
 
 export * from "./config";
 
 const resolveOptions = (userOptions: UserOptions): ResolvedOptions => {
   return {
-    entry: "manifest.config",
     outDir: "src",
-    extension: "ts",
     ...userOptions,
   };
 };
 
-const loadUserManifestConfig = async (options: ResolvedOptions) => {
+const loadUserManifestConfig = async (_options: ResolvedOptions) => {
   const { config } = await loadConfig({
     sources: [
       {
-        files: options.entry,
-        extensions: [options.extension],
+        files: "manifest.config",
       },
     ],
     merge: false,
   });
+  if (!config) {
+    logger.error(
+      "Can't found manifest.config, please create manifest.config.(ts|mts|cts|js|cjs|mjs|json)"
+    );
+    process.exit(-1);
+  }
   return config as ManifestConfig;
 };
 
@@ -48,32 +50,17 @@ export const VitePluginUniManifest = async (
 ): Promise<Plugin> => {
   const options = resolveOptions(userOptions);
   logger.debug("Resolved options", options);
-
-  const manifestConfigSource = normalizePath(
-    resolve(process.cwd(), `${options.entry}.${options.extension}`)
-  );
-  if (fs.existsSync(manifestConfigSource)) {
-    await createOrUpdateManifest(options);
-  } else {
-    logger.error(
-      `Cant't find ${red(options.entry + "." + options.extension)} in ${red(
-        process.cwd()
-      )}, ignore`
-    );
-    return {
-      name: "vite-plugin-uni-manifest",
-      enforce: "pre",
-    };
-  }
+  await createOrUpdateManifest(options);
   return {
     name: "vite-plugin-uni-manifest",
     enforce: "pre",
-    configureServer({ watcher, restart }) {
-      watcher.add(manifestConfigSource);
-      logger.debug("Added watcher", manifestConfigSource);
-      watcher.on("change", (path) => {
-        if (normalizePath(path) === manifestConfigSource) {
-          restart();
+    async configureServer({ watcher }) {
+      const manifestConfigSourcePaths = await getManifestConfigSourcePaths();
+      watcher.add(manifestConfigSourcePaths);
+      logger.debug("Added watcher", manifestConfigSourcePaths);
+      watcher.on("change", async (path) => {
+        if (manifestConfigSourcePaths.includes(normalizePath(path))) {
+          await createOrUpdateManifest(options);
           logger.info(`Manifest config has changed, restarting...`);
         }
       });

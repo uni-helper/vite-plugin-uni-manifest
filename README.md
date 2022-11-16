@@ -22,7 +22,7 @@ export default defineConfig({
 });
 ```
 
-Create `manifest.config.ts`, and write your `manifest.json` using TypeScript.
+Create `manifest.config.(ts|mts|cts|js|cjs|mjs|json)`, and write your `manifest.json` using TypeScript.
 
 ```ts
 // manifest.config.ts

@@ -22,7 +22,7 @@ export default defineConfig({
 });
 ```
 
-创建 `manifest.config.ts`, 然后用 TypeScript 编写你的 `manifest.json`
+创建 `manifest.config.(ts|mts|cts|js|cjs|mjs|json)`, 然后用 TypeScript 编写你的 `manifest.json`
 
 ```ts
 // manifest.config.ts
