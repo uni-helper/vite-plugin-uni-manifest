@@ -85,7 +85,7 @@ export interface AppPlus {
      * 是否自动关闭启动界面
      * 默认为 true
      */
-    autoClose: boolean;
+    autoclose: boolean;
     /**
      * 是否在程序启动界面显示加载
      * 默认为 true
@@ -93,6 +93,11 @@ export interface AppPlus {
     waiting: boolean;
     /** 是否使用原生提示框 */
     useOriginalMsgbox: boolean;
+
+    /**
+     * 未知属性，但是uni默认配置中有该属性
+     */
+    delay: number
   };
   /** 重力感应、横竖屏配置 */
   screenOrientation: (
@@ -287,6 +292,7 @@ export interface H5 {
   };
   /** uni 统计配置项 */
   uniStatistics: SimpleUniStatistics;
+  [x: string]: any;
 }
 
 export interface QuickappWebview {
@@ -300,6 +306,7 @@ export interface QuickappWebview {
   versionName: string;
   /** 版本号 */
   versionCode: number;
+  [x: string]: any;
 }
 
 export interface QuickappWebviewUnion {
@@ -458,6 +465,7 @@ export interface MpWeixin {
   requiredPrivateInfos: string[];
   /** 目前仅支持值 requiredComponents，代表开启小程序按需注入特性 */
   lazyCodeLoading: "requiredComponents";
+  [x: string]: any;
 }
 
 export interface MpAlipay {
@@ -503,6 +511,7 @@ export interface MpAlipay {
   mergeVirtualHostAttributes: boolean;
   /** 目前仅支持值 requiredComponents，代表开启小程序按需注入特性 */
   lazyCodeLoading: "requiredComponents";
+  [x: string]: any;
 }
 
 export interface MpBaidu {
@@ -524,6 +533,7 @@ export interface MpBaidu {
    * 默认为 auto
    */
   scopedSlotsCompiler: "auto" | "legacy" | "augmented";
+  [x: string]: any;
 }
 
 export interface MpToutiao {
@@ -562,6 +572,7 @@ export interface MpToutiao {
    * 默认为 auto
    */
   scopedSlotsCompiler: "auto" | "legacy" | "augmented";
+  [x: string]: any;
 }
 
 export interface MpLark {
@@ -590,6 +601,7 @@ export interface MpLark {
    * 默认为 auto
    */
   scopedSlotsCompiler: "auto" | "legacy" | "augmented";
+  [x: string]: any;
 }
 
 export interface MpQq {
@@ -618,6 +630,7 @@ export interface MpQq {
    * 默认为 auto
    */
   scopedSlotsCompiler: "auto" | "legacy" | "augmented";
+  [x: string]: any;
 }
 
 export interface MpKuaishou {
@@ -635,6 +648,7 @@ export interface MpKuaishou {
    * 默认为 auto
    */
   scopedSlotsCompiler: "auto" | "legacy" | "augmented";
+  [x: string]: any;
 }
 
 export interface ManifestConfig {
