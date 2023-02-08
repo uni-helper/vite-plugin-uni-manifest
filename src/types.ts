@@ -1,10 +1,4 @@
-export interface Options {
-  /**
-   * src path
-   * @default "src"
-   */
-  outDir: string;
-}
+export interface Options {}
 
 export interface UserOptions extends Partial<Options> {}
 
