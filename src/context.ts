@@ -9,11 +9,6 @@ import { getManifestConfigSourcePaths, logger } from "./utils";
 import chokidar from "chokidar";
 
 export class ManifestContext {
-  async setupWatcher() {
-    const { paths, handler } = await this.createWatcherConfig();
-    const watcher = chokidar.watch(paths);
-    watcher.on("change", handler);
-  }
   static resolvedOutput = normalizePath(
     resolve(process.env.UNI_INPUT_DIR as string, "manifest.json")
   );
@@ -22,10 +17,11 @@ export class ManifestContext {
   constructor(userOptions: UserOptions) {
     this.rawOptions = userOptions;
     this.options = resolveOptions(userOptions);
-    logger.log("create context", this);
+    logger.debug("create context", this);
   }
 
   async loadUserManifestConfig(_options: ResolvedOptions) {
+    logger.debug("load user configure");
     const { config } = await loadConfig({
       sources: [
         {
@@ -39,18 +35,22 @@ export class ManifestContext {
         "Can't found manifest.config, please create manifest.config.(ts|mts|cts|js|cjs|mjs|json)"
       );
     }
+    logger.debug("Loaded user config", config);
     return config as ManifestConfig | undefined;
   }
 
   async updateManifestJSON() {
+    logger.debug("Update manifest.json");
     const config = await this.loadUserManifestConfig(this.options);
     if (!config) return;
     writeFileSync(ManifestContext.resolvedOutput, JSON.stringify(config), {
       encoding: "utf-8",
     });
+    logger.debug("Writed manifest.json", config);
   }
 
   async createWatcherConfig() {
+    logger.debug("Crete watcher configure");
     const paths = await getManifestConfigSourcePaths();
     return {
       paths,
@@ -63,8 +63,17 @@ export class ManifestContext {
   }
 
   static CheckManifestJsonFile() {
+    logger.debug("Check if the manifest.json exists");
     if (!existsSync(ManifestContext.resolvedOutput)) {
+      logger.debug("Does not exist, create it");
       writeFileSync(ManifestContext.resolvedOutput, "{}");
     }
+  }
+
+  async setupWatcher() {
+    const { paths, handler } = await this.createWatcherConfig();
+    logger.debug("Setup watcher", paths);
+    const watcher = chokidar.watch(paths);
+    watcher.on("change", handler);
   }
 }
