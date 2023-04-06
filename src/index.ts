@@ -17,6 +17,9 @@ export const VitePluginUniManifest = async (
     async configResolved() {
       ctx.setupWatcher();
     },
+    buildEnd() {
+      ctx.closeWatcher();
+    },
   };
 };
 

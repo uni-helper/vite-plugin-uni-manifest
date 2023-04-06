@@ -14,6 +14,7 @@ export class ManifestContext {
   );
   rawOptions: UserOptions;
   options: ResolvedOptions;
+  watcher?: chokidar.FSWatcher;
   constructor(userOptions: UserOptions) {
     this.rawOptions = userOptions;
     this.options = resolveOptions(userOptions);
@@ -73,7 +74,11 @@ export class ManifestContext {
   async setupWatcher() {
     const { paths, handler } = await this.createWatcherConfig();
     logger.debug("Setup watcher", paths);
-    const watcher = chokidar.watch(paths);
-    watcher.on("change", handler);
+    this.watcher = chokidar.watch(paths);
+    this.watcher.on("change", handler);
+  }
+
+  async closeWatcher() {
+    this.watcher?.close();
   }
 }
