@@ -44,9 +44,13 @@ export class ManifestContext {
     logger.debug("Update manifest.json");
     const config = await this.loadUserManifestConfig(this.options);
     if (!config) return;
-    writeFileSync(ManifestContext.resolvedOutput, JSON.stringify(config), {
-      encoding: "utf-8",
-    });
+    writeFileSync(
+      ManifestContext.resolvedOutput,
+      JSON.stringify(config, null, this.options.minify ? 0 : 2),
+      {
+        encoding: "utf-8",
+      }
+    );
     logger.debug("Writed manifest.json", config);
   }
 
