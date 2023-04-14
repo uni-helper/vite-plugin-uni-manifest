@@ -1,16 +1,14 @@
 # @uni-helper/vite-plugin-uni-manifest
 
-Use TypeScript to write `manifest.json` of uni-app
+使用 TypeScript 编写 uni-app 的 `manifest.json`
 
-English | [简体中文](./README.ZhCN.md)
-
-## Installation
+## 安装
 
 ```bash
 pnpm i -D @uni-helper/vite-plugin-uni-manifest
 ```
 
-## Usage
+## 使用
 
 ```ts
 // vite.config.ts
@@ -22,7 +20,7 @@ export default defineConfig({
 });
 ```
 
-Create `manifest.config.(ts|mts|cts|js|cjs|mjs|json)`, and write your `manifest.json` using TypeScript.
+创建 `manifest.config.(ts|mts|cts|js|cjs|mjs|json)`, 然后用 TypeScript 编写你的 `manifest.json`
 
 ```ts
 // manifest.config.ts
@@ -31,8 +29,8 @@ import { defineManifestConfig } from "@uni-helper/vite-plugin-uni-manifest";
 export default defineManifestConfig({...});
 ```
 
-[Here](./playground/manifest.config.ts) you can find how the `manifest.json` of the default `Vite-TS` template is written in Typescript.
+在[这里](./playground/manifest.config.ts)，你可以找到 uni-app 默认的 Vite-TS 模版的`manifest.json` 是如何用 TypeScript 编写的
 
 ## Configuration
 
-see [types.ts](./src/types.ts)
+查看 [types.ts](./src/types.ts)
