@@ -48,7 +48,7 @@
   "dependencies": {
     "chokidar": "^3.5.3",
     "colorette": "^2.0.19",
-    "consola": "^2.15.3",
+    "consola": "^3.0.0",
     "fast-glob": "^3.2.12",
     "type-fest": "^3.8.0",
     "unconfig": "^0.3.7"
