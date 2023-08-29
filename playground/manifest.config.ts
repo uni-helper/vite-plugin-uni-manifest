@@ -46,6 +46,11 @@ export default defineManifestConfig({
       ios: {},
       /* SDK配置 */
       sdkConfigs: {},
+      /* 图标配置 */
+      icons: {
+        android: {},
+        ios: {},
+      }
     },
   },
   /* 快应用特有相关 */
