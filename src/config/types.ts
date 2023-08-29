@@ -59,7 +59,74 @@ export interface UniStatistics {
   };
 }
 
-export interface SimpleUniStatistics extends Pick<UniStatistics, "enable"> {}
+export interface SimpleUniStatistics extends Pick<UniStatistics, "enable"> { }
+
+/** PNG格式的图片 */
+type PNG = `${string}.png` | `${string}.PNG`
+
+/** App图标配置 */
+export interface AppPlusIcons {
+  /** Android平台 */
+  android: {
+    /** 2K屏设备程序图标，分辨率要求192x192 */
+    xxxhdpi: PNG;
+    /** 1080P高分屏设备程序图标，分辨率要求144x144 */
+    xxhdpi: PNG;
+    /** 720P高分屏设备程序图标，分辨率要求96x96 */
+    xhdpi: PNG;
+    /** 高分屏设备程序图标，分辨率要求72x72 */
+    hdpi: PNG;
+    /** 普通屏设备程序图标，分辨率要求48x48，这类设备很少见，可以不配置 */
+    mdpi: PNG;
+    /** 大屏设备程序图标，分辨率要求48x48，这类设备很少见，可以不配置 */
+    ldpi: PNG;
+  }
+  /** iOS平台 */
+  ios: {
+    /** App Store图标路径，分辨率要求1024x1024 */
+    appstore: PNG;
+    /** iPad设备程序图标 */
+    ipad: {
+      /** iOS7+设备程序主图标，分辨率要求76x76 */
+      'app': PNG;
+      /** iOS7+高分屏设备程序主图标，分辨率要求152x152 */
+      'app@2x': PNG;
+      /** iOS7+设备通知栏图标，分辨率要求20x20 */
+      'notification': PNG;
+      /** iOS7+高分屏设备通知栏图标，分辨率要求40x40 */
+      'notification@2x': PNG;
+      /** iOS9+ iPad Pro(12.9英寸)设备程序主图标，分辨率要求167x167 */
+      'proapp@2x': PNG;
+      /** iOS5+设备Settings设置图标，分辨率要求29x29 */
+      'settings': PNG;
+      /** iOS5+高分屏设备Settings设置图标，分辨率要求58x58 */
+      'settings@2x': PNG;
+      /** iOS7+设备Spotlight搜索图标，分辨率要求40x40 */
+      'spotlight': PNG;
+      /** iOS7+高分屏设备Spotlight搜索图标，分辨率要求80x80 */
+      'spotlight@2x': PNG;
+    }
+    /** iPhone设备程序图标 */
+    iphone: {
+      /** iOS7+设备程序主图标，分辨率要求120x120 */
+      'app@2x': PNG;
+      /** iOS7+设备程序主图标，分辨率要求180x180 */
+      'app@3x': PNG;
+      /** iOS7+设备通知栏图标，分辨率要求40x40 */
+      'notification@2x': PNG;
+      /** iOS7+设备通知栏图标，分辨率要求60x60 */
+      'notification@3x': PNG;
+      /** iOS7+设备Settings设置图标，分辨率要求58x58 */
+      'settings@2x': PNG;
+      /** iOS7+设备Settings设置图标，分辨率要求87x87 */
+      'settings@3x': PNG;
+      /** iOS7+设备Spotlight搜索图标，分辨率要求80x80 */
+      'spotlight@2x': PNG;
+      /** iOS7+设备Spotlight搜索图标，分辨率要求120x120 */
+      'spotlight@3x': PNG;
+    }
+  }
+}
 
 export interface AppPlus {
   /** 编译器兼容性配置 */
@@ -117,6 +184,18 @@ export interface AppPlus {
     // TODO: better types
     /** iOS 专用配置 */
     ios: Record<string, any>;
+    /** 
+     * App图标配置
+     * 
+     * @link https://uniapp.dcloud.net.cn/tutorial/app-icons.html#%E4%BA%91%E7%AB%AF%E6%89%93%E5%8C%85
+     * 
+     * 注意事项：
+     *
+     * - 必须使用png格式，其它格式需要使用图片工具转换，注意不要直接将jpg等其它格式图片直接改名为png
+     * - 系统没有对图标分辨率进行限制，按照建议的分辨率配置即可
+     * - 图片支持透明区域，建议使用圆角图标
+     */
+    icons: AppPlusIcons
     // TODO: better types
     /**
      * SDK 配置
