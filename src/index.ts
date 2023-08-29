@@ -9,17 +9,12 @@ ManifestContext.CheckManifestJsonFile();
 export const VitePluginUniManifest = async (
   userOptions: UserOptions = {}
 ): Promise<Plugin> => {
-  let ctx = new ManifestContext(userOptions);
-  await ctx.updateManifestJSON();
+  const ctx = new ManifestContext(userOptions);
+  ctx.setup();
   return {
     name: "vite-plugin-uni-manifest",
     enforce: "pre",
-    async configResolved() {
-      ctx.setupWatcher();
-    },
-    buildEnd() {
-      ctx.closeWatcher();
-    },
+    buildEnd: () => ctx.unwatch(),
   };
 };
 

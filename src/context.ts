@@ -1,88 +1,40 @@
-import { existsSync, writeFileSync } from "fs";
-import { resolve } from "path";
-import { loadConfig } from "unconfig";
-import { normalizePath } from "vite";
-import { ManifestConfig } from "./config";
+import { existsSync, writeFileSync } from "node:fs";
 import { resolveOptions } from "./options";
-import { UserOptions, ResolvedOptions } from "./types";
-import { getManifestConfigSourcePaths, logger } from "./utils";
-import chokidar from "chokidar";
+import { ResolvedOptions, UserOptions } from "./types";
+import { defaultManifestConfig, manifestJsonPath } from "./constant";
+import { watchConfig } from "c12";
+import { UserManifestConfig } from "./config";
 
 export class ManifestContext {
-  static resolvedOutput = normalizePath(
-    resolve(process.env.UNI_INPUT_DIR as string, "manifest.json")
-  );
-  rawOptions: UserOptions;
   options: ResolvedOptions;
-  watcher?: chokidar.FSWatcher;
-  constructor(userOptions: UserOptions) {
-    this.rawOptions = userOptions;
-    this.options = resolveOptions(userOptions);
-    logger.debug("create context", this);
+  unwatch!: () => Promise<void>;
+  constructor(options: UserOptions) {
+    this.options = resolveOptions(options);
   }
 
-  async loadUserManifestConfig(_options: ResolvedOptions) {
-    logger.debug("load user configure");
-    const { config } = await loadConfig({
-      sources: [
-        {
-          files: "manifest.config",
-        },
-      ],
-      merge: false,
-    });
-    if (!config) {
-      logger.error(
-        "Can't found manifest.config, please create manifest.config.(ts|mts|cts|js|cjs|mjs|json)"
-      );
-    }
-    logger.debug("Loaded user config", config);
-    return config as ManifestConfig | undefined;
-  }
-
-  async updateManifestJSON() {
-    logger.debug("Update manifest.json");
-    const config = await this.loadUserManifestConfig(this.options);
-    if (!config) return;
-    writeFileSync(
-      ManifestContext.resolvedOutput,
-      JSON.stringify(config, null, this.options.minify ? 0 : 2),
-      {
-        encoding: "utf-8",
-      }
-    );
-    logger.debug("Writed manifest.json", config);
-  }
-
-  async createWatcherConfig() {
-    logger.debug("Crete watcher configure");
-    const paths = await getManifestConfigSourcePaths();
-    return {
-      paths,
-      handler: async (path: string) => {
-        if (paths.includes(normalizePath(path))) {
-          await this.updateManifestJSON();
-        }
+  async setup() {
+    const { config, unwatch } = await watchConfig<UserManifestConfig>({
+      name: "manifest",
+      defaults: defaultManifestConfig,
+      onUpdate: (config) => {
+        ManifestContext.WriteManifestJSON(config, this.options.minify);
       },
-    };
+    });
+    ManifestContext.WriteManifestJSON(config, this.options.minify);
+
+    this.unwatch = unwatch;
+  }
+
+  static WriteManifestJSON(config: any = {}, minify: boolean = false) {
+    writeFileSync(
+      manifestJsonPath,
+      JSON.stringify(config, null, minify ? 0 : 2)
+    );
   }
 
   static CheckManifestJsonFile() {
-    logger.debug("Check if the manifest.json exists");
-    if (!existsSync(ManifestContext.resolvedOutput)) {
-      logger.debug("Does not exist, create it");
-      writeFileSync(ManifestContext.resolvedOutput, "{}");
+    if (!existsSync(manifestJsonPath)) {
+      ManifestContext.WriteManifestJSON();
     }
-  }
-
-  async setupWatcher() {
-    const { paths, handler } = await this.createWatcherConfig();
-    logger.debug("Setup watcher", paths);
-    this.watcher = chokidar.watch(paths);
-    this.watcher.on("change", handler);
-  }
-
-  async closeWatcher() {
-    this.watcher?.close();
   }
 }
