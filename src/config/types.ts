@@ -329,6 +329,12 @@ export interface MpWeixin {
   setting: {
     /** 是否启用 ES6 转 ES5 */
     es6: boolean;
+    /**
+     * 是否使用增强编译
+     *
+     * {@link https://developers.weixin.qq.com/community/develop/doc/0002ce07a58000a57c5da5e6456c09 regeneratorRuntime 相关报错排查指引}
+    */
+    es7: boolean;
     /** 是否使用增强编译 */
     enhance: boolean;
     /** 上传代码时样式是否自动补全  */
