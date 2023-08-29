@@ -330,6 +330,8 @@ export interface MpWeixin {
     /** 是否启用 ES6 转 ES5 */
     es6: boolean;
     /** 是否使用增强编译 */
+    es7: boolean;
+    /** 是否使用增强编译 */
     enhance: boolean;
     /** 上传代码时样式是否自动补全  */
     postcss: boolean;
