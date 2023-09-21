@@ -15,9 +15,11 @@ export class ManifestContext {
   async setup() {
     const { config, unwatch } = await watchConfig<UserManifestConfig>({
       name: "manifest",
-      defaults: defaultManifestConfig,
+      defaultConfig: defaultManifestConfig,
+      rcFile: false,
+      packageJson: false,
       onUpdate: (config) => {
-        ManifestContext.WriteManifestJSON(config, this.options.minify);
+        ManifestContext.WriteManifestJSON(config.newConfig, this.options.minify);
       },
     });
     ManifestContext.WriteManifestJSON(config, this.options.minify);
