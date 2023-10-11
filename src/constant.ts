@@ -3,7 +3,7 @@ import { normalizePath } from "vite";
 import { UserManifestConfig } from "./config";
 
 export const manifestJsonPath = normalizePath(
-  resolve(process.env.UNI_INPUT_DIR as string, "manifest.json")
+  resolve((process.env.UNI_INPUT_DIR || `${process.cwd()}/src`) as string, "manifest.json")
 );
 
 /**
