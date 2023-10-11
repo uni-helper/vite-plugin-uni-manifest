@@ -1,21 +1,19 @@
-import { Plugin } from "vite";
-import { UserOptions } from "./types";
-import { ManifestContext } from "./context";
+import type { Plugin } from 'vite'
+import type { UserOptions } from './types'
+import { ManifestContext } from './context'
 
-export * from "./config";
+export * from './config'
 
-ManifestContext.CheckManifestJsonFile();
+ManifestContext.CheckManifestJsonFile()
 
-export const VitePluginUniManifest = async (
-  userOptions: UserOptions = {}
-): Promise<Plugin> => {
-  const ctx = new ManifestContext(userOptions);
-  ctx.setup();
+export async function VitePluginUniManifest(userOptions: UserOptions = {}): Promise<Plugin> {
+  const ctx = new ManifestContext(userOptions)
+  ctx.setup()
   return {
-    name: "vite-plugin-uni-manifest",
-    enforce: "pre",
+    name: 'vite-plugin-uni-manifest',
+    enforce: 'pre',
     buildEnd: () => ctx.unwatch(),
-  };
-};
+  }
+}
 
-export default VitePluginUniManifest;
+export default VitePluginUniManifest

@@ -1,7 +1,7 @@
-import { UserManifestConfig } from "./types";
+import type { UserManifestConfig } from './types'
 
-export * from "./types";
+export * from './types'
 
 export function defineManifestConfig(config: UserManifestConfig) {
-  return config;
+  return config
 }

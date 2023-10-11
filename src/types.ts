@@ -3,7 +3,7 @@ export interface Options {
    * minify the `manifest.json`
    * @default false
    */
-  minify: boolean;
+  minify: boolean
 }
 
 export interface UserOptions extends Partial<Options> {}

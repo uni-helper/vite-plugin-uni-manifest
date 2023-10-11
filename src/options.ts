@@ -1,8 +1,8 @@
-import { UserOptions, ResolvedOptions } from "./types";
+import type { ResolvedOptions, UserOptions } from './types'
 
-export const resolveOptions = (userOptions: UserOptions): ResolvedOptions => {
+export function resolveOptions(userOptions: UserOptions): ResolvedOptions {
   return {
     minify: false,
     ...userOptions,
-  };
-};
+  }
+}
