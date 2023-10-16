@@ -202,6 +202,14 @@ export interface AppPlus {
      * 仅打包生效
      */
     sdkConfigs: Record<string, any>
+    /**
+     * Android使用原生隐私政策提示框
+     *
+     * @link https://uniapp.dcloud.net.cn/tutorial/app-privacy-android.html#
+     */
+    splashscreen?: {
+      useOriginalMsgbox?: boolean
+    }
   }
   /**
    * nvue 编译模式
