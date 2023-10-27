@@ -19,7 +19,7 @@ export class ManifestContext {
       rcFile: false,
       packageJson: false,
       onUpdate: (config) => {
-        ManifestContext.WriteManifestJSON(config.newConfig, this.options.minify)
+        ManifestContext.WriteManifestJSON(config.newConfig.config, this.options.minify)
       },
     })
     ManifestContext.WriteManifestJSON(config, this.options.minify)
