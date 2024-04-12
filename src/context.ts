@@ -18,22 +18,24 @@ export class ManifestContext {
       defaultConfig: defaultManifestConfig,
       rcFile: false,
       packageJson: false,
-      onUpdate: (config) => {
-        ManifestContext.WriteManifestJSON(config.newConfig.config, this.options.minify)
+      onUpdate: (config: any) => {
+        ManifestContext.WriteManifestJSON(config.newConfig.config, this.options)
       },
     })
-    ManifestContext.WriteManifestJSON(config, this.options.minify)
+    ManifestContext.WriteManifestJSON(config, this.options)
 
     this.unwatch = unwatch
   }
 
-  static WriteManifestJSON(config: any = {}, minify: boolean = false) {
+  static WriteManifestJSON(config: any = {}, options: ResolvedOptions = { minify: false }) {
     // 生成配置内容字符串
-    let body = JSON.stringify(config, null, minify ? 0 : 2)
+    let body = JSON.stringify(config, null, options.minify ? 0 : 2)
     // 文件最后增加空白换行符
-    const finalContent = body + "\n"
+    if (options?.newline)
+      body = `${body}\n`
+
     // 写入文件
-    writeFileSync(manifestJsonPath, finalContent)
+    writeFileSync(manifestJsonPath, body)
   }
 
   static CheckManifestJsonFile() {
