@@ -17,7 +17,21 @@ import Uni from '@dcloudio/vite-plugin-uni'
 import UniManifest from '@uni-helper/vite-plugin-uni-manifest'
 
 export default defineConfig({
-  plugins: [Uni(), UniManifest()],
+  plugins: [
+    UniManifest({
+      /**
+       * minify the `manifest.json`
+       * @default false
+       */
+      minify: true,
+      /**
+       * Controls whether a newline character is added at the end of the `manifest.json` file.
+       * @default false
+       */
+      newline: true
+    }),
+    Uni()
+  ],
 })
 ```
 

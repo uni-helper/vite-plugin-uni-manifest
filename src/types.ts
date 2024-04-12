@@ -6,7 +6,7 @@ export interface Options {
   minify: boolean
 
   /**
-   * `manifest.json` 最后增加换行符
+   * Controls whether a newline character is added at the end of the `manifest.json` file.
    * @default false
    */
   newline?: boolean
