@@ -28,10 +28,12 @@ export class ManifestContext {
   }
 
   static WriteManifestJSON(config: any = {}, minify: boolean = false) {
-    writeFileSync(
-      manifestJsonPath,
-      JSON.stringify(config, null, minify ? 0 : 2),
-    )
+    // 生成配置内容字符串
+    let body = JSON.stringify(config, null, minify ? 0 : 2)
+    // 文件最后增加空白换行符
+    const r = body + "\n"
+    // 写入文件
+    writeFileSync(manifestJsonPath, r)
   }
 
   static CheckManifestJsonFile() {
