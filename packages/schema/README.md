@@ -1,22 +1,22 @@
-# @uni-helper/pages-json-schema
+# @uni-helper/manifest-json-schema
 
-为 uni-app 的 `pages.json` 提供 schema
+为 `uni-app` 的 `manifest.json` 提供 schema。
 
 ## 安装
 
 ```bash
-pnpm add @uni-helper/pages-json-schema
+pnpm add @uni-helper/manifest-json-schema
 ```
 
 ## 用法
 
 ```js
-import PagesSchema from '@uni-helper/pages-json-schema'
+import ManifestSchema from '@uni-helper/manifest-json-schema'
 
-console.log(PagesSchema)
+console.log(ManifestSchema)
 
 // {
-//   "$ref": "#/definitions/PagesConfig",
+//   "$ref": "#/definitions/ManifestConfig",
 //   "$schema": "http://json-schema.org/draft-07/schema#",
 //   "definitions": {...}
 // }

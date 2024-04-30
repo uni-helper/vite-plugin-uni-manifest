@@ -1,136 +1,39 @@
-# @uni-helper/vite-plugin-uni-pages
+# @uni-helper/vite-plugin-uni-manifest
 
-File system-based routing for uni-app applications using Vite.
+使用 TypeScript 编写 `uni-app` 的 `manifest.json`。
 
-<a href="https://www.npmjs.com/package/@uni-helper/vite-plugin-uni-pages"><img src="https://img.shields.io/npm/v/@uni-helper/vite-plugin-uni-pages" alt="NPM version"></a></p>
-
-English | [简体中文](./README.Zh-CN.md)
-
-## Installation
+## 安装
 
 ```bash
-pnpm i -D @uni-helper/vite-plugin-uni-pages
+pnpm i -D @uni-helper/vite-plugin-uni-manifest
 ```
 
-## Usage
+## 使用
 
 ```ts
 // vite.config.ts
 import { defineConfig } from 'vite'
 import Uni from '@dcloudio/vite-plugin-uni'
-import UniPages from '@uni-helper/vite-plugin-uni-pages'
+import UniManifest from '@uni-helper/vite-plugin-uni-manifest'
 
-// It is recommended to put it in front of Uni
 export default defineConfig({
-  plugins: [UniPages(), Uni()],
+  plugins: [UniManifest(), Uni()]
 })
 ```
 
-Define global properties in `pages.config.(ts|mts|cts|js|cjs|mjs|json)`, You can use like `#ifdef H5` in the file.
+创建 `manifest.config.(ts|mts|cts|js|cjs|mjs|json)`, 然后用 TypeScript 编写你的 `manifest.json`
 
 ```ts
-// pages.config.ts
-import { defineUniPages } from '@uni-helper/vite-plugin-uni-pages'
+// manifest.config.ts
+import { defineManifestConfig } from '@uni-helper/vite-plugin-uni-manifest'
 
-export default defineUniPages({
-  // You can also define pages fields, which have the highest priority.priority.
-  pages: [],
-  globalStyle: {
-    navigationBarTextStyle: 'black',
-    navigationBarTitleText: '@uni-helper',
-  },
+export default defineManifestConfig({
+  // code here...
 })
 ```
 
-Now all pages will be found automatically!
-
-### SFC custom block for Route Data
-
-Add route meta to the route by adding a `<route>` block to the SFC. This will be
-directly added to the route after it is generated, and will override it.
-
-You can specific a parser to use using `<route lang="yaml">`, or set a default
-parser using `routeBlockLang` option.
-
-- **Supported parser:** JSON, JSON5, YAML
-- **Default:** JSON5
-
-```html
-<!-- index.vue -->
-<!-- use type to set index -->
-<route type="home">
-{
-  "style": { "navigationBarTitleText": "@uni-helper" }
-}
-</route>
-
-<!-- other.vue -->
-<route lang="yaml">
-style:
-  navigationBarTitleText: "@uni-helper"
-</route>
-```
-
-Import the virtual module to access the metadata of all pages
-
-```ts
-/// <reference types="@uni-helper/vite-plugin-uni-pages/client" />
-import { pages } from 'virtual:uni-pages'
-
-console.log(pages)
-```
+在 [这里](../playground/manifest.config.ts)，你可以找到 `uni-app` 默认的 Vite-TS 模版的 `manifest.json` 是如何用 TypeScript 编写的。
 
 ## Configuration
 
-```ts
-export interface Options {
-  /**
-   * Whether to scan and merge pages in pages.json
-   * @default true
-   */
-  mergePages: boolean
-
-  /**
-   * Paths to the directory to search for page components.
-   * @default 'src/pages'
-   */
-  dir: string
-
-  /**
-   * pages.json dir
-   * @default "src"
-   */
-  outDir: string
-
-  /**
-   * exclude page
-   * @default []
-   */
-  exclude: string[]
-
-  /**
-   * Set the default route block parser, or use `<route lang="xxx">` in SFC route block
-   * @default 'json5'
-   */
-  routeBlockLang: 'json5' | 'json' | 'yaml' | 'yml'
-
-  onBeforeLoadUserConfig: (ctx: PageContext) => void
-  onAfterLoadUserConfig: (ctx: PageContext) => void
-  onBeforeScanPages: (ctx: PageContext) => void
-  onAfterScanPages: (ctx: PageContext) => void
-  onBeforeMergePageMetaData: (ctx: PageContext) => void
-  onAfterMergePageMetaData: (ctx: PageContext) => void
-  onBeforeWriteFile: (ctx: PageContext) => void
-  onAfterWriteFile: (ctx: PageContext) => void
-}
-```
-
-## TODO
-
-- [x] only update the changed page
-- [x] [vite-plugin-uni-middleware](https://github.com/uni-helper/vite-plugin-uni-middleware)
-- [x] pages [type](./src/config/types.ts)
-
-## Acknowledgement
-
-- [vite-plugin-pages](https://github.com/hannoeru/vite-plugin-pages.git)
+请查看 [types.ts](./src/types.ts)。
