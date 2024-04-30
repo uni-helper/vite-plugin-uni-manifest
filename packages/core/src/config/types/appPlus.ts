@@ -370,7 +370,7 @@ export interface AppPlus {
       /**
        * 是否开启 Android 调试开关
        *
-       * @default fasle
+       * @default false
        */
       debuggable?: boolean
 
@@ -414,7 +414,7 @@ export interface AppPlus {
         /**
          * 是否设置 viewBinding
          *
-         * @default fasle
+         * @default false
          */
         viewBinding?: boolean
 

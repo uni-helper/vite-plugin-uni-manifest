@@ -450,7 +450,7 @@
                       "type": "boolean"
                     },
                     "viewBinding": {
-                      "default": "fasle",
+                      "default": false,
                       "description": "是否设置 viewBinding",
                       "type": "boolean"
                     }
@@ -462,7 +462,7 @@
                   "type": "boolean"
                 },
                 "debuggable": {
-                  "default": "fasle",
+                  "default": false,
                   "description": "是否开启 Android 调试开关",
                   "type": "boolean"
                 },
