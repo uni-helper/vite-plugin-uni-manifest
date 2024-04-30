@@ -2,6 +2,8 @@
 
 使用 TypeScript 编写 `uni-app` 的 `manifest.json`。
 
+<a href="https://www.npmjs.com/package/@uni-helper/vite-plugin-uni-manifest"><img src="https://img.shields.io/npm/v/@uni-helper/vite-plugin-uni-manifest" alt="NPM version"></a></p>
+
 ## 相关依赖
 
 - [vite-plugin-uni-manifest](./packages/core) - 核心，Vite 插件
