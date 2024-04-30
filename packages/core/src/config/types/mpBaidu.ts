@@ -9,7 +9,7 @@ export interface MpBaidu {
    *
    * "audio" 背景音频播放
    */
-  requiredBackgroundModes?: 'audio'[]
+  requiredBackgroundModes?: ('audio')[]
 
   /** 优化配置 */
   optimization?: {

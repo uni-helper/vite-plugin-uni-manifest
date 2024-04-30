@@ -9,7 +9,7 @@ export interface MpQq {
    *
    * "audio" 后台音乐播放
    */
-  requiredBackgroundModes: 'audio'[]
+  requiredBackgroundModes: ('audio')[]
 
   /** 需要跳转的 QQ 小程序列表，详见 <https://q.qq.com/wiki/develop/miniprogram/frame/dispose.html#navigatetominiprogramappidlist> */
   navigateToMiniProgramAppIdList?: string[]
