@@ -589,7 +589,7 @@ export interface AppPlus {
       CFBundleName?: string
 
       /** 编译时支持的 CPU 指令 */
-      validArchitectures: ('arm64' | 'arm64e' | 'armv7' | 'armv7s' | 'x86_64')[]
+      validArchitectures?: ('arm64' | 'arm64e' | 'armv7' | 'armv7s' | 'x86_64')[]
 
       /**
        * 使用 Push（消息推送）模块时申请系统推送权限模式
