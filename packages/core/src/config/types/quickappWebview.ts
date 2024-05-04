@@ -19,10 +19,10 @@ export interface QuickappWebview {
 
 export interface QuickappWebviewUnion {
   /** 最小平台支持，最低 1063 */
-  minPlatformVersion: number
+  minPlatformVersion?: number
 }
 
 export interface QuickappWebviewHuawei {
   /** 最小平台支持，最低 1070 */
-  minPlatformVersion: number
+  minPlatformVersion?: number
 }

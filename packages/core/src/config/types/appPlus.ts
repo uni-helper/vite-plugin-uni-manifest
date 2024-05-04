@@ -637,7 +637,7 @@ export interface AppPlus {
        */
       ios?: {
         /** App Store 图标路径，分辨率 1024x1024 */
-        appstore: PNG
+        appstore?: PNG
 
         /** iPhone 设备程序图标 */
         iphone?: {
@@ -1665,7 +1665,7 @@ export interface AppPlus {
     description?: string
 
     /** 原生混淆文件配置 */
-    resources: Record<string, Record<string, any>>
+    resources?: Record<string, Record<string, any>>
 
     [x: string]: any
   }
@@ -1686,7 +1686,7 @@ export interface AppPlus {
    *
    * @deprecated
    */
-  cache: {
+  cache?: {
     /**
      * @default "default"
      */
@@ -1717,7 +1717,7 @@ export interface AppPlus {
      *
      * @default "reload"
      */
-    recovery: 'reload' | 'restart' | 'none'
+    recovery?: 'reload' | 'restart' | 'none'
 
     [x: string]: any
   }
@@ -1761,7 +1761,7 @@ export interface AppPlus {
     /** 应用首页的拦截链接请求处理逻辑 */
     overrideurl?: {
       /** 拦截模式 */
-      mode: 'reject' | 'allow'
+      mode?: 'reject' | 'allow'
 
       /** 匹配拦截规则，支持正则表达式 */
       match?: string
@@ -1785,7 +1785,7 @@ export interface AppPlus {
      *
      * @deprecated
      */
-    subNViews: {
+    subNViews?: {
       /** 原生 View 标识 */
       id?: string
 
@@ -1906,7 +1906,7 @@ export interface AppPlus {
          *
          * @format color
          */
-        color: HEXColor
+        color?: HEXColor
 
         /**
          * 分割线高度

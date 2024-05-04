@@ -9,13 +9,13 @@ export interface MpQq {
    *
    * "audio" 后台音乐播放
    */
-  requiredBackgroundModes: ('audio')[]
+  requiredBackgroundModes?: ('audio')[]
 
   /** 需要跳转的 QQ 小程序列表，详见 <https://q.qq.com/wiki/develop/miniprogram/frame/dispose.html#navigatetominiprogramappidlist> */
   navigateToMiniProgramAppIdList?: string[]
 
   /** 接口权限设置，详见 <https://q.qq.com/wiki/develop/miniprogram/frame/dispose.html#permission> */
-  permission: Record<'scope.userLocation', {
+  permission?: Record<'scope.userLocation', {
     /** 小程序获取权限时展示的接口用途说明 */
     desc: string
   }>
@@ -27,9 +27,11 @@ export interface MpQq {
   groupIdList?: string[]
 
   /** 优化配置 */
-  optimization: {
+  optimization?: {
     /** 是否开启分包优化 */
-    subPackages: boolean
+    subPackages?: boolean
+
+    [x: string]: any
   }
 
   /** uni 统计配置项 */

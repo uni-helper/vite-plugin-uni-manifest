@@ -733,9 +733,6 @@
               "type": "object"
             }
           },
-          "required": [
-            "resources"
-          ],
           "type": "object"
         },
         "distribute": {
@@ -1049,9 +1046,6 @@
                       "type": "object"
                     }
                   },
-                  "required": [
-                    "appstore"
-                  ],
                   "type": "object"
                 }
               },
@@ -2127,9 +2121,6 @@
               "type": "string"
             }
           },
-          "required": [
-            "recovery"
-          ],
           "type": "object"
         },
         "launchwebview": {
@@ -2224,9 +2215,6 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "mode"
-              ],
               "type": "object"
             },
             "plusrequire": {
@@ -2389,9 +2377,6 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "color"
-                  ],
                   "type": "object"
                 },
                 "titleColor": {
@@ -2424,9 +2409,6 @@
               "description": "Webview 顶部偏移量"
             }
           },
-          "required": [
-            "subNViews"
-          ],
           "type": "object"
         },
         "mediaPlaybackRequiresUserAction": {
@@ -2922,9 +2904,6 @@
           "type": "object"
         }
       },
-      "required": [
-        "cache"
-      ],
       "type": "object"
     },
     "H5": {
@@ -3691,7 +3670,6 @@
           "type": "array"
         },
         "optimization": {
-          "additionalProperties": false,
           "description": "优化配置",
           "properties": {
             "subPackages": {
@@ -3699,9 +3677,6 @@
               "type": "boolean"
             }
           },
-          "required": [
-            "subPackages"
-          ],
           "type": "object"
         },
         "permission": {
@@ -3758,11 +3733,6 @@
           "type": "string"
         }
       },
-      "required": [
-        "requiredBackgroundModes",
-        "permission",
-        "optimization"
-      ],
       "type": "object"
     },
     "MpToutiao": {
@@ -4171,10 +4141,6 @@
               "type": "boolean"
             }
           },
-          "required": [
-            "es7",
-            "ignoreDevUnusedFiles"
-          ],
           "type": "object"
         },
         "slotMultipleInstance": {
@@ -4209,9 +4175,6 @@
           "description": "Worker 代码目录，详见 <https://developers.weixin.qq.com/miniprogram/dev/framework/workers.html>"
         }
       },
-      "required": [
-        "lazyCodeLoading"
-      ],
       "type": "object"
     },
     "PNG": {
@@ -4269,9 +4232,6 @@
           "type": "number"
         }
       },
-      "required": [
-        "minPlatformVersion"
-      ],
       "type": "object"
     },
     "QuickappWebviewUnion": {
@@ -4282,9 +4242,6 @@
           "type": "number"
         }
       },
-      "required": [
-        "minPlatformVersion"
-      ],
       "type": "object"
     },
     "UniStatistics": {

@@ -28,7 +28,7 @@ export interface MpWeixin {
     /**
      * 是否使用增强编译，详见 <https://developers.weixin.qq.com/community/develop/doc/0002ce07a58000a57c5da5e6456c09>
      */
-    es7: boolean
+    es7?: boolean
 
     /** 上传代码时样式是否自动补全  */
     postcss?: boolean
@@ -129,7 +129,7 @@ export interface MpWeixin {
      *
      * @default true
      */
-    ignoreDevUnusedFiles: boolean
+    ignoreDevUnusedFiles?: boolean
 
     /** 是否展示 JSON 文件校验错误信息 */
     checkInvalidKey?: boolean
@@ -250,7 +250,7 @@ export interface MpWeixin {
   requiredPrivateInfos?: ('getFuzzyLocation' | 'getLocation' | 'onLocationChange' | 'startLocationUpdate' | 'startLocationUpdateBackground' | 'chooseLocation' | 'choosePoi' | 'chooseAddress')[]
 
   /** 目前仅支持值 "requiredComponents"，代表开启小程序按需注入特性，详见 <https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#lazyCodeLoading> */
-  lazyCodeLoading: 'requiredComponents'
+  lazyCodeLoading?: 'requiredComponents'
 
   [x: string]: any
 }
