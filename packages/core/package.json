@@ -1,0 +1,47 @@
+{
+  "name": "@uni-helper/vite-plugin-uni-manifest",
+  "type": "module",
+  "version": "0.2.18",
+  "description": "File system based routing for uni-app applications using Vite",
+  "author": "KeJun",
+  "license": "MIT",
+  "homepage": "https://github.com/uni-helper/vite-plugin-uni-manifest#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uni-helper/vite-plugin-uni-manifest.git"
+  },
+  "bugs": "https://github.com/uni-helper/vite-plugin-uni-manifest/issues",
+  "keywords": [],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub"
+  },
+  "peerDependencies": {
+    "vite": "^4.0.0 || ^5.0.0"
+  },
+  "dependencies": {
+    "c12": "^1.10.0"
+  },
+  "devDependencies": {
+    "vite": "^5.2.11"
+  }
+}

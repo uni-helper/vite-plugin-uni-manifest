@@ -4,6 +4,9 @@
     "lib": ["esnext"],
     "module": "esnext",
     "moduleResolution": "node",
+    "paths": {
+      "@uni-helper/vite-plugin-uni-manifest": ["./packages/core/src/index.ts"]
+    },
     "resolveJsonModule": true,
     "strict": true,
     "strictNullChecks": true,

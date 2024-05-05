@@ -2,7 +2,8 @@
   "name": "@uni-helper/vite-plugin-uni-manifest",
   "type": "module",
   "version": "0.2.3",
-  "packageManager": "pnpm@8.9.0",
+  "private": true,
+  "packageManager": "pnpm@9.0.6",
   "description": "Use TypeScript to write manifest.json of uni-app",
   "author": "KeJun",
   "license": "MIT",
@@ -14,47 +15,26 @@
   "bugs": "https://github.com/uni-helper/vite-plugin-uni-manifest/issues",
   "keywords": [],
   "sideEffects": false,
-  "exports": {
-    ".": {
-      "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      }
-    }
-  },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
   "scripts": {
-    "build": "unbuild",
-    "dev": "unbuild --stub",
-    "play": "nr -C playground dev:h5",
+    "stub": "pnpm -r --filter=./packages/* --parallel run stub",
+    "dev": "pnpm stub",
+    "build": "rimraf --glob packages/*/dist && pnpm -r --filter=./packages/* run build && pnpm -r run build-post",
+    "play:mp-weixin": "pnpm dev && pnpm -C packages/playground run dev:mp-weixin",
+    "build:mp-weixin": "pnpm build && pnpm -C packages/playground run build:mp-weixin",
+    "play:h5": "pnpm dev && pnpm -C packages/playground run dev:h5",
+    "build:h5": "pnpm build && pnpm -C packages/playground run build:h5",
     "prepublishOnly": "pnpm build",
     "release": "bumpp",
-    "start": "esno src/index.ts",
-    "test": "vitest",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
-  "dependencies": {
-    "c12": "^1.4.2",
-    "type-fest": "^4.4.0"
-  },
   "devDependencies": {
-    "@antfu/eslint-config": "1.0.0-beta.25",
-    "@types/node": "^18.18.4",
-    "bumpp": "^9.2.0",
-    "eslint": "^8.51.0",
-    "esno": "^0.17.0",
-    "typescript": "^5.2.2",
-    "unbuild": "^2.0.0",
-    "vite": "^4.4.11"
+    "@antfu/eslint-config": "^2.16.1",
+    "@types/node": "^20.12.8",
+    "bumpp": "^9.4.1",
+    "eslint": "^8.57.0",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.4.5",
+    "unbuild": "^2.0.0"
   }
 }
