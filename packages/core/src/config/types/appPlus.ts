@@ -27,6 +27,8 @@ export type AndroidFeature =
   `<uses-feature android:name="${AndroidFeatureName}" android:required="true" android:glEsVersion="${number}"/>` |
   `<uses-feature android:name="${AndroidFeatureName}" android:required="false" android:glEsVersion="${number}"/>`
 
+export type AndroidPermissionOrFeature = AndroidPermission | AndroidFeature
+
 export interface AppPlus {
   /**
    * 编译器兼容性配置，详见 <https://ask.dcloud.net.cn/article/35627>
@@ -309,12 +311,12 @@ export interface AppPlus {
       /**
        * Android 平台 APP 使用的权限，详见 <https://uniapp.dcloud.net.cn/tutorial/app-permission-android.html> 和 <https://uniapp.dcloud.net.cn/tutorial/app-nativeresource-android.html>
        */
-      permissions?: AndroidPermission[] | AndroidFeature[]
+      permissions?: AndroidPermissionOrFeature[]
 
       /**
        * Android 平台 APP 不使用的权限，详见 <https://uniapp.dcloud.net.cn/tutorial/app-permission-android.html> 和 <https://uniapp.dcloud.net.cn/tutorial/app-nativeresource-android.html>
        */
-      excludePermissions?: AndroidPermission[] | AndroidFeature[]
+      excludePermissions?: AndroidPermissionOrFeature[]
 
       /**
        * 是否自定义 Android 权限配置
