@@ -33,7 +33,7 @@
     "@types/node": "^20.12.12",
     "bumpp": "^9.4.1",
     "eslint": "^8.57.0",
-    "rimraf": "^5.0.7",
+    "rimraf": "^6.0.0",
     "typescript": "^5.4.5",
     "unbuild": "^2.0.0"
   }
