@@ -3245,6 +3245,35 @@
           "description": "接口权限设置，详见 <https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#permission>",
           "properties": {
             "scope.userLocation": {
+              "description": "精确地理位置权限",
+              "additionalProperties": false,
+              "properties": {
+                "desc": {
+                  "description": "小程序获取权限时展示的接口用途说明",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "desc"
+              ],
+              "type": "object"
+            },
+            "scope.userLocationBackground": {
+              "description": "后台定位权限",
+              "additionalProperties": false,
+              "properties": {
+                "desc": {
+                  "description": "小程序获取权限时展示的接口用途说明",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "desc"
+              ],
+              "type": "object"
+            },
+            "scope.userFuzzyLocation": {
+              "description": "模糊地理位置权限",
               "additionalProperties": false,
               "properties": {
                 "desc": {
@@ -3258,9 +3287,6 @@
               "type": "object"
             }
           },
-          "required": [
-            "scope.userLocation"
-          ],
           "type": "object"
         },
         "plugins": {
