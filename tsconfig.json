@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
     "target": "es2018",
+    "jsx": "preserve",
     "lib": ["esnext"],
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "paths": {
-      "@uni-helper/vite-plugin-uni-manifest": ["./packages/core/src/index.ts"]
+      "@uni-helper/vite-plugin-uni-manifest": ["./packages/core/src/index.ts"],
+      "@uni-helper/manifest-json-schema": ["./packages/schema/schema.json"]
     },
     "resolveJsonModule": true,
     "strict": true,
@@ -13,5 +15,15 @@
     "esModuleInterop": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true
-  }
+  },
+  "exclude": [
+    "**/dist/**",
+    "**/node_modules/**",
+    "**/client/**",
+    "**/playground/**",
+    "**/examples/**",
+    "**/fixtures/**",
+    "**/interactive/**",
+    "**/test/dts/**"
+  ]
 }
