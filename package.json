@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.2.6",
   "private": true,
-  "packageManager": "pnpm@9.1.1",
+  "packageManager": "pnpm@9.10.0",
   "description": "Use TypeScript to write manifest.json of uni-app",
   "author": "KeJun",
   "license": "MIT",
@@ -26,15 +26,16 @@
     "prepublishOnly": "pnpm build",
     "release": "bumpp",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.18.0",
-    "@types/node": "^20.12.12",
-    "bumpp": "^9.4.1",
-    "eslint": "^8.57.0",
-    "rimraf": "^5.0.7",
-    "typescript": "^5.4.5",
+    "@antfu/eslint-config": "^3.5.0",
+    "@types/node": "^20.16.5",
+    "bumpp": "^9.5.2",
+    "eslint": "^9.10.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.6.2",
     "unbuild": "^2.0.0"
   }
 }
