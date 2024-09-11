@@ -14,9 +14,9 @@ pnpm i -D @uni-helper/vite-plugin-uni-manifest
 
 ```ts
 // vite.config.ts
-import { defineConfig } from 'vite'
 import Uni from '@dcloudio/vite-plugin-uni'
 import UniManifest from '@uni-helper/vite-plugin-uni-manifest'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [UniManifest(), Uni()]

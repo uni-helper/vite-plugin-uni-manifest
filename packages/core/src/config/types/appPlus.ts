@@ -1,4 +1,4 @@
-import type { HEXColor, PNG, PercentageSize, PxSize } from './common'
+import type { HEXColor, PercentageSize, PNG, PxSize } from './common'
 import type { PlatformUniStatistics } from './uniStatistics'
 
 // https://developer.android.com/reference/android/Manifest.permission

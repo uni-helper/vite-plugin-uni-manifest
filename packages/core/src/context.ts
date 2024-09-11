@@ -1,10 +1,10 @@
 import { existsSync, writeFileSync } from 'node:fs'
 import process from 'node:process'
 import { watchConfig } from 'c12'
-import { resolveOptions } from './options'
-import type { ResolvedOptions, UserOptions } from './types'
 import { defaultManifestConfig, manifestJsonPath } from './constant'
+import { resolveOptions } from './options'
 import type { UserManifestConfig } from './config'
+import type { ResolvedOptions, UserOptions } from './types'
 
 export class ManifestContext {
   options: ResolvedOptions

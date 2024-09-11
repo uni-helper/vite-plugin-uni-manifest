@@ -197,10 +197,15 @@ export interface MpWeixin {
   navigateToMiniProgramAppIdList?: string[]
 
   /** 接口权限设置，详见 <https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#permission> */
-  permission?: Record<'scope.userLocation'|'scope.userLocationBackground'|'scope.userFuzzyLocation', {
-    /** 小程序获取权限时展示的接口用途说明 */
-    desc: string
-  }>
+  permission?: Record<
+    'scope.userLocation' |
+    'scope.userLocationBackground' |
+    'scope.userFuzzyLocation',
+    {
+      /** 小程序获取权限时展示的接口用途说明 */
+      desc: string
+    }
+  >
 
   /** Worker 代码目录，详见 <https://developers.weixin.qq.com/miniprogram/dev/framework/workers.html> */
   workers?: string | {
