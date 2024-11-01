@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.2.7",
   "private": true,
-  "packageManager": "pnpm@9.11.0",
+  "packageManager": "pnpm@9.12.3",
   "description": "Use TypeScript to write manifest.json of uni-app",
   "author": "KeJun",
   "license": "MIT",
