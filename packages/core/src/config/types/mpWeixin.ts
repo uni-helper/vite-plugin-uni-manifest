@@ -42,6 +42,13 @@ export interface MpWeixin {
     /** 上传代码时是否自动压缩 WXML 文件 */
     minifyWXML?: boolean
 
+    /**
+     * 开启 swc 编译模式
+     *
+     * @default false
+     */
+    swc?: boolean
+
     /** 上传时是否代码保护 */
     uglifyFileName?: boolean
 
