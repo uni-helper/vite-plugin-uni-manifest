@@ -39,7 +39,7 @@ export default defineManifestConfig({
 })
 ```
 
-在 [这里](./packages/playground/manifest.config.ts)，你可以找到 `uni-app` 默认的 Vite-TS 模版的 `manifest.json` 是如何用 TypeScript 编写的。
+在 [这里](./playground/manifest.config.ts)，你可以找到 `uni-app` 默认的 Vite-TS 模版的 `manifest.json` 是如何用 TypeScript 编写的。
 
 ## Configuration
 
