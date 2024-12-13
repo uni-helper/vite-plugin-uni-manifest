@@ -500,7 +500,7 @@ export interface AppPlus {
        *
        * "location" 后台定位
        */
-      UIBackgroundModes?: 'audio' | 'location'
+      UIBackgroundModes?: 'audio' | 'location' | 'audio,location'
 
       /**
        * 依赖的系统库，推荐使用 uni 原生插件扩展使用系统依赖库
