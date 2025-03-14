@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.2.7",
   "private": true,
-  "packageManager": "pnpm@9.15.2",
+  "packageManager": "pnpm@9.15.9",
   "description": "Use TypeScript to write manifest.json of uni-app",
   "author": "KeJun",
   "license": "MIT",
@@ -19,10 +19,10 @@
     "stub": "pnpm -r --filter=./packages/* --parallel run stub",
     "dev": "pnpm stub",
     "build": "rimraf --glob packages/*/dist && pnpm -r --filter=./packages/* run build && pnpm -r run build-post",
-    "play:mp-weixin": "pnpm dev && pnpm -C packages/playground run dev:mp-weixin",
-    "build:mp-weixin": "pnpm build && pnpm -C packages/playground run build:mp-weixin",
-    "play:h5": "pnpm dev && pnpm -C packages/playground run dev:h5",
-    "build:h5": "pnpm build && pnpm -C packages/playground run build:h5",
+    "play:mp-weixin": "pnpm dev && pnpm -C playground run dev:mp-weixin",
+    "build:mp-weixin": "pnpm build && pnpm -C playground run build:mp-weixin",
+    "play:h5": "pnpm dev && pnpm -C playground run dev:h5",
+    "build:h5": "pnpm build && pnpm -C playground run build:h5",
     "prepublishOnly": "pnpm build",
     "release": "bumpp",
     "lint": "eslint .",
@@ -30,12 +30,12 @@
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.5.1",
-    "@types/node": "^20.16.5",
-    "bumpp": "^9.5.2",
-    "eslint": "^9.10.0",
+    "@antfu/eslint-config": "^4.10.1",
+    "@types/node": "^22.13.10",
+    "bumpp": "^10.1.0",
+    "eslint": "^9.22.0",
     "rimraf": "^6.0.1",
-    "typescript": "^5.6.2",
-    "unbuild": "^2.0.0"
+    "typescript": "^5.8.2",
+    "unbuild": "^3.5.0"
   }
 }
