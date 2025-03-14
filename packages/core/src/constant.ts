@@ -1,7 +1,7 @@
+import type { UserManifestConfig } from './config'
 import { resolve } from 'node:path'
 import process from 'node:process'
 import { normalizePath } from 'vite'
-import type { UserManifestConfig } from './config'
 
 export const manifestJsonPath = normalizePath(
   resolve((process.env.UNI_INPUT_DIR || `${process.cwd()}/src`) as string, 'manifest.json'),

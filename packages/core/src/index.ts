@@ -1,6 +1,6 @@
 import type { Plugin } from 'vite'
-import { ManifestContext } from './context'
 import type { UserOptions } from './types'
+import { ManifestContext } from './context'
 
 export * from './config'
 
