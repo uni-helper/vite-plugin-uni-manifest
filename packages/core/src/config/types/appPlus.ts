@@ -7,25 +7,25 @@ export type AndroidPermissionName = 'android.permission.ACCEPT_HANDOVER' | 'andr
 // https://developer.android.com/guide/topics/manifest/uses-feature-element
 export type AndroidFeatureName = 'android.hardware.audio.low_latency' | 'android.hardware.audio.output' | 'android.hardware.audio.pro' | 'android.hardware.microphone' | 'android.hardware.bluetooth' | 'android.hardware.bluetooth_le' | 'android.hardware.camera.any' | 'android.hardware.camera' | 'android.hardware.camera.front' | 'android.hardware.camera.external' | 'android.hardware.camera.autofocus' | 'android.hardware.camera.flash' | 'android.hardware.camera.capability.manual_post_processing' | 'android.hardware.camera.capability.manual_sensor' | 'android.hardware.camera.capability.raw' | 'android.hardware.camera.level.full' | 'android.hardware.type.automotive' | 'android.hardware.type.television' | 'android.hardware.type.watch' | 'android.hardware.type.pc' | 'android.hardware.fingerprint' | 'android.hardware.gamepad' | 'android.hardware.consumerir' | 'android.hardware.location' | 'android.hardware.location.gps' | 'android.hardware.location.network' | 'android.hardware.nfc' | 'android.hardware.nfc.hce' | 'android.hardware.opengles.aep' | 'android.hardware.sensor.accelerometer' | 'android.hardware.sensor.ambient_temperature' | 'android.hardware.sensor.barometer' | 'android.hardware.sensor.compass' | 'android.hardware.sensor.gyroscope' | 'android.hardware.sensor.hifi_sensors' | 'android.hardware.sensor.heartrate' | 'android.hardware.sensor.heartrate.ecg' | 'android.hardware.sensor.light' | 'android.hardware.sensor.proximity' | 'android.hardware.sensor.relative_humidity' | 'android.hardware.sensor.stepcounter' | 'android.hardware.sensor.stepdetector' | 'android.hardware.screen.landscape' | 'android.hardware.screen.portrait' | 'android.hardware.telephony' | 'android.hardware.telephony.cdma' | 'android.hardware.telephony.gsm' | 'android.hardware.faketouch' | 'android.hardware.faketouch.multitouch.distinct' | 'android.hardware.faketouch.multitouch.jazzhand' | 'android.hardware.touchscreen' | 'android.hardware.touchscreen.multitouch' | 'android.hardware.touchscreen.multitouch.distinct' | 'android.hardware.touchscreen.multitouch.jazzhand' | 'android.hardware.usb.accessory' | 'android.hardware.usb.host' | 'android.hardware.vulkan.compute' | 'android.hardware.vulkan.level' | 'android.hardware.vulkan.version' | 'android.hardware.wifi' | 'android.hardware.wifi.direct' | 'android.software.sip' | 'android.software.webview' | 'android.software.input_methods' | 'android.software.backup' | 'android.software.device_admin' | 'android.software.managed_users' | 'android.software.securely_removes_users' | 'android.software.verified_boot' | 'android.software.midi' | 'android.software.print' | 'android.software.leanback' | 'android.software.live_tv' | 'android.software.app_widgets' | 'android.software.home_screen' | 'android.software.live_wallpaper'
 
-export type AndroidPermission =
-  `<uses-permission android:name="${AndroidPermissionName}" />` |
-  `<uses-permission android:name="${AndroidPermissionName}"/>` |
-  `<uses-permission android:name="${AndroidPermissionName}" android:maxSdkVersion="${number}" />` |
-  `<uses-permission android:name="${AndroidPermissionName}" android:maxSdkVersion="${number}"/>`
+export type AndroidPermission
+  = `<uses-permission android:name="${AndroidPermissionName}" />`
+    | `<uses-permission android:name="${AndroidPermissionName}"/>`
+    | `<uses-permission android:name="${AndroidPermissionName}" android:maxSdkVersion="${number}" />`
+    | `<uses-permission android:name="${AndroidPermissionName}" android:maxSdkVersion="${number}"/>`
 
-export type AndroidFeature =
-  `<uses-feature android:name="${AndroidFeatureName}" />` |
-  `<uses-feature android:name="${AndroidFeatureName}"/>` |
-  `<uses-feature android:name="${AndroidFeatureName}" android:required="true" />` |
-  `<uses-feature android:name="${AndroidFeatureName}" android:required="false" />` |
-  `<uses-feature android:name="${AndroidFeatureName}" android:required="true"/>` |
-  `<uses-feature android:name="${AndroidFeatureName}" android:required="false"/>` |
-  `<uses-feature android:name="${AndroidFeatureName}" android:glEsVersion="${number}" />` |
-  `<uses-feature android:name="${AndroidFeatureName}" android:glEsVersion="${number}"/>` |
-  `<uses-feature android:name="${AndroidFeatureName}" android:required="true" android:glEsVersion="${number}" />` |
-  `<uses-feature android:name="${AndroidFeatureName}" android:required="false" android:glEsVersion="${number}" />` |
-  `<uses-feature android:name="${AndroidFeatureName}" android:required="true" android:glEsVersion="${number}"/>` |
-  `<uses-feature android:name="${AndroidFeatureName}" android:required="false" android:glEsVersion="${number}"/>`
+export type AndroidFeature
+  = `<uses-feature android:name="${AndroidFeatureName}" />`
+    | `<uses-feature android:name="${AndroidFeatureName}"/>`
+    | `<uses-feature android:name="${AndroidFeatureName}" android:required="true" />`
+    | `<uses-feature android:name="${AndroidFeatureName}" android:required="false" />`
+    | `<uses-feature android:name="${AndroidFeatureName}" android:required="true"/>`
+    | `<uses-feature android:name="${AndroidFeatureName}" android:required="false"/>`
+    | `<uses-feature android:name="${AndroidFeatureName}" android:glEsVersion="${number}" />`
+    | `<uses-feature android:name="${AndroidFeatureName}" android:glEsVersion="${number}"/>`
+    | `<uses-feature android:name="${AndroidFeatureName}" android:required="true" android:glEsVersion="${number}" />`
+    | `<uses-feature android:name="${AndroidFeatureName}" android:required="false" android:glEsVersion="${number}" />`
+    | `<uses-feature android:name="${AndroidFeatureName}" android:required="true" android:glEsVersion="${number}"/>`
+    | `<uses-feature android:name="${AndroidFeatureName}" android:required="false" android:glEsVersion="${number}"/>`
 
 export type AndroidPermissionOrFeature = AndroidPermission | AndroidFeature
 
