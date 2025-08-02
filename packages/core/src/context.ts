@@ -21,18 +21,18 @@ export class ManifestContext {
       rcFile: false,
       packageJson: false,
       onUpdate: (config) => {
-        ManifestContext.WriteManifestJSON(config.newConfig.config, this.options.minify)
+        ManifestContext.WriteManifestJSON(config.newConfig.config, this.options)
       },
     })
-    ManifestContext.WriteManifestJSON(config, this.options.minify)
+    ManifestContext.WriteManifestJSON(config, this.options)
 
     this.unwatch = unwatch
   }
 
-  static WriteManifestJSON(config: any = {}, minify: boolean = false) {
+  static WriteManifestJSON(config: any = {}, opts?: ResolvedOptions) {
     writeFileSync(
       manifestJsonPath,
-      JSON.stringify(config, null, minify ? 0 : 2),
+      JSON.stringify(config, null, opts?.minify ? 0 : 2) + (opts?.insertFinalNewline ? '\n' : ''),
     )
   }
 
