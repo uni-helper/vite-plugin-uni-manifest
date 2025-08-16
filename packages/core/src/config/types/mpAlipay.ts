@@ -250,8 +250,14 @@ export interface MpAlipay {
   /** 模拟单个作用域插槽渲染为多个实例，此配置仅限 Vue2 环境 3.7.12+，Vue3 环境已默认支持 */
   slotMultipleInstance?: boolean
 
-  /** 是否开启代码按需执行 */
-  lazyCodeLoading?: 'requiredComponents'
+  /**
+   * 是否开启代码按需执行, 详见 <https://opendocs.alipay.com/mini/framework/app-json#lazyCodeLoading>
+   *
+   * "requiredComponents" 按需加载页面
+   *
+   * "renderedComponents" 按需加载页面和组件
+   */
+  lazyCodeLoading?: 'requiredComponents' | 'renderedComponents'
 
   /**
    * 组件样式隔离方式，uni-app 3.99+ 开始支持，详见 <https://opendocs.alipay.com/mini/framework/page-acss>
