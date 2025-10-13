@@ -1,13 +1,11 @@
-# @uni-helper/vite-plugin-uni-manifest
+<a href="https://uni-helper.js.org/vite-plugin-uni-manifest"><img src="./banner.svg" alt="banner" width="100%"/></a>
 
-使用 TypeScript 编写 `uni-app` 的 `manifest.json`。
+<br >
+<a href="https://github.com/uni-helper/vite-plugin-uni-manifest/stargazers"><img src="https://img.shields.io/github/stars/uni-helper/vite-plugin-uni-manifest?colorA=005947&colorB=eee&style=for-the-badge"></a>
+<a href="https://www.npmjs.com/package/@uni-helper/vite-plugin-uni-manifest"><img src="https://img.shields.io/npm/dm/@uni-helper/vite-plugin-uni-manifest?colorA=005947&colorB=eee&style=for-the-badge"></a>
+<a href="https://www.npmjs.com/package/@uni-helper/vite-plugin-uni-manifest"><img src="https://img.shields.io/npm/v/@uni-helper/vite-plugin-uni-manifest?colorA=005947&colorB=eee&style=for-the-badge"></a>
 
-<a href="https://www.npmjs.com/package/@uni-helper/vite-plugin-uni-manifest"><img src="https://img.shields.io/npm/v/@uni-helper/vite-plugin-uni-manifest" alt="NPM version"></a></p>
-
-## 相关依赖
-
-- [vite-plugin-uni-manifest](./packages/core) - 核心，Vite 插件
-- [manifest-json-schema](./packages/schema) - 为 `uni-app` 的 `manifest.json` 提供 schema
+使用 TypeScript 来编写 uni-app 的 manifest.json
 
 ## 安装
 
@@ -17,6 +15,8 @@ pnpm i -D @uni-helper/vite-plugin-uni-manifest
 
 ## 使用
 
+📖 **请阅读[完整文档](https://uni-helper.js.org/vite-plugin-uni-manifest)了解完整使用方法！**
+
 ```ts
 // vite.config.ts
 import Uni from '@dcloudio/vite-plugin-uni'
@@ -24,23 +24,9 @@ import UniManifest from '@uni-helper/vite-plugin-uni-manifest'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  plugins: [UniManifest(), Uni()],
+  plugins: [
+    UniManifest(), // 需要在 Uni() 之前调用
+    Uni()
+  ],
 })
 ```
-
-创建 `manifest.config.(ts|mts|cts|js|cjs|mjs|json)`, 然后用 TypeScript 编写你的 `manifest.json`。
-
-```ts
-// manifest.config.ts
-import { defineManifestConfig } from '@uni-helper/vite-plugin-uni-manifest'
-
-export default defineManifestConfig({
-  // code here...
-})
-```
-
-在 [这里](./playground/manifest.config.ts)，你可以找到 `uni-app` 默认的 Vite-TS 模版的 `manifest.json` 是如何用 TypeScript 编写的。
-
-## Configuration
-
-请查看 [types.ts](./packages/core/src/types.ts)。
