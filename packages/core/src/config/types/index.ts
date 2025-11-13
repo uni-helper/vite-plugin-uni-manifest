@@ -1,7 +1,9 @@
+import type { AppHarmony } from './appHarmony'
 import type { AppPlus } from './appPlus'
 import type { H5 } from './h5'
 import type { MpAlipay } from './mpAlipay'
 import type { MpBaidu } from './mpBaidu'
+import type { MpHarmony } from './mpHarmony'
 import type { MpKuaishou } from './mpKuaishou'
 import type { MpLark } from './mpLark'
 import type { MpQq } from './mpQq'
@@ -10,11 +12,13 @@ import type { MpWeixin } from './mpWeixin'
 import type { QuickappWebview, QuickappWebviewHuawei, QuickappWebviewUnion } from './quickappWebview'
 import type { UniStatistics } from './uniStatistics'
 
+export * from './appHarmony'
 export * from './appPlus'
 export * from './common'
 export * from './h5'
 export * from './mpAlipay'
 export * from './mpBaidu'
+export * from './mpHarmony'
 export * from './mpKuaishou'
 export * from './mpLark'
 export * from './mpQq'
@@ -106,7 +110,13 @@ export interface ManifestConfig {
   /** APP 特有配置 */
   'app-plus'?: AppPlus
 
-  /** H5 特有配置 */
+  /** HarmonyOS 应用配置 */
+  'app-harmony'?: AppHarmony
+
+  /** HarmonyOS 元服务配置 */
+  'mp-harmony'?: MpHarmony
+
+  /** H5 配置 */
   'h5'?: H5
 
   /** 快应用特有配置 */

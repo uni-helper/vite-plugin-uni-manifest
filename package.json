@@ -23,6 +23,7 @@
     "build:mp-weixin": "pnpm build && pnpm -C playground run build:mp-weixin",
     "play:h5": "pnpm dev && pnpm -C playground run dev:h5",
     "build:h5": "pnpm build && pnpm -C playground run build:h5",
+    "build:app-harmony": "pnpm build && pnpm -C playground run build:app-harmony",
     "prepublishOnly": "pnpm build",
     "release": "bumpp",
     "lint": "eslint .",
