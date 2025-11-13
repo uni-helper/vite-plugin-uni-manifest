@@ -72,6 +72,14 @@ export default defineManifestConfig({
   'mp-toutiao': {
     usingComponents: true,
   },
+  /* HarmonyOS应用特有相关 */
+  'app-harmony': {
+    distribute: {},
+  },
+  /* HarmonyOS元服务特有相关 */
+  'mp-harmony': {
+    distribute: {},
+  },
   'uniStatistics': {
     enable: false,
   },

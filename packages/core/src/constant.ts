@@ -42,6 +42,14 @@ export const defaultManifestConfig: UserManifestConfig = {
       sdkConfigs: {},
     },
   },
+  /* HarmonyOS特有相关 */
+  'app-harmony': {
+    distribute: {},
+  },
+  /* HarmonyOS元服务特有相关 */
+  'mp-harmony': {
+    distribute: {},
+  },
   /* 快应用特有相关 */
   'quickapp': {},
   /* 小程序特有相关 */
