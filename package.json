@@ -37,6 +37,6 @@
     "eslint": "^9.22.0",
     "rimraf": "^6.0.1",
     "typescript": "^5.8.2",
-    "unbuild": "^3.5.0"
+    "unbuild": "^3.6.1"
   }
 }
