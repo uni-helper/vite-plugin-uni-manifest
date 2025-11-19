@@ -15,7 +15,7 @@ export class ManifestContext {
 
   async setup() {
     const { config, unwatch } = await watchConfig<UserManifestConfig>({
-      cwd: process.env.VITE_ROOT_DIR,
+      cwd: this.options.cwd ?? process.env.VITE_ROOT_DIR,
       name: 'manifest',
       defaultConfig: defaultManifestConfig,
       rcFile: false,
