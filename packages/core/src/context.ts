@@ -1,7 +1,6 @@
 import type { UserManifestConfig } from './config'
 import type { ResolvedOptions, UserOptions } from './types'
 import { existsSync, writeFileSync } from 'node:fs'
-import process from 'node:process'
 import { watchConfig } from 'c12'
 import { defaultManifestConfig, manifestJsonPath } from './constant'
 import { resolveOptions } from './options'
@@ -15,7 +14,7 @@ export class ManifestContext {
 
   async setup() {
     const { config, unwatch } = await watchConfig<UserManifestConfig>({
-      cwd: this.options.cwd ?? process.env.VITE_ROOT_DIR,
+      cwd: this.options.cwd,
       name: 'manifest',
       defaultConfig: defaultManifestConfig,
       rcFile: false,
