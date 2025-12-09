@@ -53,7 +53,7 @@ export interface ManifestConfig {
   'versionName': string
 
   /** 版本号 */
-  'versionCode': string
+  'versionCode': string | number
 
   /**
    * 是否转换 px 为 rpx，仅部分平台支持，不推荐新项目启用此配置，建议设为 false

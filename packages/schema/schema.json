@@ -18,6 +18,19 @@
         }
       ]
     },
+    "AppHarmony": {
+      "additionalProperties": {
+        "description": "其他扩展配置\n\n支持其他 HarmonyOS 平台特有的配置项"
+      },
+      "description": "HarmonyOS 应用配置\n\n详见 https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony",
+      "properties": {
+        "distribute": {
+          "$ref": "#/definitions/HarmonyDistribute",
+          "description": "HarmonyOS 分发配置\n\n包含应用包名、签名配置、图标、启动界面等分发相关的设置"
+        }
+      },
+      "type": "object"
+    },
     "AppPlus": {
       "properties": {
         "allowsInlineMediaPlayback": {
@@ -434,7 +447,8 @@
                   "description": "应用后台运行模式，详见 <https://uniapp.dcloud.net.cn/tutorial/app-ios-uibackgroundmodes.html>\n\n\"audio\" 后台播放音乐\n\n\"location\" 后台定位",
                   "enum": [
                     "audio",
-                    "location"
+                    "location",
+                    "audio,location"
                   ],
                   "type": "string"
                 },
@@ -2455,9 +2469,185 @@
     "HEXColor": {
       "type": "string"
     },
+    "HarmonyDistribute": {
+      "additionalProperties": {
+        "description": "其他分发相关配置"
+      },
+      "description": "HarmonyOS 分发配置",
+      "properties": {
+        "bundleName": {
+          "description": "应用包名\n\nHarmonyOS 应用的唯一标识符，格式为反向域名",
+          "type": "string"
+        },
+        "icons": {
+          "$ref": "#/definitions/HarmonyIcons",
+          "description": "应用图标配置\n\n配置应用的前景图和背景图"
+        },
+        "modules": {
+          "$ref": "#/definitions/HarmonyModules",
+          "description": "模块配置\n\n配置各种功能模块的相关参数"
+        },
+        "signingConfigs": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/HarmonySigningConfig"
+              },
+              {
+                "not": {}
+              }
+            ],
+            "description": "其他自定义签名配置"
+          },
+          "description": "证书签名配置\n\n配置鸿蒙打包时使用的数字签名证书信息，可分别配置调试证书和发布证书",
+          "properties": {
+            "default": {
+              "$ref": "#/definitions/HarmonySigningConfig",
+              "description": "调试证书配置"
+            },
+            "release": {
+              "$ref": "#/definitions/HarmonySigningConfig",
+              "description": "发布证书配置"
+            }
+          },
+          "type": "object"
+        },
+        "splashScreens": {
+          "$ref": "#/definitions/HarmonySplashScreens",
+          "description": "启动界面配置\n\n配置启动界面的背景色和中部图标"
+        },
+        "useragent": {
+          "$ref": "#/definitions/HarmonyUserAgent",
+          "description": "UserAgent 配置\n\n配置应用的 UserAgent 相关设置"
+        }
+      },
+      "type": "object"
+    },
+    "HarmonyIcons": {
+      "additionalProperties": false,
+      "description": "HarmonyOS 应用图标配置",
+      "properties": {
+        "background": {
+          "description": "背景图\n\n以相对路径指向一个图片文件",
+          "type": "string"
+        },
+        "foreground": {
+          "description": "前景图\n\n以相对路径指向一个图片文件",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "HarmonyModules": {
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "object"
+          },
+          {
+            "not": {}
+          }
+        ],
+        "description": "其他模块配置"
+      },
+      "description": "HarmonyOS 模块配置",
+      "properties": {
+        "uni-location": {
+          "description": "定位模块相关参数\n\n设置定位模块相关参数",
+          "type": "object"
+        },
+        "uni-map": {
+          "description": "地图模块相关参数\n\n设置地图模块相关参数",
+          "type": "object"
+        },
+        "uni-oauth": {
+          "description": "登录鉴权模块相关参数\n\n设置登录鉴权模块相关参数",
+          "type": "object"
+        },
+        "uni-payment": {
+          "description": "支付模块相关参数\n\n设置支付模块相关参数",
+          "type": "object"
+        },
+        "uni-share": {
+          "description": "分享模块相关参数\n\n设置分享模块相关参数",
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "HarmonySigningConfig": {
+      "additionalProperties": false,
+      "description": "HarmonyOS 签名配置",
+      "properties": {
+        "certpath": {
+          "description": "证书文件\n\n指向 .cer 证书文件的路径",
+          "type": "string"
+        },
+        "keyAlias": {
+          "description": "私钥库里面的私钥别名\n\n用于标识密钥的别名，如 debugKey",
+          "type": "string"
+        },
+        "keyPassword": {
+          "description": "私钥访问密码\n\n用于访问私钥的加密密码",
+          "type": "string"
+        },
+        "profile": {
+          "description": "签名描述文件",
+          "type": "string"
+        },
+        "signAlg": {
+          "description": "签名算法\n\n签名算法，固定为 \"SHA256withECDSA\"",
+          "type": "string"
+        },
+        "storeFile": {
+          "description": "私钥库文件",
+          "type": "string"
+        },
+        "storePassword": {
+          "description": "私钥库访问密码\n\n用于访问密钥库的加密密码",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "HarmonySplashScreens": {
+      "additionalProperties": false,
+      "description": "HarmonyOS 启动界面配置",
+      "properties": {
+        "startWindowBackground": {
+          "description": "启动界面背景色\n\n格式为 #RRGGBB",
+          "format": "color",
+          "type": "string"
+        },
+        "startWindowIcon": {
+          "description": "启动界面中部图标\n\n以相对路径指向一个图片文件",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "HarmonyUserAgent": {
+      "additionalProperties": false,
+      "description": "HarmonyOS UserAgent 配置",
+      "properties": {
+        "concatenate": {
+          "description": "是否追加到系统默认 userAgent\n\n是否将 value 值作为追加值连接到系统默认 userAgent 值之后",
+          "type": "boolean"
+        },
+        "value": {
+          "description": "UserAgent 值\n\n应用 UserAgent 相关配置，默认值为系统 UserAgent",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "ManifestConfig": {
       "description": "应用的配置文件，用于指定应用的名称、图标、权限等\n\nHBuilderX 创建的工程此文件在根目录，CLI 创建的工程此文件在 src 目录",
       "properties": {
+        "app-harmony": {
+          "$ref": "#/definitions/AppHarmony",
+          "description": "HarmonyOS 应用配置"
+        },
         "app-plus": {
           "$ref": "#/definitions/AppPlus",
           "description": "APP 特有配置"
@@ -2477,7 +2667,7 @@
         },
         "h5": {
           "$ref": "#/definitions/H5",
-          "description": "H5 特有配置"
+          "description": "H5 配置"
         },
         "locale": {
           "default": "auto",
@@ -2491,6 +2681,10 @@
         "mp-baidu": {
           "$ref": "#/definitions/MpBaidu",
           "description": "百度小程序特有配置"
+        },
+        "mp-harmony": {
+          "$ref": "#/definitions/MpHarmony",
+          "description": "HarmonyOS 元服务配置"
         },
         "mp-kuaishou": {
           "$ref": "#/definitions/MpKuaishou",
@@ -2566,7 +2760,10 @@
         },
         "versionCode": {
           "description": "版本号",
-          "type": "string"
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "versionName": {
           "description": "版本名称，在云打包和生成 wgt 资源时使用",
@@ -2738,8 +2935,11 @@
           "type": "array"
         },
         "lazyCodeLoading": {
-          "const": "requiredComponents",
-          "description": "是否开启代码按需执行",
+          "description": "是否开启代码按需执行, 详见 <https://opendocs.alipay.com/mini/framework/app-json#lazyCodeLoading>\n\n\"requiredComponents\" 按需加载页面\n\n\"renderedComponents\" 按需加载页面和组件",
+          "enum": [
+            "requiredComponents",
+            "renderedComponents"
+          ],
           "type": "string"
         },
         "mergeVirtualHostAttributes": {
@@ -2914,6 +3114,97 @@
         "uniStatistics": {
           "$ref": "#/definitions/PlatformUniStatistics",
           "description": "uni 统计配置项"
+        }
+      },
+      "type": "object"
+    },
+    "MpHarmony": {
+      "additionalProperties": {
+        "description": "其他扩展配置\n\n支持其他 HarmonyOS 元服务平台特有的配置项"
+      },
+      "description": "HarmonyOS 元服务配置\n\n鸿蒙元服务项目设置，目前只支持一个 distribute 属性",
+      "properties": {
+        "distribute": {
+          "$ref": "#/definitions/MpHarmonyDistribute",
+          "description": "HarmonyOS 元服务分发配置\n\n包含元服务包名、签名配置、原生组件等分发相关的设置"
+        }
+      },
+      "type": "object"
+    },
+    "MpHarmonyDistribute": {
+      "additionalProperties": false,
+      "description": "HarmonyOS 元服务分发配置",
+      "properties": {
+        "bundleName": {
+          "description": "元服务包名\n\n固定格式为 com.atomicservice.[纯数字 appId]",
+          "type": "string"
+        },
+        "nativeTags": {
+          "description": "鸿蒙元服务平台的原生组件\n\n支持版本：4.81+",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "signingConfigs": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/MpHarmonySigningConfig"
+              },
+              {
+                "not": {}
+              }
+            ],
+            "description": "其他签名配置"
+          },
+          "description": "证书签名配置\n\n用于配置鸿蒙打包时使用的数字签名证书信息，可分别配置调试证书和发布证书两组信息",
+          "properties": {
+            "default": {
+              "$ref": "#/definitions/MpHarmonySigningConfig",
+              "description": "调试证书配置"
+            },
+            "release": {
+              "$ref": "#/definitions/MpHarmonySigningConfig",
+              "description": "发布证书配置"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "MpHarmonySigningConfig": {
+      "additionalProperties": false,
+      "description": "HarmonyOS 元服务签名配置",
+      "properties": {
+        "certpath": {
+          "description": "证书文件\n\n指向 .cer 证书文件的路径",
+          "type": "string"
+        },
+        "keyAlias": {
+          "description": "私钥库里面的私钥别名\n\n用于标识密钥的别名，如 debugKey",
+          "type": "string"
+        },
+        "keyPassword": {
+          "description": "私钥访问密码\n\n用于访问私钥的加密密码",
+          "type": "string"
+        },
+        "profile": {
+          "description": "签名描述文件",
+          "type": "string"
+        },
+        "signAlg": {
+          "description": "签名算法\n\n签名算法，固定为 \"SHA256withECDSA\"",
+          "type": "string"
+        },
+        "storeFile": {
+          "description": "私钥库文件",
+          "type": "string"
+        },
+        "storePassword": {
+          "description": "私钥库访问密码\n\n用于访问密钥库的加密密码",
+          "type": "string"
         }
       },
       "type": "object"
@@ -3244,8 +3535,20 @@
           "additionalProperties": false,
           "description": "接口权限设置，详见 <https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#permission>",
           "properties": {
+            "scope.userFuzzyLocation": {
+              "additionalProperties": false,
+              "properties": {
+                "desc": {
+                  "description": "小程序获取权限时展示的接口用途说明",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "desc"
+              ],
+              "type": "object"
+            },
             "scope.userLocation": {
-              "description": "精确地理位置权限",
               "additionalProperties": false,
               "properties": {
                 "desc": {
@@ -3259,21 +3562,6 @@
               "type": "object"
             },
             "scope.userLocationBackground": {
-              "description": "后台定位权限",
-              "additionalProperties": false,
-              "properties": {
-                "desc": {
-                  "description": "小程序获取权限时展示的接口用途说明",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "desc"
-              ],
-              "type": "object"
-            },
-            "scope.userFuzzyLocation": {
-              "description": "模糊地理位置权限",
               "additionalProperties": false,
               "properties": {
                 "desc": {
@@ -3478,6 +3766,11 @@
             },
             "skylineRenderEnable": {
               "description": "是否开启 skyline 渲染调试",
+              "type": "boolean"
+            },
+            "swc": {
+              "default": false,
+              "description": "开启 swc 编译模式",
               "type": "boolean"
             },
             "uglifyFileName": {
