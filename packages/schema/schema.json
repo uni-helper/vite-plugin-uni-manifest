@@ -444,13 +444,85 @@
                   "type": "string"
                 },
                 "UIBackgroundModes": {
-                  "description": "应用后台运行模式，详见 <https://uniapp.dcloud.net.cn/tutorial/app-ios-uibackgroundmodes.html>\n\n\"audio\" 后台播放音乐\n\n\"location\" 后台定位",
-                  "enum": [
-                    "audio",
-                    "location",
-                    "audio,location"
+                  "anyOf": [
+                    {
+                      "const": "audio",
+                      "type": "string"
+                    },
+                    {
+                      "const": "bluetooth-central",
+                      "type": "string"
+                    },
+                    {
+                      "const": "bluetooth-peripheral",
+                      "type": "string"
+                    },
+                    {
+                      "const": "external-accessory",
+                      "type": "string"
+                    },
+                    {
+                      "const": "fetch",
+                      "type": "string"
+                    },
+                    {
+                      "const": "location",
+                      "type": "string"
+                    },
+                    {
+                      "const": "nearby-interaction",
+                      "type": "string"
+                    },
+                    {
+                      "const": "network-authentication",
+                      "type": "string"
+                    },
+                    {
+                      "const": "newsstand-content",
+                      "type": "string"
+                    },
+                    {
+                      "const": "processing",
+                      "type": "string"
+                    },
+                    {
+                      "const": "push-to-talk",
+                      "type": "string"
+                    },
+                    {
+                      "const": "remote-notification",
+                      "type": "string"
+                    },
+                    {
+                      "const": "voip",
+                      "type": "string"
+                    },
+                    {
+                      "items": {
+                        "enum": [
+                          "audio",
+                          "bluetooth-central",
+                          "bluetooth-peripheral",
+                          "external-accessory",
+                          "fetch",
+                          "location",
+                          "nearby-interaction",
+                          "network-authentication",
+                          "newsstand-content",
+                          "processing",
+                          "push-to-talk",
+                          "remote-notification",
+                          "voip"
+                        ],
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    {
+                      "type": "string"
+                    }
                   ],
-                  "type": "string"
+                  "description": "应用后台运行模式，详见 <https://uniapp.dcloud.net.cn/tutorial/app-ios-uibackgroundmodes.html> 和 <https://developer.apple.com/documentation/bundleresources/information-property-list/uibackgroundmodes>\n\n\"audio\" 后台播放音乐\n\n\"location\" 后台定位"
                 },
                 "appid": {
                   "description": "iOS 平台云端打包使用的 Bundle ID",
