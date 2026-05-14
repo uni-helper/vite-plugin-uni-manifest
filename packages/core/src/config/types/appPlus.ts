@@ -301,12 +301,12 @@ export interface AppPlus {
       aliasname?: string
 
       /**
-       * Android 平台 APP 注册的 scheme，多个 scheme 使用 `,` 分割，详见 <https://uniapp.dcloud.io/tutorial/app-android-schemes>
+       * Android 平台 APP 注册的 scheme，多个 scheme 使用 `,` 分割，详见 <https://uniapp.dcloud.net.cn/tutorial/app-android-schemes>
        */
       schemes?: string
 
       /**
-       * Android 平台 APP 支持的 CPU 类型，详见 <https://uniapp.dcloud.io/tutorial/app-android-abifilters>
+       * Android 平台 APP 支持的 CPU 类型，详见 <https://uniapp.dcloud.net.cn/tutorial/app-android-abifilters>
        */
       abiFilters?: ('armeabi-v7a' | 'arm64-v8a' | 'x86' | 'x86_64')[]
 
@@ -370,7 +370,7 @@ export interface AppPlus {
       }
 
       /**
-       * Android 平台最低支持版本，详见 <https://uniapp.dcloud.io/tutorial/app-android-minsdkversion>
+       * Android 平台最低支持版本，详见 <https://uniapp.dcloud.net.cn/tutorial/app-android-minsdkversion>
        */
       minSdkVersion?: number
 
@@ -489,10 +489,10 @@ export interface AppPlus {
        */
       devices?: 'iphone' | 'ipad' | 'universal'
 
-      /** 应用访问白名单列表，多个白名单使用 `,` 分割，详见 <https://uniapp.dcloud.io/tutorial/app-ios-schemewhitelist> */
+      /** 应用访问白名单列表，多个白名单使用 `,` 分割，详见 <https://uniapp.dcloud.net.cn/tutorial/app-ios-schemewhitelist> */
       urlschemewhitelist?: string
 
-      /** iOS 平台 APP 注册的 scheme，多个 scheme 使用 `,` 分割，详见 <https://uniapp.dcloud.io/tutorial/app-ios-schemes> */
+      /** iOS 平台 APP 注册的 scheme，多个 scheme 使用 `,` 分割，详见 <https://uniapp.dcloud.net.cn/tutorial/app-ios-schemes> */
       urltypes?: string
 
       /**

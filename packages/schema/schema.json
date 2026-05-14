@@ -126,7 +126,7 @@
               "description": "Android 平台云端打包配置",
               "properties": {
                 "abiFilters": {
-                  "description": "Android 平台 APP 支持的 CPU 类型，详见 <https://uniapp.dcloud.io/tutorial/app-android-abifilters>",
+                  "description": "Android 平台 APP 支持的 CPU 类型，详见 <https://uniapp.dcloud.net.cn/tutorial/app-android-abifilters>",
                   "items": {
                     "enum": [
                       "armeabi-v7a",
@@ -207,7 +207,7 @@
                   "type": "string"
                 },
                 "minSdkVersion": {
-                  "description": "Android 平台最低支持版本，详见 <https://uniapp.dcloud.io/tutorial/app-android-minsdkversion>",
+                  "description": "Android 平台最低支持版本，详见 <https://uniapp.dcloud.net.cn/tutorial/app-android-minsdkversion>",
                   "type": "number"
                 },
                 "packagename": {
@@ -286,7 +286,7 @@
                   "type": "boolean"
                 },
                 "schemes": {
-                  "description": "Android 平台 APP 注册的 scheme，多个 scheme 使用 `,` 分割，详见 <https://uniapp.dcloud.io/tutorial/app-android-schemes>",
+                  "description": "Android 平台 APP 注册的 scheme，多个 scheme 使用 `,` 分割，详见 <https://uniapp.dcloud.net.cn/tutorial/app-android-schemes>",
                   "type": "string"
                 },
                 "targetSdkVersion": {
@@ -691,11 +691,11 @@
                   "type": "string"
                 },
                 "urlschemewhitelist": {
-                  "description": "应用访问白名单列表，多个白名单使用 `,` 分割，详见 <https://uniapp.dcloud.io/tutorial/app-ios-schemewhitelist>",
+                  "description": "应用访问白名单列表，多个白名单使用 `,` 分割，详见 <https://uniapp.dcloud.net.cn/tutorial/app-ios-schemewhitelist>",
                   "type": "string"
                 },
                 "urltypes": {
-                  "description": "iOS 平台 APP 注册的 scheme，多个 scheme 使用 `,` 分割，详见 <https://uniapp.dcloud.io/tutorial/app-ios-schemes>",
+                  "description": "iOS 平台 APP 注册的 scheme，多个 scheme 使用 `,` 分割，详见 <https://uniapp.dcloud.net.cn/tutorial/app-ios-schemes>",
                   "type": "string"
                 },
                 "validArchitectures": {
