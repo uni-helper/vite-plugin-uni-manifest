@@ -11,13 +11,21 @@
   },
   "bugs": "https://github.com/uni-helper/vite-plugin-uni-manifest/issues",
   "keywords": [
+    "uni-helper",
+    "uni-app",
+    "uniapp",
+    "manifest",
     "jsonschema"
   ],
+  "files": [
+    "schema.json"
+  ],
   "scripts": {
-    "generate": "ts-json-schema-generator -p \"../core/src/config/types/index.ts\" -t \"ManifestConfig\" -o \"schema.json\" --no-type-check",
-    "prepublishOnly": "pnpm generate"
+    "build": "ts-json-schema-generator -p \"../types/src/index.ts\" -t \"ManifestConfig\" -o \"schema.json\" --no-type-check",
+    "dev": "pnpm run build",
+    "prepublishOnly": "pnpm run build"
   },
   "devDependencies": {
-    "ts-json-schema-generator": "^2.3.0"
+    "ts-json-schema-generator": "catalog:"
   }
 }

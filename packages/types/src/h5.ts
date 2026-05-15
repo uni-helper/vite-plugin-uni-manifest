@@ -1,4 +1,4 @@
-import type { PlatformUniStatistics } from './uniStatistics'
+import type { PlatformUniStatistics } from './uni-statistics'
 
 export interface H5 {
   /**

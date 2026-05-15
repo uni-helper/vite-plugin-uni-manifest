@@ -1,15 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es2018",
+    "target": "esnext",
     "jsx": "preserve",
     "lib": ["esnext"],
     "module": "esnext",
     "moduleResolution": "Bundler",
     "paths": {
       "@uni-helper/vite-plugin-uni-manifest": ["./packages/core/src/index.ts"],
+      "@uni-helper/uni-manifest-types": ["./packages/types/src/index.ts"],
       "@uni-helper/manifest-json-schema": ["./packages/schema/schema.json"]
     },
     "resolveJsonModule": true,
+    "types": ["*"],
     "strict": true,
     "strictNullChecks": true,
     "esModuleInterop": true,

@@ -1,6 +1,6 @@
-import type { UserManifestConfig } from './types'
+import type { UserManifestConfig } from '@uni-helper/uni-manifest-types'
 
-export * from './types'
+export * from '@uni-helper/uni-manifest-types'
 
 export function defineManifestConfig(config: UserManifestConfig) {
   return config

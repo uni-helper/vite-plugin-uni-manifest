@@ -3784,7 +3784,7 @@
               "type": "boolean"
             },
             "localPlugins": {
-              "description": "在小游戏插件项目中，是否启用“以本地目录为插件资源来源”特性",
+              "description": "在小游戏插件项目中，是否启用\"以本地目录为插件资源来源\"特性",
               "type": "boolean"
             },
             "minified": {

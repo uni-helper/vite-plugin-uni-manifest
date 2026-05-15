@@ -5,5 +5,6 @@ export default defineConfig({
     'package.json',
     'packages/core/package.json',
     'packages/schema/package.json',
+    'packages/types/package.json',
   ],
 })

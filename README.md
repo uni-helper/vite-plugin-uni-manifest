@@ -5,7 +5,9 @@
 <a href="https://www.npmjs.com/package/@uni-helper/vite-plugin-uni-manifest"><img src="https://img.shields.io/npm/dm/@uni-helper/vite-plugin-uni-manifest?colorA=005947&colorB=eee&style=for-the-badge"></a>
 <a href="https://www.npmjs.com/package/@uni-helper/vite-plugin-uni-manifest"><img src="https://img.shields.io/npm/v/@uni-helper/vite-plugin-uni-manifest?colorA=005947&colorB=eee&style=for-the-badge"></a>
 
-使用 TypeScript 来编写 uni-app 的 manifest.json
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/uni-helper/vite-plugin-uni-manifest)
+
+使用 TypeScript 来编写 uni-app 的 manifest.json。
 
 ## 安装
 

@@ -1,5 +1,7 @@
 # @uni-helper/manifest-json-schema
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/uni-helper/vite-plugin-uni-manifest)
+
 为 `uni-app` 的 `manifest.json` 提供 schema。
 
 ## 安装

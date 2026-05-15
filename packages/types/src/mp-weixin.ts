@@ -1,4 +1,4 @@
-import type { PlatformUniStatistics } from './uniStatistics'
+import type { PlatformUniStatistics } from './uni-statistics'
 
 export interface MpWeixin {
   /** 微信小程序的 appid */
@@ -111,7 +111,7 @@ export interface MpWeixin {
      */
     uploadWithSourceMap?: boolean
 
-    /** 在小游戏插件项目中，是否启用“以本地目录为插件资源来源”特性 */
+    /** 在小游戏插件项目中，是否启用"以本地目录为插件资源来源"特性 */
     localPlugins?: boolean
 
     /** 是否手动配置构建 npm 的路径 */

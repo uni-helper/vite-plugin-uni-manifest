@@ -1,4 +1,4 @@
-import type { PlatformUniStatistics } from './uniStatistics'
+import type { PlatformUniStatistics } from './uni-statistics'
 
 export interface MpAlipay {
   /** 使用到的插件，详见 <https://opendocs.alipay.com/mini/plugin/plugin-usage> */

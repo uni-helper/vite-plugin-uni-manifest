@@ -1,4 +1,4 @@
-import type { PlatformUniStatistics } from './uniStatistics'
+import type { PlatformUniStatistics } from './uni-statistics'
 
 export interface MpLark {
   /** 飞书小程序的 appid */

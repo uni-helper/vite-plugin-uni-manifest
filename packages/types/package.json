@@ -1,9 +1,13 @@
 {
-  "name": "@uni-helper/vite-plugin-uni-manifest",
+  "name": "@uni-helper/uni-manifest-types",
   "type": "module",
-  "version": "0.2.12",
-  "description": "File system based routing for uni-app applications using Vite",
-  "author": "KeJun",
+  "version": "0.0.0",
+  "description": "TypeScript types for uni-app manifest.json configuration",
+  "author": {
+    "email": "wurui.dev@gmail.com",
+    "name": "ModyQyW",
+    "url": "https://github.com/ModyQyW"
+  },
   "license": "MIT",
   "homepage": "https://github.com/uni-helper/vite-plugin-uni-manifest#readme",
   "repository": {
@@ -13,11 +17,11 @@
   "bugs": "https://github.com/uni-helper/vite-plugin-uni-manifest/issues",
   "keywords": [
     "uni-helper",
-    "vite",
-    "vite-plugin",
     "uni-app",
     "uniapp",
-    "manifest"
+    "manifest",
+    "types",
+    "typescript"
   ],
   "sideEffects": false,
   "exports": {
@@ -43,14 +47,8 @@
     "dev": "tsdown --watch",
     "prepublishOnly": "pnpm run build"
   },
-  "peerDependencies": {
-    "vite": "^5.0.0"
-  },
-  "dependencies": {
-    "@uni-helper/uni-manifest-types": "workspace:*",
-    "c12": "catalog:"
-  },
   "devDependencies": {
-    "vite": "catalog:"
+    "tsdown": "catalog:",
+    "typescript": "catalog:"
   }
 }

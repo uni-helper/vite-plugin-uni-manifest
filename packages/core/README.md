@@ -1,8 +1,10 @@
 # @uni-helper/vite-plugin-uni-manifest
 
-使用 TypeScript 编写 `uni-app` 的 `manifest.json`。
+<a href="https://www.npmjs.com/package/@uni-helper/vite-plugin-uni-manifest"><img src="https://img.shields.io/npm/v/@uni-helper/vite-plugin-uni-manifest" alt="NPM version"></a>
 
-<a href="https://www.npmjs.com/package/@uni-helper/vite-plugin-uni-manifest"><img src="https://img.shields.io/npm/v/@uni-helper/vite-plugin-uni-manifest" alt="NPM version"></a></p>
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/uni-helper/vite-plugin-uni-manifest)
+
+使用 TypeScript 编写 `uni-app` 的 `manifest.json`。
 
 ## 安装
 
@@ -39,3 +41,9 @@ export default defineManifestConfig({
 ## Configuration
 
 请查看 [types.ts](./src/types.ts)。
+
+## FAQ
+
+### 这个插件写入配置晚于 uni-app 读取配置，导致无法正常运行
+
+请使用 [@uni-helper/unh](https://uni-helper.cn/unh/auto-generate)，或自行编写脚本处理。

@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.2.12",
   "private": true,
-  "packageManager": "pnpm@9.15.9",
+  "packageManager": "pnpm@10.33.4",
   "description": "Use TypeScript to write manifest.json of uni-app",
   "author": "KeJun",
   "license": "MIT",
@@ -16,9 +16,8 @@
   "keywords": [],
   "sideEffects": false,
   "scripts": {
-    "stub": "pnpm -r --filter=./packages/* --parallel run stub",
-    "dev": "pnpm stub",
-    "build": "rimraf --glob packages/*/dist && pnpm -r --filter=./packages/* run build && pnpm -r run build-post",
+    "dev": "pnpm -r --filter './packages/*' --parallel run dev",
+    "build": "rimraf packages/*/dist && pnpm -r --filter './packages/*' run build",
     "play:mp-weixin": "pnpm dev && pnpm -C playground run dev:mp-weixin",
     "build:mp-weixin": "pnpm build && pnpm -C playground run build:mp-weixin",
     "play:h5": "pnpm dev && pnpm -C playground run dev:h5",
@@ -31,12 +30,12 @@
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.10.1",
-    "@types/node": "^22.13.10",
-    "bumpp": "^10.1.0",
-    "eslint": "^9.22.0",
-    "rimraf": "^6.0.1",
-    "typescript": "^5.8.2",
-    "unbuild": "^3.6.1"
+    "@antfu/eslint-config": "catalog:",
+    "@types/node": "catalog:",
+    "bumpp": "catalog:",
+    "eslint": "catalog:",
+    "rimraf": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:"
   }
 }
