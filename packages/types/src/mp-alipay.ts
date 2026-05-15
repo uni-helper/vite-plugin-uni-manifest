@@ -266,5 +266,8 @@ export interface MpAlipay {
    */
   styleIsolation?: 'apply-shared' | 'shared'
 
+  /** 支付宝小程序平台的原生组件 */
+  nativeTags?: string[]
+
   [x: string]: any
 }

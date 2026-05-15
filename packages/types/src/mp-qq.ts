@@ -4,6 +4,9 @@ export interface MpQq {
   /** QQ 小程序的 appid */
   appid?: string
 
+  /** 项目名称 */
+  projectname?: string
+
   /**
    * 需要在后台使用的能力，详见 <https://q.qq.com/wiki/develop/miniprogram/frame/dispose.html#requiredbackgroundmodes>
    *
@@ -46,6 +49,9 @@ export interface MpQq {
 
   /** 模拟单个作用域插槽渲染为多个实例，此配置仅限 Vue2 环境 3.7.12+，Vue3 环境已默认支持 */
   slotMultipleInstance?: boolean
+
+  /** QQ 小程序平台的原生组件 */
+  nativeTags?: string[]
 
   [x: string]: any
 }

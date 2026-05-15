@@ -4,6 +4,9 @@ export interface MpToutiao {
   /** 字节跳动小程序的 appid */
   appid?: string
 
+  /** 项目名称 */
+  projectname?: string
+
   /** 字节跳动小程序小程序项目设置 */
   setting?: {
     /** 是否启用 ES6 转 ES5 */
@@ -56,6 +59,9 @@ export interface MpToutiao {
 
   /** 模拟单个作用域插槽渲染为多个实例，此配置仅限 Vue2 环境 3.7.12+，Vue3 环境已默认支持 */
   slotMultipleInstance?: boolean
+
+  /** 字节跳动小程序平台的原生组件 */
+  nativeTags?: string[]
 
   [x: string]: any
 }

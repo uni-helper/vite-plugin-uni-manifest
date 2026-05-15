@@ -9,6 +9,7 @@ import type { MpLark } from './mp-lark'
 import type { MpQq } from './mp-qq'
 import type { MpToutiao } from './mp-toutiao'
 import type { MpWeixin } from './mp-weixin'
+import type { MpXhs } from './mp-xhs'
 import type { QuickappWebview, QuickappWebviewHuawei, QuickappWebviewUnion } from './quickapp-webview'
 import type { UniStatistics } from './uni-statistics'
 
@@ -24,6 +25,7 @@ export * from './mp-lark'
 export * from './mp-qq'
 export * from './mp-toutiao'
 export * from './mp-weixin'
+export * from './mp-xhs'
 export * from './quickapp-webview'
 export * from './uni-statistics'
 
@@ -107,6 +109,15 @@ export interface ManifestConfig {
    */
   'uniStatistics'?: UniStatistics
 
+  /**
+   * 使用的 SCSS 预编译库，仅限 Vue2 项目
+   *
+   * @desc 4.56+
+   *
+   * @default "dart-sass"
+   */
+  'sassImplementationName'?: 'dart-sass' | 'node-sass'
+
   /** APP 特有配置 */
   'app-plus'?: AppPlus
 
@@ -148,6 +159,9 @@ export interface ManifestConfig {
 
   /** 快手小程序特有配置 */
   'mp-kuaishou'?: MpKuaishou
+
+  /** 小红书小程序特有配置 */
+  'mp-xhs'?: MpXhs
 
   [x: string]: any
 }

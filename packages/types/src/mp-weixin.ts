@@ -4,6 +4,9 @@ export interface MpWeixin {
   /** 微信小程序的 appid */
   appid?: string
 
+  /** 项目名称 */
+  projectname?: string
+
   /**
    * 微信小程序项目设置，详见 <https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html#setting>
    */
@@ -263,6 +266,9 @@ export interface MpWeixin {
 
   /** 目前仅支持值 "requiredComponents"，代表开启小程序按需注入特性，详见 <https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#lazyCodeLoading> */
   lazyCodeLoading?: 'requiredComponents'
+
+  /** 微信小程序平台的原生组件，详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#mp-weixin> */
+  nativeTags?: string[]
 
   [x: string]: any
 }

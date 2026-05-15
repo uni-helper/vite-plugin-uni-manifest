@@ -100,8 +100,16 @@ export interface H5 {
   sdkConfigs?: {
     /** 地图服务商 SDK 配置，使用地图以及位置（IP 定位及坐标转换）需要配置此项 */
     maps?: {
-      /** 腾讯地图 */
+      /** 腾讯地图，HBuilderX 4.36 以下版本使用 */
       qqmap?: {
+        /** https://lbs.qq.com/dev/console/key/manage */
+        key?: string
+
+        [x: string]: any
+      }
+
+      /** 腾讯地图，HBuilderX 4.36 及以上版本使用 */
+      tencent?: {
         /** https://lbs.qq.com/dev/console/key/manage */
         key?: string
 

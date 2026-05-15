@@ -24,9 +24,27 @@
       },
       "description": "HarmonyOS 应用配置\n\n详见 https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony",
       "properties": {
+        "darkmode": {
+          "default": false,
+          "description": "是否开启暗黑模式，详见 <https://uniapp.dcloud.net.cn/tutorial/darkmode#app-harmony>",
+          "type": "boolean"
+        },
         "distribute": {
           "$ref": "#/definitions/HarmonyDistribute",
           "description": "HarmonyOS 分发配置\n\n包含应用包名、签名配置、图标、启动界面等分发相关的设置"
+        },
+        "safearea": {
+          "description": "底部安全区域配置，详见 <https://uniapp.dcloud.net.cn/tutorial/darkmode.html#app-harmony-safearea-bottom>",
+          "type": "object"
+        },
+        "themeLocation": {
+          "default": "theme.json",
+          "description": "主题配置文件路径，详见 <https://uniapp.dcloud.net.cn/tutorial/darkmode.html#app-harmony>",
+          "type": "string"
+        },
+        "useragent": {
+          "$ref": "#/definitions/HarmonyUserAgent",
+          "description": "UserAgent 配置\n\n配置应用的 UserAgent 相关设置，详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-useragent>"
         }
       },
       "type": "object"
@@ -2508,7 +2526,17 @@
                   "type": "object"
                 },
                 "qqmap": {
-                  "description": "腾讯地图",
+                  "description": "腾讯地图，HBuilderX 4.36 以下版本使用",
+                  "properties": {
+                    "key": {
+                      "description": "https://lbs.qq.com/dev/console/key/manage",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "tencent": {
+                  "description": "腾讯地图，HBuilderX 4.36 及以上版本使用",
                   "properties": {
                     "key": {
                       "description": "https://lbs.qq.com/dev/console/key/manage",
@@ -2553,11 +2581,11 @@
         },
         "icons": {
           "$ref": "#/definitions/HarmonyIcons",
-          "description": "应用图标配置\n\n配置应用的前景图和背景图"
+          "description": "应用图标配置\n\n配置应用的前景图和背景图，详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-icons>"
         },
         "modules": {
           "$ref": "#/definitions/HarmonyModules",
-          "description": "模块配置\n\n配置各种功能模块的相关参数"
+          "description": "模块配置\n\n配置各种功能模块的相关参数，详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-modules>"
         },
         "signingConfigs": {
           "additionalProperties": {
@@ -2571,7 +2599,7 @@
             ],
             "description": "其他自定义签名配置"
           },
-          "description": "证书签名配置\n\n配置鸿蒙打包时使用的数字签名证书信息，可分别配置调试证书和发布证书",
+          "description": "证书签名配置\n\n配置鸿蒙打包时使用的数字签名证书信息，可分别配置调试证书和发布证书，详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-signingconfigs>",
           "properties": {
             "default": {
               "$ref": "#/definitions/HarmonySigningConfig",
@@ -2586,11 +2614,7 @@
         },
         "splashScreens": {
           "$ref": "#/definitions/HarmonySplashScreens",
-          "description": "启动界面配置\n\n配置启动界面的背景色和中部图标"
-        },
-        "useragent": {
-          "$ref": "#/definitions/HarmonyUserAgent",
-          "description": "UserAgent 配置\n\n配置应用的 UserAgent 相关设置"
+          "description": "启动界面配置\n\n配置启动界面的背景色和中部图标，详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-splashscreens>"
         }
       },
       "type": "object"
@@ -2778,6 +2802,10 @@
           "$ref": "#/definitions/MpWeixin",
           "description": "微信小程序特有配置"
         },
+        "mp-xhs": {
+          "$ref": "#/definitions/MpXhs",
+          "description": "小红书小程序特有配置"
+        },
         "name": {
           "description": "应用名称，安装 APP 后显示的名称",
           "type": "string"
@@ -2819,6 +2847,15 @@
         "quickapp-webview-union": {
           "$ref": "#/definitions/QuickappWebviewUnion",
           "description": "快应用联盟特有配置"
+        },
+        "sassImplementationName": {
+          "default": "dart-sass",
+          "description": "使用的 SCSS 预编译库，仅限 Vue2 项目",
+          "enum": [
+            "dart-sass",
+            "node-sass"
+          ],
+          "type": "string"
         },
         "transformPx": {
           "default": true,
@@ -3018,6 +3055,13 @@
           "description": "是否合并组件虚拟节点外层属性，uni-app 3.5.1+ 开始支持\n\n目前仅支持 style、class 属性",
           "type": "boolean"
         },
+        "nativeTags": {
+          "description": "支付宝小程序平台的原生组件",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
         "nonLoadingIndicator": {
           "default": true,
           "description": "旧版项目配置，初始化小程序时，是否隐藏默认 loading 动画",
@@ -3151,6 +3195,13 @@
           "description": "动态库，详见 <https://smartprogram.baidu.com/docs/develop/framework/dynamiclib_use/>",
           "type": "object"
         },
+        "nativeTags": {
+          "description": "百度小程序平台的原生组件",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
         "optimization": {
           "description": "优化配置",
           "properties": {
@@ -3160,6 +3211,17 @@
             }
           },
           "type": "object"
+        },
+        "prefetches": {
+          "description": "预请求的所有 url 的列表，详见 <https://smartprogram.baidu.com/docs/develop/tutorial/process/#prefetches>",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "projectname": {
+          "description": "项目名称",
+          "type": "string"
         },
         "requiredBackgroundModes": {
           "description": "需要在后台使用的能力\n\n\"audio\" 背景音频播放",
@@ -3287,6 +3349,13 @@
           "description": "快手小程序的 appid",
           "type": "string"
         },
+        "nativeTags": {
+          "description": "快手小程序平台的原生组件",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
         "optimization": {
           "description": "优化配置",
           "properties": {
@@ -3296,6 +3365,10 @@
             }
           },
           "type": "object"
+        },
+        "projectname": {
+          "description": "项目名称",
+          "type": "string"
         },
         "scopedSlotsCompiler": {
           "default": "auto",
@@ -3322,6 +3395,17 @@
       "properties": {
         "appid": {
           "description": "飞书小程序的 appid",
+          "type": "string"
+        },
+        "nativeTags": {
+          "description": "飞书小程序平台的原生组件",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "projectname": {
+          "description": "项目名称",
           "type": "string"
         },
         "scopedSlotsCompiler": {
@@ -3396,6 +3480,13 @@
           },
           "type": "array"
         },
+        "nativeTags": {
+          "description": "QQ 小程序平台的原生组件",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
         "navigateToMiniProgramAppIdList": {
           "description": "需要跳转的 QQ 小程序列表，详见 <https://q.qq.com/wiki/develop/miniprogram/frame/dispose.html#navigatetominiprogramappidlist>",
           "items": {
@@ -3436,6 +3527,10 @@
           ],
           "type": "object"
         },
+        "projectname": {
+          "description": "项目名称",
+          "type": "string"
+        },
         "requiredBackgroundModes": {
           "description": "需要在后台使用的能力，详见 <https://q.qq.com/wiki/develop/miniprogram/frame/dispose.html#requiredbackgroundmodes>\n\n\"audio\" 后台音乐播放",
           "items": {
@@ -3475,6 +3570,13 @@
           "description": "字节跳动小程序的 appid",
           "type": "string"
         },
+        "nativeTags": {
+          "description": "字节跳动小程序平台的原生组件",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
         "navigateToMiniProgramAppIdList": {
           "description": "需要跳转的字节跳动小程序列表",
           "items": {
@@ -3491,6 +3593,10 @@
             }
           },
           "type": "object"
+        },
+        "projectname": {
+          "description": "项目名称",
+          "type": "string"
         },
         "scopedSlotsCompiler": {
           "default": "auto",
@@ -3586,6 +3692,13 @@
           "description": "是否合并组件虚拟节点外层属性，uni-app 3.5.1+ 开始支持\n\n目前仅支持 style、class 属性",
           "type": "boolean"
         },
+        "nativeTags": {
+          "description": "微信小程序平台的原生组件，详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#mp-weixin>",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
         "navigateToMiniProgramAppIdList": {
           "description": "需要跳转的微信小程序列表，详见 <https://developers.weixin.qq.com/minigame/dev/reference/configuration/app.html#navigateToMiniProgramAppIdList>",
           "items": {
@@ -3655,6 +3768,10 @@
           },
           "description": "使用到的插件",
           "type": "object"
+        },
+        "projectname": {
+          "description": "项目名称",
+          "type": "string"
         },
         "requiredBackgroundModes": {
           "description": "需要在后台使用的能力，详见 <https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#requiredBackgroundModes>\n\n\"audio\" 后台音乐播放\n\n\"location\" 后台定位",
@@ -3935,6 +4052,64 @@
             }
           ],
           "description": "Worker 代码目录，详见 <https://developers.weixin.qq.com/miniprogram/dev/framework/workers.html>"
+        }
+      },
+      "type": "object"
+    },
+    "MpXhs": {
+      "properties": {
+        "appid": {
+          "description": "小红书小程序的 appid",
+          "type": "string"
+        },
+        "compileType": {
+          "description": "项目的编译模式",
+          "type": "string"
+        },
+        "condition": {
+          "description": "启用条件编译",
+          "type": "object"
+        },
+        "description": {
+          "description": "项目描述",
+          "type": "string"
+        },
+        "libVersion": {
+          "description": "基础库版本",
+          "type": "string"
+        },
+        "nativeTags": {
+          "description": "小红书小程序平台的原生组件",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "optimization": {
+          "description": "优化配置",
+          "properties": {
+            "subPackages": {
+              "description": "是否开启分包优化",
+              "type": "boolean"
+            }
+          },
+          "type": "object"
+        },
+        "packOptions": {
+          "description": "打包配置选项",
+          "type": "object"
+        },
+        "projectname": {
+          "description": "项目名称",
+          "type": "string"
+        },
+        "setting": {
+          "description": "项目设置，详见 <https://miniapp.xiaohongshu.com/doc/DC977105#anchorId-setting>",
+          "type": "object"
+        },
+        "uniStatistics": {
+          "$ref": "#/definitions/PlatformUniStatistics",
+          "description": "uni 统计配置项"
         }
       },
       "type": "object"

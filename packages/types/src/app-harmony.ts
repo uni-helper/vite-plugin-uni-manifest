@@ -167,7 +167,7 @@ export interface HarmonyDistribute {
   /**
    * 证书签名配置
    *
-   * 配置鸿蒙打包时使用的数字签名证书信息，可分别配置调试证书和发布证书
+   * 配置鸿蒙打包时使用的数字签名证书信息，可分别配置调试证书和发布证书，详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-signingconfigs>
    */
   signingConfigs?: {
     /**
@@ -189,30 +189,23 @@ export interface HarmonyDistribute {
   /**
    * 应用图标配置
    *
-   * 配置应用的前景图和背景图
+   * 配置应用的前景图和背景图，详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-icons>
    */
   icons?: HarmonyIcons
 
   /**
    * 启动界面配置
    *
-   * 配置启动界面的背景色和中部图标
+   * 配置启动界面的背景色和中部图标，详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-splashscreens>
    */
   splashScreens?: HarmonySplashScreens
 
   /**
    * 模块配置
    *
-   * 配置各种功能模块的相关参数
+   * 配置各种功能模块的相关参数，详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-modules>
    */
   modules?: HarmonyModules
-
-  /**
-   * UserAgent 配置
-   *
-   * 配置应用的 UserAgent 相关设置
-   */
-  useragent?: HarmonyUserAgent
 
   /**
    * 其他分发相关配置
@@ -232,6 +225,33 @@ export interface AppHarmony {
    * 包含应用包名、签名配置、图标、启动界面等分发相关的设置
    */
   distribute?: HarmonyDistribute
+
+  /**
+   * UserAgent 配置
+   *
+   * 配置应用的 UserAgent 相关设置，详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-useragent>
+   */
+  useragent?: HarmonyUserAgent
+
+  /**
+   * 是否开启暗黑模式，详见 <https://uniapp.dcloud.net.cn/tutorial/darkmode#app-harmony>
+   *
+   * @default false
+   */
+  darkmode?: boolean
+
+  /**
+   * 主题配置文件路径，详见 <https://uniapp.dcloud.net.cn/tutorial/darkmode.html#app-harmony>
+   *
+   * @default "theme.json"
+   */
+  themeLocation?: string
+
+  /**
+   * 底部安全区域配置，详见 <https://uniapp.dcloud.net.cn/tutorial/darkmode.html#app-harmony-safearea-bottom>
+   */
+  safearea?: Record<string, any>
+
   /**
    * 其他扩展配置
    *
