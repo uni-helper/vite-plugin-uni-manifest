@@ -1,7 +1,7 @@
 {
   "name": "@uni-helper/uni-manifest-types",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.3.0",
   "description": "TypeScript types for uni-app manifest.json configuration",
   "author": {
     "email": "wurui.dev@gmail.com",
