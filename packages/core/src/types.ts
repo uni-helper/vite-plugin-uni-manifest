@@ -1,3 +1,4 @@
+/** Plugin configuration options. */
 export interface Options {
   /**
    * minify the `manifest.json`
@@ -16,6 +17,8 @@ export interface Options {
   cwd?: string
 }
 
+/** User-facing options — all fields are optional. */
 export interface UserOptions extends Partial<Options> {}
 
+/** Fully resolved options with all defaults applied. */
 export interface ResolvedOptions extends Options {}

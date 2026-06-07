@@ -5,6 +5,12 @@ import { watchConfig } from 'c12'
 import { defaultManifestConfig, manifestJsonPath } from './constant'
 import { resolveOptions } from './options'
 
+/**
+ * Manages the lifecycle of `manifest.json` generation.
+ *
+ * Uses `c12`'s `watchConfig` to watch `manifest.config.ts` (and other config sources)
+ * and writes the resolved config to `manifest.json` on every change.
+ */
 export class ManifestContext {
   options: ResolvedOptions
   unwatch!: () => Promise<void>
@@ -12,6 +18,10 @@ export class ManifestContext {
     this.options = resolveOptions(options)
   }
 
+  /**
+   * Start watching config sources and perform initial write.
+   * Must be called after construction.
+   */
   async setup() {
     const { config, unwatch } = await watchConfig<UserManifestConfig>({
       cwd: this.options.cwd,
@@ -28,6 +38,7 @@ export class ManifestContext {
     this.unwatch = unwatch
   }
 
+  /** Write the resolved manifest config to `manifest.json`. */
   static WriteManifestJSON(config: any = {}, opts?: ResolvedOptions) {
     writeFileSync(
       manifestJsonPath,
@@ -35,6 +46,7 @@ export class ManifestContext {
     )
   }
 
+  /** Ensure `manifest.json` exists; create an empty one if missing. */
   static CheckManifestJsonFile() {
     if (!existsSync(manifestJsonPath))
       ManifestContext.WriteManifestJSON()

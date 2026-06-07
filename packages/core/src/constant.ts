@@ -3,6 +3,7 @@ import { resolve } from 'node:path'
 import process from 'node:process'
 import { normalizePath } from 'vite'
 
+/** Absolute path to `manifest.json`, resolved from uni-app's input directory. */
 export const manifestJsonPath = normalizePath(
   resolve((process.env.UNI_INPUT_DIR || `${process.cwd()}/src`) as string, 'manifest.json'),
 )
