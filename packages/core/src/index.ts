@@ -13,14 +13,17 @@ ManifestContext.CheckManifestJsonFile()
  *
  * Uses `c12`'s `watchConfig` to watch `manifest.config.ts` and auto-sync to `manifest.json`.
  */
-export async function VitePluginUniManifest(userOptions: UserOptions = {}): Promise<Plugin> {
-  const ctx = new ManifestContext(userOptions)
-  ctx.setup()
+export function VitePluginUniManifest(userOptions: UserOptions = {}): Plugin {
+  let ctx: ManifestContext
   return {
     name: 'vite-plugin-uni-manifest',
     // Run before other plugins to ensure manifest.json is ready
     enforce: 'pre',
-    buildEnd: () => ctx.unwatch(),
+    async configResolved() {
+      ctx = new ManifestContext(userOptions)
+      await ctx.setup()
+    },
+    buildEnd: () => ctx?.unwatch(),
   }
 }
 
