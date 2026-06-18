@@ -1,9 +1,9 @@
 import type { UserManifestConfig } from './config'
-import type { ResolvedOptions, UserOptions } from './types'
-import { existsSync, writeFileSync } from 'node:fs'
+import type { UserOptions } from './types'
 import { watchConfig } from 'c12'
-import { defaultManifestConfig, resolveManifestJsonPath } from './constant'
+import { defaultManifestConfig } from './constant'
 import { resolveOptions } from './options'
+import { writeManifestJson } from './writer'
 
 /**
  * Manages the lifecycle of `manifest.json` generation.
@@ -12,7 +12,7 @@ import { resolveOptions } from './options'
  * and writes the resolved config to `manifest.json` on every change.
  */
 export class ManifestContext {
-  options: ResolvedOptions
+  options
   unwatch!: () => Promise<void>
   constructor(options: UserOptions) {
     this.options = resolveOptions(options)
@@ -30,25 +30,11 @@ export class ManifestContext {
       rcFile: false,
       packageJson: false,
       onUpdate: (config) => {
-        ManifestContext.WriteManifestJSON(config.newConfig.config, this.options)
+        writeManifestJson(config.newConfig.config, this.options)
       },
     })
-    ManifestContext.WriteManifestJSON(config, this.options)
+    writeManifestJson(config, this.options)
 
     this.unwatch = unwatch
-  }
-
-  /** Write the resolved manifest config to `manifest.json`. */
-  static WriteManifestJSON(config: any = {}, opts?: ResolvedOptions) {
-    writeFileSync(
-      resolveManifestJsonPath(),
-      JSON.stringify(config, null, opts?.minify ? 0 : 2) + (opts?.insertFinalNewline ? '\n' : ''),
-    )
-  }
-
-  /** Ensure `manifest.json` exists; create an empty one if missing. */
-  static CheckManifestJsonFile() {
-    if (!existsSync(resolveManifestJsonPath()))
-      ManifestContext.WriteManifestJSON()
   }
 }

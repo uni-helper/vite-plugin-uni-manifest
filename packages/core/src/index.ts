@@ -1,9 +1,11 @@
 import type { Plugin } from 'vite'
 import type { UserOptions } from './types'
 import { ManifestContext } from './context'
+import { ensureManifestJsonExists } from './writer'
 
 export * from './config'
 export * from './context'
+export * from './writer'
 
 /**
  * Vite plugin that generates uni-app `manifest.json` from a TypeScript config file.
@@ -18,7 +20,7 @@ export function VitePluginUniManifest(userOptions: UserOptions = {}): Plugin {
     enforce: 'pre',
     async configResolved() {
       // Ensure manifest.json exists before plugin runs, avoiding downstream errors
-      ManifestContext.CheckManifestJsonFile()
+      ensureManifestJsonExists()
       ctx = new ManifestContext(userOptions)
       await ctx.setup()
     },
