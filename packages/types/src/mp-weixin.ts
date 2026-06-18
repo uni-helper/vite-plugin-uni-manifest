@@ -251,7 +251,7 @@ export interface MpWeixin {
   /**
    * 是否合并组件虚拟节点外层属性，uni-app 3.5.1+ 开始支持
    *
-   * 目前仅支持 style、class 属性
+   * 目前支持 id（v4.42+）、style（v3.5.1+）、class（v3.5.1+）以及 v-show 指令生成的 hidden（v4.41+）属性
    */
   mergeVirtualHostAttributes?: boolean
 

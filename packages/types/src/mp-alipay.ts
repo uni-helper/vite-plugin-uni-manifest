@@ -55,7 +55,7 @@ export interface MpAlipay {
   /**
    * 旧版项目配置， appx 2.0 特性，对 node_modules 中的模块做 babel 编译
    *
-   * @default false
+   * @default true
    */
   enableNodeModuleBabelTransform?: boolean
 
@@ -243,7 +243,7 @@ export interface MpAlipay {
   /**
    * 是否合并组件虚拟节点外层属性，uni-app 3.5.1+ 开始支持
    *
-   * 目前仅支持 style、class 属性
+   * 目前支持 id（v4.42+）、style（v3.5.1+）、class（v3.5.1+）以及 v-show 指令生成的 hidden（v4.41+）属性
    */
   mergeVirtualHostAttributes?: boolean
 

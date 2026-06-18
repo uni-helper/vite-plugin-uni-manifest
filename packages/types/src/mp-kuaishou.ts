@@ -21,7 +21,7 @@ export interface MpKuaishou {
   /**
    * Vue2 作用域插槽编译模式，uni-app 3.1.19+ 开始支持
    *
-   * @default "auto"
+   * @default "augmented"
    */
   scopedSlotsCompiler?: 'auto' | 'legacy' | 'augmented'
 

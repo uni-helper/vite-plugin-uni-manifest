@@ -1753,7 +1753,7 @@ export interface AppPlus {
     /**
      * 加载 plus API 时机
      *
-     * @default 'normal
+     * @default 'normal'
      */
     plusrequire?: 'normal' | 'later' | 'ahead' | 'none'
 
