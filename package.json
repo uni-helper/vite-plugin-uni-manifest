@@ -27,7 +27,8 @@
     "release": "bumpp",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test": "vitest"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
@@ -36,6 +37,7 @@
     "eslint": "catalog:",
     "rimraf": "catalog:",
     "tsdown": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   }
 }
