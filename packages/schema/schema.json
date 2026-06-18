@@ -1693,7 +1693,7 @@
               "type": "object"
             },
             "plusrequire": {
-              "default": "'normal",
+              "default": "normal",
               "description": "加载 plus API 时机",
               "enum": [
                 "normal",
@@ -3015,7 +3015,7 @@
           "type": "boolean"
         },
         "enableNodeModuleBabelTransform": {
-          "default": false,
+          "default": true,
           "description": "旧版项目配置， appx 2.0 特性，对 node_modules 中的模块做 babel 编译",
           "type": "boolean"
         },
@@ -3052,7 +3052,7 @@
           "type": "string"
         },
         "mergeVirtualHostAttributes": {
-          "description": "是否合并组件虚拟节点外层属性，uni-app 3.5.1+ 开始支持\n\n目前仅支持 style、class 属性",
+          "description": "是否合并组件虚拟节点外层属性，uni-app 3.5.1+ 开始支持\n\n目前支持 id（v4.42+）、style（v3.5.1+）、class（v3.5.1+）以及 v-show 指令生成的 hidden（v4.41+）属性",
           "type": "boolean"
         },
         "nativeTags": {
@@ -3371,7 +3371,7 @@
           "type": "string"
         },
         "scopedSlotsCompiler": {
-          "default": "auto",
+          "default": "augmented",
           "description": "Vue2 作用域插槽编译模式，uni-app 3.1.19+ 开始支持",
           "enum": [
             "auto",
@@ -3689,7 +3689,7 @@
           "type": "string"
         },
         "mergeVirtualHostAttributes": {
-          "description": "是否合并组件虚拟节点外层属性，uni-app 3.5.1+ 开始支持\n\n目前仅支持 style、class 属性",
+          "description": "是否合并组件虚拟节点外层属性，uni-app 3.5.1+ 开始支持\n\n目前支持 id（v4.42+）、style（v3.5.1+）、class（v3.5.1+）以及 v-show 指令生成的 hidden（v4.41+）属性",
           "type": "boolean"
         },
         "nativeTags": {
