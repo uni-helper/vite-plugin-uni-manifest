@@ -99,3 +99,95 @@ UniManifest({ cwd: resolve(__dirname, 'packages/h5') })
 ### 这个插件写入配置晚于 uni-app 读取配置，导致无法正常运行
 
 请使用 [@uni-helper/unh](https://uni-helper.cn/unh/auto-generate)，或自行编写脚本处理。
+
+## 开发
+
+### 前置条件
+
+- [Node.js](https://nodejs.org/) 24
+- [pnpm](https://pnpm.io/) 10.33.4
+
+### 常用命令
+
+```bash
+# 安装依赖（在 monorepo 根目录执行）
+pnpm install
+
+# 构建所有包
+pnpm build
+
+# 仅构建 core 包
+pnpm -C packages/core build
+
+# 运行测试（在 monorepo 根目录执行）
+pnpm test
+
+# 类型检查
+pnpm type-check
+```
+
+### 测试
+
+测试文件位于 monorepo 根目录的 `test/` 目录下，使用 [Vitest](https://vitest.dev/) 运行：
+
+```shell
+test/
+├── options.test.ts     resolveOptions 默认值与合并
+├── config.test.ts      defineManifestConfig 恒等函数
+├── constant.test.ts    resolveManifestJsonPath + 默认配置结构
+├── context.test.ts     ManifestContext 构造 + setup
+├── writer.test.ts      writeManifestJson 格式化 + ensureManifestJsonExists
+└── plugin.test.ts      插件工厂形状 + 生命周期
+```
+
+`context.test.ts` 和 `plugin.test.ts` 使用 `vi.mock` 隔离 `c12` 和文件系统，确保测试不依赖真实环境。
+
+### 项目结构
+
+```shell
+vite-plugin-uni-manifest/
+├── packages/
+│   ├── core/           插件核心逻辑
+│   ├── types/          manifest.json TypeScript 类型定义
+│   └── schema/         JSON Schema（从 types 自动生成）
+├── test/               测试文件
+├── playground/         示例 uni-app 项目
+└── pnpm-workspace.yaml
+```
+
+## 架构
+
+插件由四个职责清晰的模块组成：
+
+```
+index.ts          Vite 插件入口，组装各模块
+context.ts        ManifestContext — 配置监听生命周期（c12 watchConfig）
+writer.ts         文件 I/O — writeManifestJson / ensureManifestJsonExists
+constant.ts       路径解析 — resolveManifestJsonPath + 默认配置
+config/index.ts   defineManifestConfig 辅助函数 + 类型重导出
+options.ts        resolveOptions — 合并用户选项与默认值
+```
+
+### 模块依赖关系
+
+```shell
+index.ts
+  ├─ context.ts ── writer.ts ── constant.ts (resolveManifestJsonPath)
+  │                │
+  │                └── options.ts
+  └─ writer.ts
+```
+
+### 插件生命周期
+
+插件通过 Vite 的生命周期钩子驱动，顺序如下：
+
+1. **`configResolved`**（异步）— 确保 `manifest.json` 存在 → 创建 `ManifestContext` → 调用 `setup()` 启动 c12 监听
+2. **运行时** — c12 检测到 `manifest.config.ts` 变更 → `onUpdate` 回调 → `writeManifestJson()` 写入文件
+3. **`buildEnd`** — 调用 `unwatch()` 停止 c12 监听
+
+### 关键设计决策
+
+- **无导入时副作用**：所有文件系统操作（路径解析、文件写入）都在插件生命周期内执行，而非模块导入时。这使得模块可独立测试。
+- **路径解析为函数**：`resolveManifestJsonPath()` 每次调用重新计算路径，依赖 `process.env.UNI_INPUT_DIR`（由 `@dcloudio/vite-plugin-uni` 注入），不缓存。
+- **c12 配置加载**：通过 `c12` 的 `watchConfig` 实现 `manifest.config.ts` 的监听和热更新，支持 `.ts`、`.mts`、`.js`、`.json` 等格式。
