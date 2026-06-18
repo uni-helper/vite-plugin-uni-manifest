@@ -3,10 +3,12 @@ import { resolve } from 'node:path'
 import process from 'node:process'
 import { normalizePath } from 'vite'
 
-/** Absolute path to `manifest.json`, resolved from uni-app's input directory. */
-export const manifestJsonPath = normalizePath(
-  resolve((process.env.UNI_INPUT_DIR || `${process.cwd()}/src`) as string, 'manifest.json'),
-)
+/** Resolve absolute path to `manifest.json` from uni-app's input directory. */
+export function resolveManifestJsonPath(): string {
+  return normalizePath(
+    resolve((process.env.UNI_INPUT_DIR || `${process.cwd()}/src`) as string, 'manifest.json'),
+  )
+}
 
 /**
  * {@link https://github.com/dcloudio/uni-preset-vue/blob/vite-alpha/src/manifest.json}

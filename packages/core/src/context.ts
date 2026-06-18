@@ -2,7 +2,7 @@ import type { UserManifestConfig } from './config'
 import type { ResolvedOptions, UserOptions } from './types'
 import { existsSync, writeFileSync } from 'node:fs'
 import { watchConfig } from 'c12'
-import { defaultManifestConfig, manifestJsonPath } from './constant'
+import { defaultManifestConfig, resolveManifestJsonPath } from './constant'
 import { resolveOptions } from './options'
 
 /**
@@ -41,14 +41,14 @@ export class ManifestContext {
   /** Write the resolved manifest config to `manifest.json`. */
   static WriteManifestJSON(config: any = {}, opts?: ResolvedOptions) {
     writeFileSync(
-      manifestJsonPath,
+      resolveManifestJsonPath(),
       JSON.stringify(config, null, opts?.minify ? 0 : 2) + (opts?.insertFinalNewline ? '\n' : ''),
     )
   }
 
   /** Ensure `manifest.json` exists; create an empty one if missing. */
   static CheckManifestJsonFile() {
-    if (!existsSync(manifestJsonPath))
+    if (!existsSync(resolveManifestJsonPath()))
       ManifestContext.WriteManifestJSON()
   }
 }

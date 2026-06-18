@@ -15,7 +15,7 @@ const { testDir, testManifestPath, mockSetup, mockUnwatch } = vi.hoisted(() => {
 })
 
 vi.mock('../packages/core/src/constant', () => ({
-  manifestJsonPath: testManifestPath,
+  resolveManifestJsonPath: () => testManifestPath,
   defaultManifestConfig: {},
 }))
 
