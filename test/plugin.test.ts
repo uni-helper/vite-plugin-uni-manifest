@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 
-const { testDir, testManifestPath, mockUnwatch } = vi.hoisted(() => {
+const { testDir, testManifestPath, mockSetup, mockUnwatch } = vi.hoisted(() => {
   const os = require('node:os')
   const path = require('node:path')
   const fs = require('node:fs')
@@ -9,6 +9,7 @@ const { testDir, testManifestPath, mockUnwatch } = vi.hoisted(() => {
   return {
     testDir: dir,
     testManifestPath: path.join(dir, 'manifest.json'),
+    mockSetup: vi.fn().mockResolvedValue(undefined),
     mockUnwatch: vi.fn(),
   }
 })
@@ -27,7 +28,7 @@ vi.mock('c12', () => ({
 
 const MockManifestContext: any = vi.fn().mockImplementation(() => ({
   options: { minify: false, insertFinalNewline: false },
-  setup: vi.fn().mockResolvedValue(undefined),
+  setup: mockSetup,
   unwatch: mockUnwatch,
 }))
 MockManifestContext.CheckManifestJsonFile = vi.fn()
@@ -54,6 +55,15 @@ describe('VitePluginUniManifest', () => {
   it('has buildEnd hook for cleanup', () => {
     const plugin = VitePluginUniManifest()
     expect(typeof plugin.buildEnd).toBe('function')
+  })
+
+  it('calls CheckManifestJsonFile and setup in configResolved', async () => {
+    MockManifestContext.CheckManifestJsonFile.mockClear()
+    mockSetup.mockClear()
+    const plugin = VitePluginUniManifest()
+    await (plugin as any).configResolved({} as any)
+    expect(MockManifestContext.CheckManifestJsonFile).toHaveBeenCalled()
+    expect(mockSetup).toHaveBeenCalled()
   })
 
   it('calls unwatch on buildEnd after configResolved', async () => {
