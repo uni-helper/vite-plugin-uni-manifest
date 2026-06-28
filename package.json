@@ -1,7 +1,7 @@
 {
   "name": "@uni-helper/vite-plugin-uni-manifest",
   "type": "module",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "private": true,
   "packageManager": "pnpm@10.33.4",
   "description": "Use TypeScript to write manifest.json of uni-app",
