@@ -32,3 +32,36 @@ export default defineConfig({
   ],
 })
 ```
+
+## 编辑器提示
+
+为 `manifest.json` 启用自动补全与校验，推荐安装 [`uni-app-schemas-vscode`](https://github.com/uni-helper/uni-app-schemas-vscode) 扩展。
+
+- VS Code：<https://marketplace.visualstudio.com/items?itemName=uni-helper.uni-app-schemas-vscode>
+- Open VSX（Cursor / VSCodium 等）：<https://open-vsx.org/extension/uni-helper/uni-app-schemas-vscode>
+
+不想安装扩展时，也可手动在 `.vscode/settings.json` 关联 schema：
+
+```json
+{
+  "json.schemas": [
+    {
+      "fileMatch": ["manifest.json"],
+      "url": "https://unpkg.com/@uni-helper/manifest-json-schema/schema.json"
+    }
+  ]
+}
+```
+
+除了 unpkg，还可以使用 jsdelivr。
+
+```json
+{
+  "json.schemas": [
+    {
+      "fileMatch": ["manifest.json"],
+      "url": "https://cdn.jsdelivr.net/npm/@uni-helper/manifest-json-schema/schema.json"
+    }
+  ]
+}
+```
