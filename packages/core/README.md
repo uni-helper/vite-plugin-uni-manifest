@@ -98,7 +98,96 @@ UniManifest({ cwd: resolve(__dirname, 'packages/h5') })
 
 ### 这个插件写入配置晚于 uni-app 读取配置，导致无法正常运行
 
-请使用 [@uni-helper/unh](https://uni-helper.cn/unh/auto-generate)，或自行编写脚本处理。
+**根因**：`@dcloudio/vite-plugin-uni` 在 Vite 的 `config` 钩子里通过 `parseManifestJsonOnce` 读取 `manifest.json`，而本插件在更晚的 `configResolved` 钩子里才写入。`config` 早于 `configResolved`，所以即便本插件设置了 `enforce: 'pre'`，也只能在 `configResolved` 内部抢先，无法早于 `config` 钩子。`parseManifestJsonOnce` 结果被 `once` 缓存，首次读取后即固定，后续写入对 uni-app 无效。
+
+核心矛盾是时序：必须在 uni-app 进程启动前把 `manifest.json` 生成好。以下按推荐度排序给出方案。
+
+#### 方案一（推荐）：使用 [@uni-helper/unh](https://uni-helper.cn/unh/auto-generate)
+
+`unh` 在调用 `uni dev/build` 前用 `unconfig` 加载 `manifest.config.ts` 并写盘，再 spawn 子进程，天然解决时序问题。
+
+```jsonc
+// package.json
+{
+  "scripts": {
+    "dev": "unh dev",
+    "build": "unh build"
+  }
+}
+```
+
+```ts
+// unh.config.ts
+import { defineConfig } from '@uni-helper/unh'
+
+export default defineConfig({
+  autoGenerate: {
+    manifest: true, // 在 dev/build 前自动生成 manifest.json
+  },
+})
+```
+
+#### 方案二：自行编写脚本，在 uni 命令前生成
+
+用一个独立脚本加载 `manifest.config.ts`、写入 `src/manifest.json`，再用 `&&` 串联到 `uni` 命令前。脚本在 uni 进程之外运行，与 Vite 钩子时序无关。
+
+```bash
+pnpm i -D c12 tsx
+```
+
+```ts
+// scripts/generate-manifest.ts
+import { loadConfig } from 'c12'
+import { writeFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import { defineManifestConfig } from '@uni-helper/vite-plugin-uni-manifest'
+
+// 与本插件内部实现保持一致：c12 + defaultConfig 合并
+const defaultManifestConfig = defineManifestConfig({
+  // ...参考本插件 defaultManifestConfig，或按需精简
+})
+
+const { config } = await loadConfig({
+  cwd: process.cwd(),
+  name: 'manifest',
+  defaultConfig: defaultManifestConfig,
+  rcFile: false,
+  packageJson: false,
+})
+
+// UNI_INPUT_DIR 由 vite-plugin-uni 注入，独立脚本中不可用，这里硬编码默认输入目录
+// monorepo 或自定义 input dir 时改为对应路径
+const outPath = resolve(process.cwd(), 'src/manifest.json')
+writeFileSync(outPath, JSON.stringify(config, null, 2))
+```
+
+```jsonc
+// package.json
+{
+  "scripts": {
+    "dev:h5": "tsx scripts/generate-manifest.ts && uni",
+    "build:mp-weixin": "tsx scripts/generate-manifest.ts && uni build -p mp-weixin"
+  }
+}
+```
+
+> 说明：`manifest.config.ts` 中的热更新监听在本方案下不生效——脚本只生成一次。开发期间修改 `manifest.config.ts` 需重新执行脚本（或重启 dev server）。本插件仍可作为 Vite 插件保留，用于处理 `manifest.config.ts` 的运行时变更；首次启动的正确性由本脚本兜底。
+
+#### 方案三：用 npm `predev`/`prebuild` 钩子
+
+```jsonc
+// package.json
+{
+  "scripts": {
+    "predev": "tsx scripts/generate-manifest.ts",
+    "prebuild": "tsx scripts/generate-manifest.ts",
+    "dev": "uni",
+    "build": "uni build"
+  }
+}
+```
+
+> 说明：npm 会在执行 `dev`/`build` 前自动运行同名 `pre*` 脚本。pnpm 10 同样会运行用户自定义的 `predev`/`prebuild`（注意 `enable-pre-post-scripts` 只影响 install 阶段的生命周期脚本，不影响 `run` 时的 `pre*`/`post*`）。比方案二的 `&&` 串联更隐式，开发者可能意识不到 `predev` 被自动触发，排查问题时需额外留意，故排序靠后。
 
 ## 开发
 
