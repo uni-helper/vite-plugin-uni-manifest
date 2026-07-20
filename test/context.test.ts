@@ -35,6 +35,11 @@ describe('ManifestContext', () => {
       const ctx = new ManifestContext({ minify: true })
       expect(ctx.options.minify).toBe(true)
     })
+
+    it('merges user outDir option', () => {
+      const ctx = new ManifestContext({ outDir: '/custom/out' })
+      expect(ctx.options.outDir).toBe('/custom/out')
+    })
   })
 
   describe('setup', () => {

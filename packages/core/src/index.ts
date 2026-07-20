@@ -20,7 +20,7 @@ export function VitePluginUniManifest(userOptions: UserOptions = {}): Plugin {
     enforce: 'pre',
     async configResolved() {
       // Ensure manifest.json exists before plugin runs, avoiding downstream errors
-      ensureManifestJsonExists()
+      ensureManifestJsonExists(userOptions)
       ctx = new ManifestContext(userOptions)
       await ctx.setup()
     },

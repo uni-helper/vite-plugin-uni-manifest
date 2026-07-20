@@ -26,16 +26,23 @@ describe('resolveOptions', () => {
     expect(result.cwd).toBe('/custom/path')
   })
 
+  it('merges user outDir option', () => {
+    const result = resolveOptions({ outDir: '/custom/out' })
+    expect(result.outDir).toBe('/custom/out')
+  })
+
   it('merges all user options at once', () => {
     const result = resolveOptions({
       minify: true,
       insertFinalNewline: true,
       cwd: '/test',
+      outDir: '/out',
     })
     expect(result).toEqual({
       minify: true,
       insertFinalNewline: true,
       cwd: '/test',
+      outDir: '/out',
     })
   })
 })
