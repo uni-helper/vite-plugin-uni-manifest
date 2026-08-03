@@ -195,32 +195,6 @@ writeFileSync(outPath, JSON.stringify(config, null, 2))
 
 > 说明：npm 会在执行 `dev`/`build` 前自动运行同名 `pre*` 脚本。pnpm 10 同样会运行用户自定义的 `predev`/`prebuild`（注意 `enable-pre-post-scripts` 只影响 install 阶段的生命周期脚本，不影响 `run` 时的 `pre*`/`post*`）。比方案二的 `&&` 串联更隐式，开发者可能意识不到 `predev` 被自动触发，排查问题时需额外留意，故排序靠后。
 
-### 更新 manifest 配置文件后，没有自动热重载
-
-`uni-app` 默认只在启动时读取一次 `manifest.json`，本身没有提供针对 `manifest.json` 变更的热重载能力。本插件只负责在 `manifest.config.ts` 变更后重新生成 `manifest.json`，无法让已运行的 `uni` 进程感知变更。
-
-如需变更 `manifest.json` 后自动重新执行 uni 命令，可以使用 [nodemon](https://github.com/remy/nodemon) 或 [chokidar-cli](https://github.com/open-cli-tools/chokidar-cli) 监听文件并触发重新执行。
-
-```bash
-pnpm i -D nodemon
-# 或
-pnpm i -D chokidar-cli
-```
-
-```jsonc
-// package.json
-{
-  "scripts": {
-    // 使用 nodemon 监听 manifest.json 变更后重新构建
-    "build:mp-weixin": "nodemon --watch manifest.json --exec \"uni build -p mp-weixin\""
-    // 或使用 chokidar-cli（二选一）
-    // "build:mp-weixin": "chokidar \"manifest.json\" -c \"uni build -p mp-weixin\""
-  }
-}
-```
-
-> 注意：`--watch` 的路径需根据项目中 `manifest.json` 的实际位置调整（例如 `src/manifest.json`）。
-
 ## 开发
 
 ### 前置条件
