@@ -1393,6 +1393,11 @@
                   },
                   "type": "object"
                 },
+                "androidNavigationBarColor": {
+                  "$ref": "#/definitions/HEXColor",
+                  "description": "Android 平台启动界面导航栏颜色，要求颜色值与启动图背景颜色相近",
+                  "format": "color"
+                },
                 "androidStyle": {
                   "default": "common",
                   "description": "Android 平台启动界面样式",
@@ -3677,6 +3682,10 @@
         "functionalPages": {
           "default": false,
           "description": "是否启用插件功能页",
+          "type": "boolean"
+        },
+        "independent": {
+          "description": "vue2 微信小程序是否开启独立分包",
           "type": "boolean"
         },
         "lazyCodeLoading": {
