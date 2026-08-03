@@ -1,5 +1,7 @@
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+
+import { ensureManifestJsonExists, writeManifestJson } from '../packages/core/src/writer'
 
 const { testDir, testManifestPath } = vi.hoisted(() => {
   const os = require('node:os')
@@ -8,12 +10,9 @@ const { testDir, testManifestPath } = vi.hoisted(() => {
   return { testDir: dir, testManifestPath: path.join(dir, 'manifest.json') }
 })
 
-vi.mock('../packages/core/src/constant', () => ({
+vi.mock('../packages/core/src/paths', () => ({
   resolveManifestJsonPath: () => testManifestPath,
-  defaultManifestConfig: {},
 }))
-
-import { ensureManifestJsonExists, writeManifestJson } from '../packages/core/src/writer'
 
 describe('writeManifestJson', () => {
   beforeEach(() => {
@@ -49,6 +48,16 @@ describe('writeManifestJson', () => {
     writeManifestJson()
     const content = readFileSync(testManifestPath, 'utf-8')
     expect(JSON.parse(content)).toEqual({})
+  })
+
+  it('skips writing when content is unchanged', () => {
+    writeManifestJson({ name: 'test' })
+    const before = statSync(testManifestPath).mtimeMs
+    writeManifestJson({ name: 'test' })
+    expect(statSync(testManifestPath).mtimeMs).toBe(before)
+    // sanity check: a changed config does rewrite the file
+    writeManifestJson({ name: 'changed' })
+    expect(statSync(testManifestPath).mtimeMs).not.toBe(before)
   })
 })
 

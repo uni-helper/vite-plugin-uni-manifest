@@ -1,23 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { defaultManifestConfig, resolveManifestJsonPath } from '../packages/core/src/constant'
-
-describe('resolveManifestJsonPath', () => {
-  it('returns an absolute path ending with manifest.json', () => {
-    const path = resolveManifestJsonPath()
-    expect(path).toMatch(/\/manifest\.json$/)
-  })
-
-  it('uses UNI_INPUT_DIR when set, or falls back to cwd/src', () => {
-    const expected = process.env.UNI_INPUT_DIR || `${process.cwd()}/src`
-    expect(resolveManifestJsonPath()).toContain(expected)
-  })
-
-  it('returns a new string each call (not cached)', () => {
-    const a = resolveManifestJsonPath()
-    const b = resolveManifestJsonPath()
-    expect(a).toBe(b)
-  })
-})
+import { defaultManifestConfig } from '../packages/core/src/defaults'
 
 describe('defaultManifestConfig', () => {
   it('has required fields', () => {

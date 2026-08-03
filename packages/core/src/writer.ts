@@ -1,6 +1,6 @@
 import type { ResolvedOptions } from './types'
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
-import { resolveManifestJsonPath } from './constant'
+import { resolveManifestJsonPath } from './paths'
 
 /** Write the resolved manifest config to `manifest.json`. Skips the write when the content is unchanged, avoiding unnecessary downstream recompiles. */
 export function writeManifestJson(config: any = {}, opts?: ResolvedOptions): void {

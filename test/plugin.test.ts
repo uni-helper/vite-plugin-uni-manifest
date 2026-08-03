@@ -1,48 +1,21 @@
 import { describe, expect, it, vi } from 'vitest'
 
-const { testDir, testManifestPath, mockSetup, mockUnwatch, mockEnsureManifestJsonExists, MockManifestContext } = vi.hoisted(() => {
-  const os = require('node:os')
-  const path = require('node:path')
-  const fs = require('node:fs')
-  const dir = path.join(os.tmpdir(), 'vite-plugin-uni-manifest-test-plugin')
-  fs.mkdirSync(dir, { recursive: true })
-
-  const mockSetup = vi.fn().mockResolvedValue(undefined)
-  const mockUnwatch = vi.fn()
-
-  const MockManifestContext: any = vi.fn().mockImplementation(() => ({
-    options: { minify: false, insertFinalNewline: false },
-    setup: mockSetup,
-    unwatch: mockUnwatch,
-  }))
-
-  return {
-    testDir: dir,
-    testManifestPath: path.join(dir, 'manifest.json'),
-    mockSetup,
-    mockUnwatch,
-    mockEnsureManifestJsonExists: vi.fn(),
-    MockManifestContext,
-  }
-})
-
-vi.mock('../packages/core/src/constant', () => ({
-  resolveManifestJsonPath: () => testManifestPath,
-  defaultManifestConfig: {},
-}))
-
-vi.mock('../packages/core/src/writer', () => ({
-  writeManifestJson: vi.fn(),
-  ensureManifestJsonExists: mockEnsureManifestJsonExists,
-}))
-
-vi.mock('../packages/core/src/context', () => ({
-  ManifestContext: MockManifestContext,
-}))
-
 import { VitePluginUniManifest } from '../packages/core/src/index'
 
-describe('VitePluginUniManifest', () => {
+const { mockUnwatch, mockCreateManifestWatcher } = vi.hoisted(() => {
+  const mockUnwatch = vi.fn().mockResolvedValue(undefined)
+  const mockCreateManifestWatcher = vi.fn().mockResolvedValue({
+    options: { minify: false, insertFinalNewline: false },
+    unwatch: mockUnwatch,
+  })
+  return { mockUnwatch, mockCreateManifestWatcher }
+})
+
+vi.mock('../packages/core/src/watcher', () => ({
+  createManifestWatcher: mockCreateManifestWatcher,
+}))
+
+describe('vitePluginUniManifest', () => {
   it('returns a Vite plugin object', () => {
     const plugin = VitePluginUniManifest()
     expect(plugin).toBeDefined()
@@ -60,13 +33,18 @@ describe('VitePluginUniManifest', () => {
     expect(typeof plugin.buildEnd).toBe('function')
   })
 
-  it('calls ensureManifestJsonExists and setup in configResolved', async () => {
-    mockEnsureManifestJsonExists.mockClear()
-    mockSetup.mockClear()
+  it('registers manifest.json as a watch file in buildStart', () => {
+    const plugin = VitePluginUniManifest()
+    const addWatchFile = vi.fn()
+    ;(plugin as any).buildStart.call({ addWatchFile })
+    expect(addWatchFile).toHaveBeenCalledWith(expect.stringContaining('manifest.json'))
+  })
+
+  it('creates watcher in configResolved', async () => {
+    mockCreateManifestWatcher.mockClear()
     const plugin = VitePluginUniManifest()
     await (plugin as any).configResolved({} as any)
-    expect(mockEnsureManifestJsonExists).toHaveBeenCalled()
-    expect(mockSetup).toHaveBeenCalled()
+    expect(mockCreateManifestWatcher).toHaveBeenCalled()
   })
 
   it('calls unwatch on buildEnd after configResolved', async () => {
@@ -77,8 +55,10 @@ describe('VitePluginUniManifest', () => {
     expect(mockUnwatch).toHaveBeenCalled()
   })
 
-  it('accepts user options', () => {
+  it('passes user options to createManifestWatcher', async () => {
+    mockCreateManifestWatcher.mockClear()
     const plugin = VitePluginUniManifest({ minify: true })
-    expect(plugin.name).toBe('vite-plugin-uni-manifest')
+    await (plugin as any).configResolved({} as any)
+    expect(mockCreateManifestWatcher).toHaveBeenCalledWith({ minify: true })
   })
 })
