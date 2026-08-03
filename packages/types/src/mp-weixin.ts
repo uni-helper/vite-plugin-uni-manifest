@@ -270,5 +270,10 @@ export interface MpWeixin {
   /** 微信小程序平台的原生组件，详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#mp-weixin> */
   nativeTags?: string[]
 
+  /**
+   * vue2 微信小程序是否开启独立分包
+   */
+  independent?: boolean
+
   [x: string]: any
 }

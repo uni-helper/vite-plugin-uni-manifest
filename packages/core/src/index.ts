@@ -1,10 +1,12 @@
 import type { Plugin } from 'vite'
 import type { UserOptions } from './types'
-import { ManifestContext } from './context'
-import { ensureManifestJsonExists } from './writer'
+import type { ManifestWatcher } from './watcher'
+import { resolveManifestJsonPath } from './paths'
+import { createManifestWatcher } from './watcher'
 
 export * from './config'
-export * from './context'
+export * from './types'
+export * from './watcher'
 export * from './writer'
 
 /**
@@ -13,18 +15,18 @@ export * from './writer'
  * Uses `c12`'s `watchConfig` to watch `manifest.config.ts` and auto-sync to `manifest.json`.
  */
 export function VitePluginUniManifest(userOptions: UserOptions = {}): Plugin {
-  let ctx: ManifestContext
+  let watcher: ManifestWatcher | undefined
   return {
     name: 'vite-plugin-uni-manifest',
     // Run before other plugins to ensure manifest.json is ready
     enforce: 'pre',
-    async configResolved() {
-      // Ensure manifest.json exists before plugin runs, avoiding downstream errors
-      ensureManifestJsonExists(userOptions)
-      ctx = new ManifestContext(userOptions)
-      await ctx.setup()
+    buildStart() {
+      this.addWatchFile(resolveManifestJsonPath(userOptions.outDir))
     },
-    buildEnd: () => ctx?.unwatch(),
+    async configResolved() {
+      watcher = await createManifestWatcher(userOptions)
+    },
+    buildEnd: () => watcher?.unwatch(),
   }
 }
 

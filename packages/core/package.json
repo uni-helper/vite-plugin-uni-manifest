@@ -1,7 +1,7 @@
 {
   "name": "@uni-helper/vite-plugin-uni-manifest",
   "type": "module",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "File system based routing for uni-app applications using Vite",
   "author": "KeJun",
   "license": "MIT",
@@ -25,14 +25,10 @@
       "import": {
         "types": "./dist/index.d.mts",
         "default": "./dist/index.mjs"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
       }
     }
   },
-  "main": "./dist/index.cjs",
+  "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.mts",
   "files": [

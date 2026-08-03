@@ -1477,6 +1477,15 @@ export interface AppPlus {
       }
 
       /**
+       * Android 平台启动界面导航栏颜色，要求颜色值与启动图背景颜色相近
+       *
+       * @desc HBuilderX 5.0+
+       *
+       * @format color
+       */
+      androidNavigationBarColor?: HEXColor
+
+      /**
        * 是否使用原生隐私政策提示框，仅支持 Android
        *
        * 详见 <https://uniapp.dcloud.net.cn/tutorial/app-privacy-android.html>
