@@ -65,6 +65,14 @@ interface Options {
    * @default process.env.VITE_ROOT_DIR
    */
   cwd?: string
+
+  /**
+   * 生成 `manifest.json` 的输出目录。
+   * 未设置时使用 uni-app 的 `UNI_INPUT_DIR`（或 `cwd/src`）。
+   * 相对路径会基于 `process.cwd()` 解析。
+   * @default undefined
+   */
+  outDir?: string
 }
 ```
 
@@ -97,6 +105,18 @@ UniManifest({ insertFinalNewline: true })
 ```ts
 UniManifest({ cwd: resolve(__dirname, 'packages/h5') })
 ```
+
+### outDir
+
+指定生成 `manifest.json` 的输出目录。默认情况下，插件会写入 uni-app 的输入目录（由 `UNI_INPUT_DIR` 决定，通常是 `src/manifest.json`）。
+
+当你需要把 `manifest.json` 输出到其他位置时（例如自定义的构建产物目录、或临时目录用于后续处理），可以通过 `outDir` 覆盖默认行为：
+
+```ts
+UniManifest({ outDir: resolve(__dirname, 'src/manifest-output') })
+```
+
+> 注意：uni-app 在运行时会从其默认输入目录读取 `manifest.json`，自定义 `outDir` 后请确保后续流程能正确读取到该文件，否则可能导致 uni-app 无法解析 manifest。
 
 ## FAQ
 

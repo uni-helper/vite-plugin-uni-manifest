@@ -3,16 +3,25 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { ensureManifestJsonExists, writeManifestJson } from '../packages/core/src/writer'
 
-const { testDir, testManifestPath } = vi.hoisted(() => {
+const { testDir, testManifestPath, customOutDir, customManifestPath } = vi.hoisted(() => {
   const os = require('node:os')
   const path = require('node:path')
   const dir = path.join(os.tmpdir(), 'vite-plugin-uni-manifest-test-writer')
-  return { testDir: dir, testManifestPath: path.join(dir, 'manifest.json') }
+  const custom = path.join(dir, 'custom')
+  return {
+    testDir: dir,
+    testManifestPath: path.join(dir, 'manifest.json'),
+    customOutDir: custom,
+    customManifestPath: path.join(custom, 'manifest.json'),
+  }
 })
 
-vi.mock('../packages/core/src/paths', () => ({
-  resolveManifestJsonPath: () => testManifestPath,
-}))
+vi.mock('../packages/core/src/paths', () => {
+  const path = require('node:path')
+  return {
+    resolveManifestJsonPath: (outDir?: string) => outDir ? path.join(outDir, 'manifest.json') : testManifestPath,
+  }
+})
 
 describe('writeManifestJson', () => {
   beforeEach(() => {
@@ -50,6 +59,13 @@ describe('writeManifestJson', () => {
     expect(JSON.parse(content)).toEqual({})
   })
 
+  it('writes to outDir when provided in opts', () => {
+    mkdirSync(customOutDir, { recursive: true })
+    writeManifestJson({ name: 'custom' }, { outDir: customOutDir } as any)
+    const content = readFileSync(customManifestPath, 'utf-8')
+    expect(JSON.parse(content)).toEqual({ name: 'custom' })
+  })
+
   it('skips writing when content is unchanged', () => {
     writeManifestJson({ name: 'test' })
     const before = statSync(testManifestPath).mtimeMs
@@ -80,5 +96,11 @@ describe('ensureManifestJsonExists', () => {
     ensureManifestJsonExists()
     const content = readFileSync(testManifestPath, 'utf-8')
     expect(JSON.parse(content)).toEqual({ custom: 'data' })
+  })
+
+  it('creates manifest.json in outDir when provided in opts', () => {
+    mkdirSync(customOutDir, { recursive: true })
+    ensureManifestJsonExists({ outDir: customOutDir } as any)
+    expect(existsSync(customManifestPath)).toBe(true)
   })
 })

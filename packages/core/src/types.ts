@@ -15,6 +15,12 @@ export interface Options {
    * @default process.env.VITE_ROOT_DIR
    */
   cwd?: string
+  /**
+   * Output directory for the generated `manifest.json`.
+   * When omitted, falls back to uni-app's `UNI_INPUT_DIR` (or `cwd/src`).
+   * @default undefined
+   */
+  outDir?: string
 }
 
 /** User-facing options — all fields are optional. */

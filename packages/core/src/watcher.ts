@@ -45,7 +45,7 @@ function resolveOptions(userOptions: UserOptions): ResolvedOptions {
 export async function createManifestWatcher(userOptions: UserOptions = {}): Promise<ManifestWatcher> {
   const options = resolveOptions(userOptions)
 
-  ensureManifestJsonExists()
+  ensureManifestJsonExists(options)
 
   const { config, unwatch } = await watchConfig<UserManifestConfig>({
     cwd: options.cwd,

@@ -50,6 +50,11 @@ describe('createManifestWatcher', () => {
     expect(watcher.options.minify).toBe(true)
   })
 
+  it('merges user outDir option', async () => {
+    const watcher = await createManifestWatcher({ outDir: '/custom/out' })
+    expect(watcher.options.outDir).toBe('/custom/out')
+  })
+
   it('ensures manifest.json exists before watching', async () => {
     mockEnsureManifestJsonExists.mockClear()
     await createManifestWatcher({})

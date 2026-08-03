@@ -21,7 +21,7 @@ export function VitePluginUniManifest(userOptions: UserOptions = {}): Plugin {
     // Run before other plugins to ensure manifest.json is ready
     enforce: 'pre',
     buildStart() {
-      this.addWatchFile(resolveManifestJsonPath())
+      this.addWatchFile(resolveManifestJsonPath(userOptions.outDir))
     },
     async configResolved() {
       watcher = await createManifestWatcher(userOptions)
