@@ -48,34 +48,34 @@ export default defineManifestConfig({
 ```ts
 interface Options {
   /**
-   * 是否压缩生成的 manifest.json（去除缩进和换行）。
+   * 是否压缩生成的 manifest.json
    * @default false
    */
   minify?: boolean
 
   /**
-   * 是否在 manifest.json 末尾插入换行。
+   * 是否在 manifest.json 末尾插入换行
    * @default false
    */
   insertFinalNewline?: boolean
 
   /**
-   * 生成的 manifest.json 的缩进。
-   * 接受空格数量或字符串（如 `'\t'`）。
-   * 当 `minify` 为 `true` 时被忽略。
+   * 生成的 manifest.json 的缩进
+   * 接受空格数量或字符串（如 `'\t'`）
+   * 当 `minify` 为 `true` 时被忽略
    * @default 2
    */
   indent?: number | string
 
   /**
-   * 生成的 manifest.json 的换行符。
+   * 生成的 manifest.json 的换行符
    * @default '\n'
    */
   eol?: '\n' | '\r\n'
 
   /**
-   * 解析配置的工作目录。
-   * 插件会从该目录查找 `manifest.config.(ts|mts|cts|js|cjs|mjs|json)` 文件。
+   * 解析配置的工作目录
+   * 插件会从该目录查找 `manifest.config.(ts|mts|cts|js|cjs|mjs|json)` 文件
    * @default process.env.VITE_ROOT_DIR
    */
   cwd?: string
