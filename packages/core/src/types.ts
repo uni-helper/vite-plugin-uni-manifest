@@ -11,6 +11,18 @@ export interface Options {
    */
   insertFinalNewline: boolean
   /**
+   * Indentation of the generated `manifest.json`.
+   * Accepts a number of spaces or a string (e.g. `'\t'`).
+   * Ignored when `minify` is `true`.
+   * @default 2
+   */
+  indent: number | string
+  /**
+   * End-of-line sequence of the generated `manifest.json`.
+   * @default '\n'
+   */
+  eol: '\n' | '\r\n'
+  /**
    * Resolve configuration from this working directory.
    * @default process.env.VITE_ROOT_DIR
    */

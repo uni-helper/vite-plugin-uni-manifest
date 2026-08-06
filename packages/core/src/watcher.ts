@@ -24,6 +24,8 @@ function resolveOptions(userOptions: UserOptions): ResolvedOptions {
   return {
     minify: false,
     insertFinalNewline: false,
+    indent: 2,
+    eol: '\n',
     cwd: process.env.VITE_ROOT_DIR,
     ...userOptions,
   }

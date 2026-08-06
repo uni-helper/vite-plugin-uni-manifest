@@ -60,6 +60,20 @@ interface Options {
   insertFinalNewline?: boolean
 
   /**
+   * 生成的 manifest.json 的缩进。
+   * 接受空格数量或字符串（如 `'\t'`）。
+   * 当 `minify` 为 `true` 时被忽略。
+   * @default 2
+   */
+  indent?: number | string
+
+  /**
+   * 生成的 manifest.json 的换行符。
+   * @default '\n'
+   */
+  eol?: '\n' | '\r\n'
+
+  /**
    * 解析配置的工作目录。
    * 插件会从该目录查找 `manifest.config.(ts|mts|cts|js|cjs|mjs|json)` 文件。
    * @default process.env.VITE_ROOT_DIR
@@ -94,6 +108,28 @@ UniManifest({ minify: true })
 
 ```ts
 UniManifest({ insertFinalNewline: true })
+```
+
+### indent
+
+控制生成的 `manifest.json` 的缩进，默认为 `2`（2 个空格）。接受数字（空格数）或字符串（如 `'\t'` 表示 Tab）。
+
+当 `minify` 为 `true` 时该选项被忽略。
+
+```ts
+UniManifest({ indent: 4 })
+// 或使用 Tab 缩进
+UniManifest({ indent: '\t' })
+```
+
+### eol
+
+控制生成的 `manifest.json` 的换行符，默认为 `'\n'`（LF）。可选值为 `'\n'` 或 `'\r\n'`（CRLF）。
+
+`insertFinalNewline` 追加的末尾换行同样使用该换行符。
+
+```ts
+UniManifest({ eol: '\r\n' })
 ```
 
 ### cwd

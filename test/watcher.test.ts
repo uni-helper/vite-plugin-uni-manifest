@@ -43,11 +43,15 @@ describe('createManifestWatcher', () => {
     const watcher = await createManifestWatcher({})
     expect(watcher.options.minify).toBe(false)
     expect(watcher.options.insertFinalNewline).toBe(false)
+    expect(watcher.options.indent).toBe(2)
+    expect(watcher.options.eol).toBe('\n')
   })
 
   it('merges user options', async () => {
-    const watcher = await createManifestWatcher({ minify: true })
+    const watcher = await createManifestWatcher({ minify: true, indent: '\t', eol: '\r\n' })
     expect(watcher.options.minify).toBe(true)
+    expect(watcher.options.indent).toBe('\t')
+    expect(watcher.options.eol).toBe('\r\n')
   })
 
   it('merges user outDir option', async () => {

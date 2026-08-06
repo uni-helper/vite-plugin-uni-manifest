@@ -53,6 +53,38 @@ describe('writeManifestJson', () => {
     expect(content.endsWith('\n')).toBe(true)
   })
 
+  it('applies custom numeric indent', () => {
+    writeManifestJson({ name: 'test' }, { indent: 4 } as any)
+    const content = readFileSync(testManifestPath, 'utf-8')
+    expect(content).toBe('{\n    "name": "test"\n}')
+  })
+
+  it('applies custom string indent', () => {
+    writeManifestJson({ name: 'test' }, { indent: '\t' } as any)
+    const content = readFileSync(testManifestPath, 'utf-8')
+    expect(content).toBe('{\n\t"name": "test"\n}')
+  })
+
+  it('ignores indent when minify is true', () => {
+    writeManifestJson({ name: 'test' }, { minify: true, indent: 4 } as any)
+    const content = readFileSync(testManifestPath, 'utf-8')
+    expect(content).toBe('{"name":"test"}')
+  })
+
+  it('converts line endings when eol is CRLF', () => {
+    writeManifestJson({ name: 'test' }, { eol: '\r\n' } as any)
+    const content = readFileSync(testManifestPath, 'utf-8')
+    expect(content).toBe('{\r\n  "name": "test"\r\n}')
+    // no bare LF remains after CRLF normalization
+    expect(content.replaceAll('\r\n', '')).not.toContain('\n')
+  })
+
+  it('appends final newline using the configured eol', () => {
+    writeManifestJson({ name: 'test' }, { insertFinalNewline: true, eol: '\r\n' } as any)
+    const content = readFileSync(testManifestPath, 'utf-8')
+    expect(content.endsWith('\r\n')).toBe(true)
+  })
+
   it('writes empty object when called with no args', () => {
     writeManifestJson()
     const content = readFileSync(testManifestPath, 'utf-8')
