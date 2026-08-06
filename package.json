@@ -1,7 +1,7 @@
 {
   "name": "root",
   "type": "module",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "private": true,
   "packageManager": "pnpm@10.34.5",
   "description": "Use TypeScript to write manifest.json of uni-app",
