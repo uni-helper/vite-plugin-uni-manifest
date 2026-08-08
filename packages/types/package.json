@@ -43,6 +43,9 @@
     "dev": "tsdown --watch",
     "prepublishOnly": "pnpm run build"
   },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
   "devDependencies": {
     "tsdown": "catalog:",
     "typescript": "catalog:"
