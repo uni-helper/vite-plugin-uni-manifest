@@ -1,7 +1,6 @@
 import type { Plugin } from 'vite'
 import type { UserOptions } from './types'
 import type { ManifestWatcher } from './watcher'
-import { resolveManifestJsonPath } from './paths'
 import { createManifestWatcher } from './watcher'
 
 export * from './config'
@@ -20,9 +19,6 @@ export function VitePluginUniManifest(userOptions: UserOptions = {}): Plugin {
     name: 'vite-plugin-uni-manifest',
     // Run before other plugins to ensure manifest.json is ready
     enforce: 'pre',
-    buildStart() {
-      this.addWatchFile(resolveManifestJsonPath(userOptions.outDir))
-    },
     async configResolved() {
       watcher = await createManifestWatcher(userOptions)
     },

@@ -33,13 +33,6 @@ describe('vitePluginUniManifest', () => {
     expect(typeof plugin.buildEnd).toBe('function')
   })
 
-  it('registers manifest.json as a watch file in buildStart', () => {
-    const plugin = VitePluginUniManifest()
-    const addWatchFile = vi.fn()
-    ;(plugin as any).buildStart.call({ addWatchFile })
-    expect(addWatchFile).toHaveBeenCalledWith(expect.stringContaining('manifest.json'))
-  })
-
   it('creates watcher in configResolved', async () => {
     mockCreateManifestWatcher.mockClear()
     const plugin = VitePluginUniManifest()
