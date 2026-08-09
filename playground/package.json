@@ -58,6 +58,7 @@
     "@dcloudio/uni-automator": "catalog:",
     "@dcloudio/uni-cli-shared": "catalog:",
     "@dcloudio/uni-stacktracey": "catalog:",
+    "@dcloudio/vite-plugin-uni": "catalog:",
     "@uni-helper/plugin-uni": "catalog:",
     "@uni-helper/vite-plugin-uni-manifest": "workspace:*",
     "typescript": "catalog:",
