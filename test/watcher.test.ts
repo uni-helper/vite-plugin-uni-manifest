@@ -2,9 +2,8 @@ import { describe, expect, it, vi } from 'vitest'
 
 import { createManifestWatcher } from '../packages/core/src/watcher'
 
-const { mockWriteManifestJson, mockEnsureManifestJsonExists, mockUnwatch, mockWatchConfig } = vi.hoisted(() => ({
+const { mockWriteManifestJson, mockUnwatch, mockWatchConfig } = vi.hoisted(() => ({
   mockWriteManifestJson: vi.fn(),
-  mockEnsureManifestJsonExists: vi.fn(),
   mockUnwatch: vi.fn().mockResolvedValue(undefined),
   mockWatchConfig: vi.fn(),
 }))
@@ -19,7 +18,6 @@ vi.mock('../packages/core/src/defaults', () => ({
 
 vi.mock('../packages/core/src/writer', () => ({
   writeManifestJson: mockWriteManifestJson,
-  ensureManifestJsonExists: mockEnsureManifestJsonExists,
 }))
 
 // 'c12' is not resolvable from the repo root under pnpm strict node_modules,
@@ -57,12 +55,6 @@ describe('createManifestWatcher', () => {
   it('merges user outDir option', async () => {
     const watcher = await createManifestWatcher({ outDir: '/custom/out' })
     expect(watcher.options.outDir).toBe('/custom/out')
-  })
-
-  it('ensures manifest.json exists before watching', async () => {
-    mockEnsureManifestJsonExists.mockClear()
-    await createManifestWatcher({})
-    expect(mockEnsureManifestJsonExists).toHaveBeenCalled()
   })
 
   it('writes initial config and returns unwatch', async () => {

@@ -3,7 +3,7 @@ import type { ResolvedOptions, UserOptions } from './types'
 import process from 'node:process'
 import { watchConfig } from 'c12'
 import { defaultManifestConfig } from './defaults'
-import { ensureManifestJsonExists, writeManifestJson } from './writer'
+import { writeManifestJson } from './writer'
 
 /**
  * The public interface of the manifest watcher.
@@ -34,8 +34,10 @@ function resolveOptions(userOptions: UserOptions): ResolvedOptions {
 /**
  * Create a manifest watcher — the core deep module of this plugin.
  *
- * Resolves options, ensures `manifest.json` exists, watches
- * `manifest.config.ts` (via c12) and syncs every change to `manifest.json`.
+ * Resolves options, watches `manifest.config.ts` (via c12) and syncs
+ * every change to `manifest.json`. The initial write also creates the
+ * file when missing — and only after the config loads successfully, so
+ * a broken config file never leaves a placeholder `manifest.json` behind.
  *
  * @example
  * ```ts
@@ -46,8 +48,6 @@ function resolveOptions(userOptions: UserOptions): ResolvedOptions {
  */
 export async function createManifestWatcher(userOptions: UserOptions = {}): Promise<ManifestWatcher> {
   const options = resolveOptions(userOptions)
-
-  ensureManifestJsonExists(options)
 
   const { config, unwatch } = await watchConfig<UserManifestConfig>({
     cwd: options.cwd,
@@ -69,7 +69,6 @@ export async function createManifestWatcher(userOptions: UserOptions = {}): Prom
 
 /**
  * @deprecated Use {@link createManifestWatcher} instead.
- * Kept for backward compatibility — will be removed in v0.5.0.
  */
 export class ManifestContext {
   options: ResolvedOptions
