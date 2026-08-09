@@ -24,6 +24,7 @@ export interface Options {
   eol: '\n' | '\r\n'
   /**
    * Resolve configuration from this working directory.
+   * Falls back to `process.cwd()` when the env variable is unset.
    * @default process.env.VITE_ROOT_DIR
    */
   cwd?: string

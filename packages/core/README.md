@@ -76,6 +76,7 @@ interface Options {
   /**
    * 解析配置的工作目录
    * 插件会从该目录查找 `manifest.config.(ts|mts|cts|js|cjs|mjs|json)` 文件
+   * 未设置该环境变量时回退到 `process.cwd()`
    * @default process.env.VITE_ROOT_DIR
    */
   cwd?: string
@@ -134,7 +135,7 @@ UniManifest({ eol: '\r\n' })
 
 ### cwd
 
-指定插件查找 `manifest.config.*` 配置文件的目录。默认为 `process.env.VITE_ROOT_DIR`（由 `@dcloudio/vite-plugin-uni` 注入的环境变量），通常无需手动配置。
+指定插件查找 `manifest.config.*` 配置文件的目录。默认为 `process.env.VITE_ROOT_DIR`（由 `@dcloudio/vite-plugin-uni` 注入的环境变量），该环境变量不存在时回退到 `process.cwd()`。通常无需手动配置。
 
 在 monorepo 场景下，如果你需要从其他目录解析配置，可以显式指定：
 
@@ -251,6 +252,49 @@ writeFileSync(outPath, JSON.stringify(config, null, 2))
 
 > 说明：npm 会在执行 `dev`/`build` 前自动运行同名 `pre*` 脚本。pnpm 10 同样会运行用户自定义的 `predev`/`prebuild`（注意 `enable-pre-post-scripts` 只影响 install 阶段的生命周期脚本，不影响 `run` 时的 `pre*`/`post*`）。比方案二的 `&&` 串联更隐式，开发者可能意识不到 `predev` 被自动触发，排查问题时需额外留意，故排序靠后。
 
+### 修改 `manifest.config.ts` 后，需要重启 dev server 才能生效
+
+Vite 只会因 `vite.config`、`.env` 文件变更而自动重启服务；而 `manifest.json` 不在 Vite 的模块图中（uni-app 直接从磁盘读取它），变更既不会触发 HMR，也不会触发整页刷新。更关键的是，uni-app 只在启动时读取一次 `manifest.json` 并做进程级缓存（见上一节），即便是 `vite build --watch` 触发的重建，使用的仍是旧配置。因此修改配置后请重启 dev server（或重新构建）。
+
+如需自动化，可以用文件监听工具监视生成的 `manifest.json`，在变化时自动重启或重新构建 uni 进程。新进程会重新读取 manifest，不存在缓存问题。
+
+#### 使用 nodemon 自动重启 dev server
+
+```bash
+pnpm i -D nodemon
+```
+
+```jsonc
+// package.json
+{
+  "scripts": {
+    // 只监视生成的 manifest.json，变化时重启 uni dev 进程
+    "dev:h5": "nodemon -e json --watch src/manifest.json --exec \"uni\"",
+    "dev:mp-weixin": "nodemon -e json --watch src/manifest.json --exec \"uni -p mp-weixin\""
+  }
+}
+```
+
+> 说明：`--watch` 限定只监视 `manifest.json`，其他源码变更仍走 Vite 自身 HMR，不会被 nodemon 重启；`-e json` 确保 `.json` 后缀被 nodemon 识别。若重启过于频繁，可加 `--delay 1` 防抖。nodemon 重启前会先终止旧进程，适合常驻的 dev server。
+
+#### 使用 chokidar-cli 监视重新构建
+
+```bash
+pnpm i -D chokidar-cli
+```
+
+```jsonc
+// package.json
+{
+  "scripts": {
+    // 启动时先构建一次（--initial），之后 manifest.json 每次变化都重新构建
+    "build:mp-weixin:watch": "chokidar \"src/manifest.json\" --initial -c \"uni build -p mp-weixin\""
+  }
+}
+```
+
+> 说明：chokidar-cli 的 `-c` 只会在每次事件时执行命令、不会终止之前的进程，因此适合有限的构建命令（每次构建都是新进程，天然规避缓存问题）；常驻 dev server 请用 nodemon。若你的输入目录不是 `src`，请相应调整监视路径；需要防抖时可加 `-d 100`（毫秒）。
+
 ## 开发
 
 ### 前置条件
@@ -333,7 +377,7 @@ index.ts
 
 插件通过 Vite 的生命周期钩子驱动，顺序如下：
 
-1. **`configResolved`**（异步）— 调用 `createManifestWatcher(userOptions)`：确保 `manifest.json` 存在 → 启动 c12 监听 → 执行首次写入
+1. **`configResolved`**（异步）— 调用 `createManifestWatcher(userOptions)`：启动 c12 监听 → 执行首次写入（`manifest.json` 不存在时在此创建，配置加载失败则不会写入占位文件）
 2. **运行时** — c12 检测到 `manifest.config.ts` 变更 → `onUpdate` 回调 → `writeManifestJson()` 写入文件
 3. **`buildEnd`** — 调用 `watcher.unwatch()` 停止 c12 监听
 
