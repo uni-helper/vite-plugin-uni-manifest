@@ -46,6 +46,11 @@
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "tsdown": "catalog:",
     "typescript": "catalog:"
