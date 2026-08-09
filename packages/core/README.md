@@ -16,9 +16,10 @@ pnpm i -D @uni-helper/vite-plugin-uni-manifest
 
 ```ts
 // vite.config.mts
-import Uni from '@dcloudio/vite-plugin-uni'
-// 或
-// import Uni from '@uni-helper/plugin-uni'
+import Uni from '@uni-helper/plugin-uni'
+// 或者
+// import dcloudioUni from '@@dcloudio/vite-plugin-uni'
+// const Uni = dcloudioUni.default || dcloudioUni
 import UniManifest from '@uni-helper/vite-plugin-uni-manifest'
 import { defineConfig } from 'vite'
 
