@@ -18,7 +18,7 @@ pnpm i -D @uni-helper/vite-plugin-uni-manifest
 // vite.config.mts
 import Uni from '@uni-helper/plugin-uni'
 // 或者
-// import dcloudioUni from '@@dcloudio/vite-plugin-uni'
+// import dcloudioUni from '@dcloudio/vite-plugin-uni'
 // const Uni = dcloudioUni.default || dcloudioUni
 import UniManifest from '@uni-helper/vite-plugin-uni-manifest'
 import { defineConfig } from 'vite'
@@ -53,12 +53,14 @@ interface Options {
   /**
    * 是否压缩生成的 manifest.json
    * @default false
+   * @since 0.1.3
    */
   minify?: boolean
 
   /**
    * 是否在 manifest.json 末尾插入换行
    * @default false
+   * @since 0.2.9
    */
   insertFinalNewline?: boolean
 
@@ -67,12 +69,14 @@ interface Options {
    * 接受空格数量或字符串（如 `'\t'`）
    * 当 `minify` 为 `true` 时被忽略
    * @default 2
+   * @since 0.5.2
    */
   indent?: number | string
 
   /**
    * 生成的 manifest.json 的换行符
    * @default '\n'
+   * @since 0.5.2
    */
   eol?: '\n' | '\r\n'
 
@@ -81,6 +85,7 @@ interface Options {
    * 插件会从该目录查找 `manifest.config.(ts|mts|cts|js|cjs|mjs|json)` 文件
    * 未设置该环境变量时回退到 `process.cwd()`
    * @default process.env.VITE_ROOT_DIR
+   * @since 0.2.12
    */
   cwd?: string
 
@@ -89,12 +94,15 @@ interface Options {
    * 未设置时使用 uni-app 的 `UNI_INPUT_DIR`（或 `cwd/src`）。
    * 相对路径会基于 `process.cwd()` 解析。
    * @default undefined
+   * @since 0.5.1
    */
   outDir?: string
 }
 ```
 
 ### minify
+
+> 首次出现版本：`0.1.3`
 
 默认生成的 `manifest.json` 是格式化后的（缩进 2 空格）。默认为 `false`。
 
@@ -106,6 +114,8 @@ UniManifest({ minify: true })
 
 ### insertFinalNewline
 
+> 首次出现版本：`0.2.9`
+
 控制在生成的 `manifest.json` 末尾是否追加一个换行符。默认为 `false`。
 
 开启后符合 POSIX 文件规范，部分工具链可能会要求文件以换行结尾。
@@ -115,6 +125,8 @@ UniManifest({ insertFinalNewline: true })
 ```
 
 ### indent
+
+> 首次出现版本：`0.5.2`
 
 控制生成的 `manifest.json` 的缩进，默认为 `2`（2 个空格）。接受数字（空格数）或字符串（如 `'\t'` 表示 Tab）。
 
@@ -128,6 +140,8 @@ UniManifest({ indent: '\t' })
 
 ### eol
 
+> 首次出现版本：`0.5.2`
+
 控制生成的 `manifest.json` 的换行符，默认为 `'\n'`（LF）。可选值为 `'\n'` 或 `'\r\n'`（CRLF）。
 
 `insertFinalNewline` 追加的末尾换行同样使用该换行符。
@@ -138,6 +152,8 @@ UniManifest({ eol: '\r\n' })
 
 ### cwd
 
+> 首次出现版本：`0.2.12`
+
 指定插件查找 `manifest.config.*` 配置文件的目录。默认为 `process.env.VITE_ROOT_DIR`（由 `@dcloudio/vite-plugin-uni` 注入的环境变量），该环境变量不存在时回退到 `process.cwd()`。通常无需手动配置。
 
 在 monorepo 场景下，如果你需要从其他目录解析配置，可以显式指定：
@@ -147,6 +163,8 @@ UniManifest({ cwd: resolve(__dirname, 'packages/h5') })
 ```
 
 ### outDir
+
+> 首次出现版本：`0.5.1`
 
 指定生成 `manifest.json` 的输出目录。默认情况下，插件会写入 uni-app 的输入目录（由 `UNI_INPUT_DIR` 决定，通常是 `src/manifest.json`）。
 
