@@ -19,6 +19,7 @@
     "build": "rimraf --glob 'packages/*/dist' && pnpm -r --filter './packages/*' run build",
     "build:h5": "pnpm build && pnpm -C playground run build:h5",
     "build:mp-weixin": "pnpm build && pnpm -C playground run build:mp-weixin",
+    "coverage": "vitest run --coverage",
     "dev": "pnpm -r --filter './packages/*' --parallel run dev",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
