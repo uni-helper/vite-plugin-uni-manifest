@@ -1,5 +1,7 @@
-import { describe, expect, it, vi } from 'vitest'
+import dbg from 'debug'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
+import { debug } from '../packages/core/src/logger'
 import { createManifestWatcher } from '../packages/core/src/watcher'
 
 const { mockWriteManifestJson, mockUnwatch, mockWatchConfig } = vi.hoisted(() => ({
@@ -43,6 +45,7 @@ describe('createManifestWatcher', () => {
     expect(watcher.options.insertFinalNewline).toBe(false)
     expect(watcher.options.indent).toBe(2)
     expect(watcher.options.eol).toBe('\n')
+    expect(watcher.options.debug).toBe(false)
   })
 
   it('merges user options', async () => {
@@ -80,6 +83,52 @@ describe('createManifestWatcher', () => {
 
     capturedOnUpdate!({ newConfig: { config: { name: 'changed' } }, getDiff: () => [['name', 'test', 'changed']] })
 
-    expect(mockWriteManifestJson).toHaveBeenCalledWith({ name: 'changed' }, expect.objectContaining({ minify: false }))
+    expect(mockWriteManifestJson).toHaveBeenCalledWith({ name: 'changed' }, expect.objectContaining({ minify: false, debug: false }))
+  })
+})
+
+describe('debug option', () => {
+  beforeEach(() => {
+    dbg.disable()
+  })
+
+  afterEach(() => {
+    dbg.disable()
+  })
+
+  it('uses the vite-plugin-uni-manifest namespace prefix', () => {
+    expect(debug.options.namespace).toBe('vite-plugin-uni-manifest:options')
+    expect(debug.config.namespace).toBe('vite-plugin-uni-manifest:config')
+    expect(debug.writer.namespace).toBe('vite-plugin-uni-manifest:writer')
+  })
+
+  it('keeps debug loggers disabled by default', async () => {
+    await createManifestWatcher({})
+    expect(debug.options.enabled).toBeFalsy()
+    expect(debug.config.enabled).toBeFalsy()
+    expect(debug.writer.enabled).toBeFalsy()
+  })
+
+  it('enables every namespace when debug is true', async () => {
+    await createManifestWatcher({ debug: true })
+    expect(debug.options.enabled).toBe(true)
+    expect(debug.config.enabled).toBe(true)
+    expect(debug.writer.enabled).toBe(true)
+  })
+
+  it('enables a single namespace when debug is a category', async () => {
+    await createManifestWatcher({ debug: 'writer' })
+    expect(debug.writer.enabled).toBe(true)
+    expect(debug.options.enabled).toBeFalsy()
+    expect(debug.config.enabled).toBeFalsy()
+  })
+
+  it('passes the resolved debug option through to writeManifestJson', async () => {
+    mockWriteManifestJson.mockClear()
+    await createManifestWatcher({ debug: 'writer' })
+    expect(mockWriteManifestJson).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({ debug: 'writer' }),
+    )
   })
 })

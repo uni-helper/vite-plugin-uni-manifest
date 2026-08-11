@@ -98,6 +98,16 @@ interface UserOptions {
    * @since 0.5.1
    */
   outDir?: string
+
+  /**
+   * 是否启用调试日志
+   * 设为 `true` 启用全部类别，指定字符串则只启用单一类别（如 `'writer'`）
+   * 可选类别：`options`（选项解析）/ `config`（配置加载与变更检测）/ `writer`（文件写入）
+   * 等效于 `DEBUG=vite-plugin-uni-manifest:*` 环境变量
+   * @default false
+   * @since 0.5.7
+   */
+  debug?: boolean | DebugType
 }
 ```
 
@@ -308,7 +318,7 @@ pnpm play:h5
 
 ```shell
 test/
-├── watcher.test.ts     createManifestWatcher 深模块（选项解析 + 监听 + 写入）
+├── watcher.test.ts     createManifestWatcher 深模块（选项解析 + 监听 + 写入 + debug 日志开关）
 ├── plugin.test.ts      插件工厂形状 + 生命周期
 ├── writer.test.ts      writeManifestJson 格式化 + 幂等写入 + ensureManifestJsonExists
 ├── paths.test.ts       resolveManifestJsonPath 路径解析
@@ -342,7 +352,8 @@ writer.ts         文件 I/O — writeManifestJson / ensureManifestJsonExists
 paths.ts          路径解析 — resolveManifestJsonPath
 defaults.ts       静态数据 — 默认 manifest 配置
 config.ts         defineManifestConfig 辅助函数 + 类型重导出
-types.ts          公共类型定义（Options / UserOptions / ResolvedOptions）
+logger.ts         分类调试日志（debug 包）
+types.ts          公共类型定义（Options / UserOptions / ResolvedOptions / DebugType）
 ```
 
 ### 模块依赖关系
@@ -351,7 +362,8 @@ types.ts          公共类型定义（Options / UserOptions / ResolvedOptions�
 index.ts
   └─ watcher.ts（深模块）
        ├─ writer.ts ── paths.ts
-       └─ defaults.ts
+       ├─ defaults.ts
+       └─ logger.ts（writer.ts 同样使用）
 ```
 
 ### 插件生命周期
@@ -369,3 +381,4 @@ index.ts
 - **路径解析为函数**：`resolveManifestJsonPath()` 每次调用重新计算路径，依赖 `process.env.UNI_INPUT_DIR`（由 `@dcloudio/vite-plugin-uni` 注入），不缓存。
 - **c12 配置加载**：通过 `c12` 的 `watchConfig` 实现 `manifest.config.ts` 的监听和热更新，支持 `.ts`、`.mts`、`.js`、`.json` 等格式。
 - **幂等写入**：`writeManifestJson` 在内容未变化时跳过写入，避免触发下游不必要的重编译。
+- **分类调试日志**：通过 `debug` 选项或 `DEBUG=vite-plugin-uni-manifest:*` 环境变量按类别（`options`/`config`/`writer`）输出日志，默认关闭，不影响正常输出。

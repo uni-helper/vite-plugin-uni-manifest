@@ -2,7 +2,9 @@ import type { UserManifestConfig } from './config'
 import type { ResolvedOptions, UserOptions } from './types'
 import process from 'node:process'
 import { watchConfig } from 'c12'
+import dbg from 'debug'
 import { defaultManifestConfig } from './defaults'
+import { debug } from './logger'
 import { writeManifestJson } from './writer'
 
 /**
@@ -26,6 +28,7 @@ function resolveOptions(userOptions: UserOptions): ResolvedOptions {
     insertFinalNewline: false,
     indent: 2,
     eol: '\n',
+    debug: false,
     cwd: process.env.VITE_ROOT_DIR,
     ...userOptions,
   }
@@ -39,6 +42,10 @@ function resolveOptions(userOptions: UserOptions): ResolvedOptions {
  * file when missing — and only after the config loads successfully, so
  * a broken config file never leaves a placeholder `manifest.json` behind.
  *
+ * When the `debug` option is set, the corresponding logger namespaces
+ * are enabled via the `debug` package — `true` enables every category,
+ * a string enables only that one (e.g. `'writer'`).
+ *
  * @example
  * ```ts
  * const watcher = await createManifestWatcher({ minify: true })
@@ -48,6 +55,11 @@ function resolveOptions(userOptions: UserOptions): ResolvedOptions {
  */
 export async function createManifestWatcher(userOptions: UserOptions = {}): Promise<ManifestWatcher> {
   const options = resolveOptions(userOptions)
+  if (options.debug) {
+    const suffix = typeof options.debug === 'boolean' ? '*' : options.debug
+    dbg.enable(`vite-plugin-uni-manifest:${suffix}`)
+  }
+  debug.options(options)
 
   const { config, unwatch } = await watchConfig<UserManifestConfig>({
     cwd: options.cwd,
@@ -57,8 +69,11 @@ export async function createManifestWatcher(userOptions: UserOptions = {}): Prom
     packageJson: false,
     onUpdate: ({ newConfig, getDiff }) => {
       const diff = getDiff()
-      if (diff.length === 0)
+      if (diff.length === 0) {
+        debug.config('config changed but produced no diff, skipping write')
         return
+      }
+      debug.config('config changed', diff)
       writeManifestJson(newConfig.config, options)
     },
   })

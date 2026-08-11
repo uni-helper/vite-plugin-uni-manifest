@@ -4,6 +4,7 @@ import type { ManifestWatcher } from './watcher'
 import { createManifestWatcher } from './watcher'
 
 export * from './config'
+export * from './logger'
 export * from './types'
 export * from './watcher'
 export * from './writer'

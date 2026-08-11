@@ -1,5 +1,6 @@
 import type { UserOptions } from './types'
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { debug } from './logger'
 import { resolveManifestJsonPath } from './paths'
 
 /** Write the resolved manifest config to `manifest.json`. Skips the write when the content is unchanged, avoiding unnecessary downstream recompiles. */
@@ -13,8 +14,11 @@ export function writeManifestJson(config: any = {}, opts?: UserOptions): void {
     content = content.replaceAll('\n', eol)
   if (opts?.insertFinalNewline)
     content += eol
-  if (existsSync(path) && readFileSync(path, 'utf-8') === content)
+  if (existsSync(path) && readFileSync(path, 'utf-8') === content) {
+    debug.writer('content unchanged, skipping write:', path)
     return
+  }
+  debug.writer('writing', path)
   writeFileSync(path, content)
 }
 

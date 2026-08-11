@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
+import { debug } from '../packages/core/src/logger'
 import { ensureManifestJsonExists, writeManifestJson } from '../packages/core/src/writer'
 
 const { testDir, testManifestPath, customOutDir, customManifestPath } = vi.hoisted(() => {
@@ -106,6 +107,16 @@ describe('writeManifestJson', () => {
     // sanity check: a changed config does rewrite the file
     writeManifestJson({ name: 'changed' })
     expect(statSync(testManifestPath).mtimeMs).not.toBe(before)
+  })
+
+  it('logs write and skip decisions via debug.writer', () => {
+    const spy = vi.spyOn(debug, 'writer')
+    writeManifestJson({ name: 'test' })
+    expect(spy).toHaveBeenCalledWith('writing', testManifestPath)
+    spy.mockClear()
+    writeManifestJson({ name: 'test' })
+    expect(spy).toHaveBeenCalledWith('content unchanged, skipping write:', testManifestPath)
+    spy.mockRestore()
   })
 })
 

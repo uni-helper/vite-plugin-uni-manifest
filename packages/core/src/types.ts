@@ -1,3 +1,8 @@
+import type { debug } from './logger'
+
+/** Debug log category, corresponds to the loggers exposed by {@link debug}. */
+export type DebugType = keyof typeof debug
+
 /** Plugin configuration options. */
 export interface Options {
   /**
@@ -40,6 +45,14 @@ export interface Options {
    * @since 0.5.1
    */
   outDir?: string
+  /**
+   * Enable debug logs. `true` enables every category; a string
+   * enables a single one (e.g. `'writer'`).
+   * Equivalent to the `DEBUG=vite-plugin-uni-manifest:*` env variable.
+   * @default false
+   * @since 0.5.7
+   */
+  debug: boolean | DebugType
 }
 
 /** User-facing options — all fields are optional. */
