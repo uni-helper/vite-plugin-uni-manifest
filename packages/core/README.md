@@ -24,11 +24,14 @@ import UniManifest from '@uni-helper/vite-plugin-uni-manifest'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  plugins: [UniManifest(), Uni()]
+  plugins: [
+    UniManifest(), // 需要在 Uni() 之前调用
+    Uni(),
+  ],
 })
 ```
 
-创建 `manifest.config.(ts|mts|cts|js|cjs|mjs|json)`，然后用 TypeScript 编写你的 `manifest.json`。
+创建 `manifest.config.(ts|mts|cts|js|cjs|mjs|json)`，然后用 TypeScript 编写你的 `manifest.json`。[👉 manifest.config.ts 示例](../../playground/manifest.config.ts)
 
 ```ts
 // manifest.config.ts
@@ -42,14 +45,12 @@ export default defineManifestConfig({
 })
 ```
 
-在 [这里](../../playground/manifest.config.ts)，你可以找到 `uni-app` 默认的 Vite-TS 模版的 `manifest.json` 是如何用 TypeScript 编写的。
-
 ## 插件配置
 
 `UniManifest()` 支持以下选项定义行为：
 
 ```ts
-interface Options {
+interface UserOptions {
   /**
    * 是否压缩生成的 manifest.json
    * @default false
@@ -99,82 +100,6 @@ interface Options {
   outDir?: string
 }
 ```
-
-### minify
-
-> 首次出现版本：`0.1.3`
-
-默认生成的 `manifest.json` 是格式化后的（缩进 2 空格）。默认为 `false`。
-
-开启后会输出紧凑的 JSON，减少文件体积。
-
-```ts
-UniManifest({ minify: true })
-```
-
-### insertFinalNewline
-
-> 首次出现版本：`0.2.9`
-
-控制在生成的 `manifest.json` 末尾是否追加一个换行符。默认为 `false`。
-
-开启后符合 POSIX 文件规范，部分工具链可能会要求文件以换行结尾。
-
-```ts
-UniManifest({ insertFinalNewline: true })
-```
-
-### indent
-
-> 首次出现版本：`0.5.2`
-
-控制生成的 `manifest.json` 的缩进，默认为 `2`（2 个空格）。接受数字（空格数）或字符串（如 `'\t'` 表示 Tab）。
-
-当 `minify` 为 `true` 时该选项被忽略。
-
-```ts
-UniManifest({ indent: 4 })
-// 或使用 Tab 缩进
-UniManifest({ indent: '\t' })
-```
-
-### eol
-
-> 首次出现版本：`0.5.2`
-
-控制生成的 `manifest.json` 的换行符，默认为 `'\n'`（LF）。可选值为 `'\n'` 或 `'\r\n'`（CRLF）。
-
-`insertFinalNewline` 追加的末尾换行同样使用该换行符。
-
-```ts
-UniManifest({ eol: '\r\n' })
-```
-
-### cwd
-
-> 首次出现版本：`0.2.12`
-
-指定插件查找 `manifest.config.*` 配置文件的目录。默认为 `process.env.VITE_ROOT_DIR`（由 `@dcloudio/vite-plugin-uni` 注入的环境变量），该环境变量不存在时回退到 `process.cwd()`。通常无需手动配置。
-
-在 monorepo 场景下，如果你需要从其他目录解析配置，可以显式指定：
-
-```ts
-UniManifest({ cwd: resolve(__dirname, 'packages/h5') })
-```
-
-### outDir
-
-> 首次出现版本：`0.5.1`
-
-指定生成 `manifest.json` 的输出目录。默认情况下，插件会写入 uni-app 的输入目录（由 `UNI_INPUT_DIR` 决定，通常是 `src/manifest.json`）。
-
-当你需要把 `manifest.json` 输出到其他位置时（例如自定义的构建产物目录、或临时目录用于后续处理），可以通过 `outDir` 覆盖默认行为：
-
-```ts
-UniManifest({ outDir: resolve(__dirname, 'src/manifest-output') })
-```
-
-> 注意：uni-app 在运行时会从其默认输入目录读取 `manifest.json`，自定义 `outDir` 后请确保后续流程能正确读取到该文件，否则可能导致 uni-app 无法解析 manifest。
 
 ## FAQ
 
@@ -316,12 +241,37 @@ pnpm i -D chokidar-cli
 
 > 说明：chokidar-cli 的 `-c` 只会在每次事件时执行命令、不会终止之前的进程，因此适合有限的构建命令（每次构建都是新进程，天然规避缓存问题）；常驻 dev server 请用 nodemon。若你的输入目录不是 `src`，请相应调整监视路径；需要防抖时可加 `-d 100`（毫秒）。
 
+### 支持 monorepo 吗？
+
+支持。在 monorepo 场景下，uni-app 应用通常位于某个子包目录（如 `packages/app`）中，而命令可能从仓库根目录执行。此时可以通过两个选项调整本插件的路径解析：
+
+- `cwd`：指定插件查找 `manifest.config.*` 的目录。默认为 `process.env.VITE_ROOT_DIR`（由 `@dcloudio/vite-plugin-uni` 注入），该环境变量不存在时回退到 `process.cwd()`。若配置文件不在默认目录，显式指向应用所在目录即可。
+- `outDir`：指定 `manifest.json` 的输出目录。默认写入 uni-app 的输入目录（`UNI_INPUT_DIR`，通常是应用的 `src/`）。相对路径基于 `process.cwd()` 解析。
+
+```ts
+// vite.config.mts
+import UniManifest from '@uni-helper/vite-plugin-uni-manifest'
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  plugins: [
+    UniManifest({
+      cwd: resolve(__dirname, 'packages/app'), // 从该目录查找 manifest.config.ts
+      // 如需把 manifest.json 输出到其他位置，再配置 outDir
+      // outDir: resolve(__dirname, 'packages/app/src'),
+    }),
+  ],
+})
+```
+
+> 注意：uni-app 在运行时会从其默认输入目录读取 `manifest.json`，自定义 `outDir` 后请确保后续流程能正确读取到该文件，否则可能导致 uni-app 无法解析 manifest。
+
 ## 开发
 
 ### 前置条件
 
 - [Node.js](https://nodejs.org/) 24
-- [pnpm](https://pnpm.io/) 10.33.4
+- [pnpm](https://pnpm.io/) 10.34.5
 
 ### 常用命令
 
@@ -338,8 +288,18 @@ pnpm -C packages/core build
 # 运行测试（在 monorepo 根目录执行）
 pnpm test
 
+# 测试覆盖率
+pnpm coverage
+
+# 代码检查
+pnpm lint
+
 # 类型检查
 pnpm type-check
+
+# 启动 playground 调试
+pnpm play:mp-weixin
+pnpm play:h5
 ```
 
 ### 测试
