@@ -278,68 +278,7 @@ export default defineConfig({
 
 ## 开发
 
-### 前置条件
-
-- [Node.js](https://nodejs.org/) 24
-- [pnpm](https://pnpm.io/) 10.34.5
-
-### 常用命令
-
-```bash
-# 安装依赖（在 monorepo 根目录执行）
-pnpm install
-
-# 构建所有包
-pnpm build
-
-# 仅构建 core 包
-pnpm -C packages/core build
-
-# 运行测试（在 monorepo 根目录执行）
-pnpm test
-
-# 测试覆盖率
-pnpm coverage
-
-# 代码检查
-pnpm lint
-
-# 类型检查
-pnpm type-check
-
-# 启动 playground 调试
-pnpm play:mp-weixin
-pnpm play:h5
-```
-
-### 测试
-
-测试文件位于 monorepo 根目录的 `test/` 目录下，使用 [Vitest](https://vitest.dev/) 运行：
-
-```shell
-test/
-├── watcher.test.ts     createManifestWatcher 深模块（选项解析 + 监听 + 写入 + debug 日志开关）
-├── plugin.test.ts      插件工厂形状 + 生命周期
-├── writer.test.ts      writeManifestJson 格式化 + 幂等写入 + ensureManifestJsonExists
-├── paths.test.ts       resolveManifestJsonPath 路径解析
-├── defaults.test.ts    默认配置结构
-└── config.test.ts      defineManifestConfig 类型断言
-```
-
-`watcher.test.ts` 和 `plugin.test.ts` 使用 `vi.mock` 隔离 `c12` 和文件系统，确保测试不依赖真实环境。
-
-### 项目结构
-
-```shell
-vite-plugin-uni-manifest/
-├── packages/
-│   ├── core/           插件核心逻辑
-│   ├── types/          manifest.json TypeScript 类型定义
-│   └── schema/         JSON Schema（从 types 自动生成）
-├── test/               测试文件
-├── playground/         示例 uni-app 项目
-└── pnpm-workspace.yaml
-```
+请参考仓库根目录的 [CONTRIBUTING.md](../../CONTRIBUTING.md)。
 
 ## 架构
 
