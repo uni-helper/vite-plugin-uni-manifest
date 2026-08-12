@@ -1,13 +1,20 @@
 <a href="https://uni-helper.js.org/vite-plugin-uni-manifest"><img src="./banner.svg" alt="banner" width="100%"/></a>
 
-<br >
-<a href="https://github.com/uni-helper/vite-plugin-uni-manifest/stargazers"><img src="https://img.shields.io/github/stars/uni-helper/vite-plugin-uni-manifest?colorA=005947&colorB=eee&style=for-the-badge" alt="Stars"></a>
-<a href="https://www.npmjs.com/package/@uni-helper/vite-plugin-uni-manifest"><img src="https://img.shields.io/npm/dm/@uni-helper/vite-plugin-uni-manifest?colorA=005947&colorB=eee&style=for-the-badge" alt="Downloads"></a>
-<a href="https://www.npmjs.com/package/@uni-helper/vite-plugin-uni-manifest"><img src="https://img.shields.io/npm/v/@uni-helper/vite-plugin-uni-manifest?colorA=005947&colorB=eee&style=for-the-badge" alt="version"></a>
+<p style="text-align: center">
+  <a href="https://github.com/uni-helper/vite-plugin-uni-manifest/stargazers"><img src="https://img.shields.io/github/stars/uni-helper/vite-plugin-uni-manifest?colorA=005947&colorB=eee&style=for-the-badge" alt="Stars"></a>
+  <a href="https://npmx.dev/package/@uni-helper/vite-plugin-uni-manifest"><img src="https://img.shields.io/npm/dm/@uni-helper/vite-plugin-uni-manifest?colorA=005947&colorB=eee&style=for-the-badge" alt="Downloads"></a>
+  <a href="https://npmx.dev/package/@uni-helper/vite-plugin-uni-manifest"><img src="https://img.shields.io/npm/v/@uni-helper/vite-plugin-uni-manifest?colorA=005947&colorB=eee&style=for-the-badge" alt="NPM Version"></a>
+</p>
+<p style="text-align: center">
+  <a href="https://github.com/kejunmao"><img src="https://img.shields.io/badge/Author-KeJun-blue?style=for-the-badge" alt="Author"></a>
+  <a href="https://github.com/ModyQyW"><img src="https://img.shields.io/badge/Maintainer-ModyQyW-blue?style=for-the-badge" alt="Author"></a>
+</p>
 
 使用 TypeScript 来编写 uni-app 的 manifest.json。
 
 不想看文档？直接问 AI 🤖 <a href="https://deepwiki.com/uni-helper/vite-plugin-uni-manifest"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
+
+> **请考虑持续[赞助](https://github.com/ModyQyW/sponsors)以维持该项目的持续健康发展，非常感谢！🙏**
 
 ## 安装
 
@@ -35,3 +42,11 @@ export default defineConfig({
   ],
 })
 ```
+
+## 关联项目
+
+- [uni-helper/vite-plugin-uni-pages](https://github.com/uni-helper/vite-plugin-uni-pages) - 为 Vite 下的 uni-app 提供基于文件系统的路由
+- [uni-helper/vite-plugin-uni-platform](https://github.com/uni-helper/vite-plugin-uni-platform) - 基于文件名 (*.<h5|mp-weixin|app>.*) 的按平台编译插件
+- [uni-helper/vite-plugin-uni-platform-modifier](https://github.com/uni-helper/vite-plugin-uni-platform-modifier) - 为属性、指令提供平台修饰符并按需编译
+- [uni-helper/vite-plugin-uni-layouts](https://github.com/uni-helper/vite-plugin-uni-layouts) - 为 Vite 下的 uni-app 提供类 nuxt 的 layouts 系统
+- [uni-ku/root](https://github.com/uni-ku/root) - 解决 UniApp 无法使用根部组件问题

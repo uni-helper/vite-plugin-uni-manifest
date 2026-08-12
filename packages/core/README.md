@@ -1,10 +1,20 @@
 # @uni-helper/vite-plugin-uni-manifest
 
-<a href="https://www.npmjs.com/package/@uni-helper/vite-plugin-uni-manifest"><img src="https://img.shields.io/npm/v/@uni-helper/vite-plugin-uni-manifest" alt="NPM version"></a>
+<p style="text-align: center">
+  <a href="https://github.com/uni-helper/vite-plugin-uni-manifest/stargazers"><img src="https://img.shields.io/github/stars/uni-helper/vite-plugin-uni-manifest?colorA=005947&colorB=eee&style=for-the-badge" alt="Stars"></a>
+  <a href="https://npmx.dev/package/@uni-helper/vite-plugin-uni-manifest"><img src="https://img.shields.io/npm/dm/@uni-helper/vite-plugin-uni-manifest?colorA=005947&colorB=eee&style=for-the-badge" alt="Downloads"></a>
+  <a href="https://npmx.dev/package/@uni-helper/vite-plugin-uni-manifest"><img src="https://img.shields.io/npm/v/@uni-helper/vite-plugin-uni-manifest?colorA=005947&colorB=eee&style=for-the-badge" alt="NPM Version"></a>
+</p>
+<p style="text-align: center">
+  <a href="https://github.com/kejunmao"><img src="https://img.shields.io/badge/Author-KeJun-blue?style=for-the-badge" alt="Author"></a>
+  <a href="https://github.com/ModyQyW"><img src="https://img.shields.io/badge/Maintainer-ModyQyW-blue?style=for-the-badge" alt="Author"></a>
+</p>
 
 使用 TypeScript 编写 `uni-app` 的 `manifest.json`。
 
 不想看文档？直接问 AI 🤖 <a href="https://deepwiki.com/uni-helper/vite-plugin-uni-manifest"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
+
+> **请考虑持续[赞助](https://github.com/ModyQyW/sponsors)以维持该项目的持续健康发展，非常感谢！🙏**
 
 ## 安装
 
@@ -321,3 +331,14 @@ index.ts
 - **c12 配置加载**：通过 `c12` 的 `watchConfig` 实现 `manifest.config.ts` 的监听和热更新，支持 `.ts`、`.mts`、`.js`、`.json` 等格式。
 - **幂等写入**：`writeManifestJson` 在内容未变化时跳过写入，避免触发下游不必要的重编译。
 - **分类调试日志**：通过 `debug` 选项或 `DEBUG=vite-plugin-uni-manifest:*` 环境变量按类别（`options`/`config`/`writer`）输出日志，默认关闭，不影响正常输出。
+
+## 关联项目
+
+- [@uni-helper/vite-plugin-uni-manifest](https://github.com/uni-helper/vite-plugin-uni-manifest/tree/main/packages/core) - 使用 TypeScript 编写 `uni-app` 的 `manifest.json`
+- [@uni-helper/manifest-json-schema](https://github.com/uni-helper/vite-plugin-uni-manifest/tree/main/packages/schema) - 为 uni-app 的 manifest.json 提供 schema
+- [@uni-helper/uni-manifest-types](https://github.com/uni-helper/vite-plugin-uni-manifest/tree/main/packages/types) - 为 uni-app 的 manifest.json 提供 TypeScript 类型
+- [uni-helper/vite-plugin-uni-pages](https://github.com/uni-helper/vite-plugin-uni-pages) - 为 Vite 下的 uni-app 提供基于文件系统的路由
+- [uni-helper/vite-plugin-uni-platform](https://github.com/uni-helper/vite-plugin-uni-platform) - 基于文件名 (*.<h5|mp-weixin|app>.*) 的按平台编译插件
+- [uni-helper/vite-plugin-uni-platform-modifier](https://github.com/uni-helper/vite-plugin-uni-platform-modifier) - 为属性、指令提供平台修饰符并按需编译
+- [uni-helper/vite-plugin-uni-layouts](https://github.com/uni-helper/vite-plugin-uni-layouts) - 为 Vite 下的 uni-app 提供类 nuxt 的 layouts 系统
+- [uni-ku/root](https://github.com/uni-ku/root) - 解决 uni-app 无法使用根部组件问题
