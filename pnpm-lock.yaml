@@ -70,8 +70,8 @@ catalogs:
       specifier: ^0.1.0
       version: 0.1.0
     bumpp:
-      specifier: ^12.2.0
-      version: 12.2.0
+      specifier: ^12.2.1
+      version: 12.2.1
     c12:
       specifier: ^3.3.4
       version: 3.3.4
@@ -123,7 +123,7 @@ importers:
         version: 24.13.3
       bumpp:
         specifier: 'catalog:'
-        version: 12.2.0
+        version: 12.2.1
       debug:
         specifier: 'catalog:'
         version: 4.4.3
@@ -2857,8 +2857,8 @@ packages:
     resolution: {integrity: sha512-02yxLeyxF4dNl6SlY6/5HfRSrSdZ/sCPoxy2kZNP5dZZX8LSAD9aE2gtJIUgWrsQTiMPl3mxESyrobSwvRGisQ==}
     engines: {node: '>=18.20'}
 
-  bumpp@12.2.0:
-    resolution: {integrity: sha512-pQuDUxqHpxxjfie/KABu0fppefIthnC/ZEIzcoSDy3RVxhascgsl+NI21+wQec6tTLr+wNQTLcjSeTSGr80qAw==}
+  bumpp@12.2.1:
+    resolution: {integrity: sha512-8inGPx8PC/BaEOWhzfxrNHGj/x5Srt0EeJatAcTJ9N7AZpQG/HlH4kGp5JWbEL8zffYXI5iBkMjG8SHnJ9e/6g==}
     engines: {node: ^22.18.0 || ^24.11.0 || >=26.0.0}
     hasBin: true
 
@@ -9042,7 +9042,7 @@ snapshots:
 
   builtin-modules@5.2.0: {}
 
-  bumpp@12.2.0:
+  bumpp@12.2.1:
     dependencies:
       args-tokenizer: 0.3.0
       cac: 7.0.0

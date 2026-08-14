@@ -28,7 +28,7 @@ catalog:
   '@types/debug': ^4.1.13
   '@types/node': ^24.13.3
   '@uni-helper/plugin-uni': ^0.1.0
-  bumpp: ^12.2.0
+  bumpp: ^12.2.1
   c12: ^3.3.4
   debug: ^4.4.3
   eslint: ^10.8.1
