@@ -1,7 +1,7 @@
 {
   "name": "@uni-helper/manifest-json-schema",
   "type": "module",
-  "version": "0.5.8",
+  "version": "0.6.0",
   "description": "Schema for uni-app manifest.json",
   "author": "ModyQyW",
   "license": "MIT",
