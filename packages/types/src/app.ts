@@ -1,4 +1,4 @@
-import type { AndroidPermission } from './app-plus'
+import type { AndroidPermissionOrFeature } from './common'
 
 /**
  * uni-app-x Android 图标配置
@@ -195,14 +195,14 @@ export interface AppDistributeAndroid {
    *
    * 详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#incloudpermissions>
    */
-  permissions?: AndroidPermission[]
+  permissions?: AndroidPermissionOrFeature[]
 
   /**
    * 强制移除的权限
    *
    * 详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#excludepermissions>
    */
-  excludePermissions?: AndroidPermission[]
+  excludePermissions?: AndroidPermissionOrFeature[]
 
   /**
    * 应用兼容的最低 Android 版本（API 等级）

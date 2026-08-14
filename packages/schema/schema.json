@@ -131,7 +131,7 @@
         "excludePermissions": {
           "description": "强制移除的权限\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#excludepermissions>",
           "items": {
-            "$ref": "#/definitions/AndroidPermission"
+            "$ref": "#/definitions/AndroidPermissionOrFeature"
           },
           "type": "array"
         },
@@ -158,7 +158,7 @@
         "permissions": {
           "description": "额外添加的权限\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#incloudpermissions>",
           "items": {
-            "$ref": "#/definitions/AndroidPermission"
+            "$ref": "#/definitions/AndroidPermissionOrFeature"
           },
           "type": "array"
         },
@@ -255,7 +255,7 @@
         "excludePermissions": {
           "description": "强制移除的权限\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#excludepermissions>",
           "items": {
-            "$ref": "#/definitions/AndroidPermission"
+            "$ref": "#/definitions/AndroidPermissionOrFeature"
           },
           "type": "array"
         },
@@ -274,7 +274,7 @@
         "permissions": {
           "description": "额外添加的权限\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#incloudpermissions>",
           "items": {
-            "$ref": "#/definitions/AndroidPermission"
+            "$ref": "#/definitions/AndroidPermissionOrFeature"
           },
           "type": "array"
         },
@@ -576,6 +576,7 @@
       "description": "HarmonyOS UserAgent 配置，配置应用的 UserAgent 相关设置\n\n详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-useragent>",
       "properties": {
         "concatenate": {
+          "default": false,
           "description": "是否将 value 值作为追加值连接到系统默认 userAgent 值之后",
           "type": "boolean"
         },
@@ -1100,42 +1101,12 @@
                   "type": "string"
                 },
                 "permissionExternalStorage": {
-                  "description": "Android 平台 APP 启动时申请读写手机存储权限策略配置，详见 <https://ask.dcloud.net.cn/article/36549>",
-                  "properties": {
-                    "prompt": {
-                      "description": "用户拒绝时弹出提示框上的内容，国际化配置参考 <https://ask.dcloud.net.cn/article/35860#strings>",
-                      "type": "string"
-                    },
-                    "request": {
-                      "description": "Android 平台 APP 启动时申请读写手机存储权限策略的策略\n\n\"none\" 启动时不申请\n\n\"once\" 第一次启动时申请，用户可以拒绝\n\n\"always\" 每次启动都申请，用户必须允许，用户拒绝时弹出提示框引导用户重新允许",
-                      "enum": [
-                        "none",
-                        "once",
-                        "always"
-                      ],
-                      "type": "string"
-                    }
-                  },
-                  "type": "object"
+                  "$ref": "#/definitions/AppPlusPermissionPrompt",
+                  "description": "Android 平台 APP 启动时申请读写手机存储权限策略配置，详见 <https://ask.dcloud.net.cn/article/36549>"
                 },
                 "permissionPhoneState": {
-                  "description": "Android 平台 APP 启动时申请读取设备信息权限配置，详见 <https://ask.dcloud.net.cn/article/36549>",
-                  "properties": {
-                    "prompt": {
-                      "description": "用户拒绝时弹出提示框上的内容，国际化配置参考 <https://ask.dcloud.net.cn/article/35860#strings>",
-                      "type": "string"
-                    },
-                    "request": {
-                      "description": "Android 平台 APP 启动时申请读取设备信息权限的策略\n\n\"none\" 启动时不申请\n\n\"once\" 第一次启动时申请，用户可以拒绝\n\n\"always\" 每次启动都申请，用户必须允许，用户拒绝时弹出提示框引导用户重新允许",
-                      "enum": [
-                        "none",
-                        "once",
-                        "always"
-                      ],
-                      "type": "string"
-                    }
-                  },
-                  "type": "object"
+                  "$ref": "#/definitions/AppPlusPermissionPrompt",
+                  "description": "Android 平台 APP 启动时申请读取设备信息权限配置，详见 <https://ask.dcloud.net.cn/article/36549>"
                 },
                 "permissions": {
                   "description": "Android 平台 APP 使用的权限，详见 <https://uniapp.dcloud.net.cn/tutorial/app-permission-android.html> 和 <https://uniapp.dcloud.net.cn/tutorial/app-nativeresource-android.html>",
@@ -1315,77 +1286,7 @@
                 "UIBackgroundModes": {
                   "anyOf": [
                     {
-                      "const": "audio",
-                      "type": "string"
-                    },
-                    {
-                      "const": "bluetooth-central",
-                      "type": "string"
-                    },
-                    {
-                      "const": "bluetooth-peripheral",
-                      "type": "string"
-                    },
-                    {
-                      "const": "external-accessory",
-                      "type": "string"
-                    },
-                    {
-                      "const": "fetch",
-                      "type": "string"
-                    },
-                    {
-                      "const": "location",
-                      "type": "string"
-                    },
-                    {
-                      "const": "nearby-interaction",
-                      "type": "string"
-                    },
-                    {
-                      "const": "network-authentication",
-                      "type": "string"
-                    },
-                    {
-                      "const": "newsstand-content",
-                      "type": "string"
-                    },
-                    {
-                      "const": "processing",
-                      "type": "string"
-                    },
-                    {
-                      "const": "push-to-talk",
-                      "type": "string"
-                    },
-                    {
-                      "const": "remote-notification",
-                      "type": "string"
-                    },
-                    {
-                      "const": "voip",
-                      "type": "string"
-                    },
-                    {
-                      "items": {
-                        "enum": [
-                          "audio",
-                          "bluetooth-central",
-                          "bluetooth-peripheral",
-                          "external-accessory",
-                          "fetch",
-                          "location",
-                          "nearby-interaction",
-                          "network-authentication",
-                          "newsstand-content",
-                          "processing",
-                          "push-to-talk",
-                          "remote-notification",
-                          "voip"
-                        ],
-                        "type": "string"
-                      },
-                      "type": "array"
+                      "$ref": "#/definitions/MaybeArray%3C(%22audio%22%7C%22bluetooth-central%22%7C%22bluetooth-peripheral%22%7C%22external-accessory%22%7C%22fetch%22%7C%22location%22%7C%22nearby-interaction%22%7C%22network-authentication%22%7C%22newsstand-content%22%7C%22processing%22%7C%22push-to-talk%22%7C%22remote-notification%22%7C%22voip%22)%3E"
                     },
                     {
                       "type": "string"
@@ -1587,15 +1488,9 @@
             },
             "orientation": {
               "deprecated": "使用 screenOrientation 替代",
-              "description": "重力感应、横竖屏配置\n\n\"portrait-primary\" 竖屏正方向\n\n\"portrait-secondary\" 竖屏反方向\n\n\"landscape-primary\" 横屏正方向\n\n\"landscape-secondary\" 横屏反方向",
+              "description": "重力感应、横竖屏配置",
               "items": {
-                "enum": [
-                  "portrait-primary",
-                  "portrait-secondary",
-                  "landscape-primary",
-                  "landscape-secondary"
-                ],
-                "type": "string"
+                "$ref": "#/definitions/AppPlusScreenOrientation"
               },
               "type": "array"
             },
@@ -3033,15 +2928,9 @@
           "type": "object"
         },
         "screenOrientation": {
-          "description": "重力感应、横竖屏配置\n\n\"portrait-primary\" 竖屏正方向\n\n\"portrait-secondary\" 竖屏反方向\n\n\"landscape-primary\" 横屏正方向\n\n\"landscape-secondary\" 横屏反方向",
+          "description": "重力感应、横竖屏配置",
           "items": {
-            "enum": [
-              "portrait-primary",
-              "portrait-secondary",
-              "landscape-primary",
-              "landscape-secondary"
-            ],
-            "type": "string"
+            "$ref": "#/definitions/AppPlusScreenOrientation"
           },
           "type": "array"
         },
@@ -3245,6 +3134,35 @@
         }
       },
       "type": "object"
+    },
+    "AppPlusPermissionPrompt": {
+      "description": "App 平台权限申请策略配置",
+      "properties": {
+        "prompt": {
+          "description": "用户拒绝时弹出提示框上的内容，国际化配置参考 <https://ask.dcloud.net.cn/article/35860#strings>",
+          "type": "string"
+        },
+        "request": {
+          "description": "权限申请策略\n\n\"none\" 启动时不申请\n\n\"once\" 第一次启动时申请，用户可以拒绝\n\n\"always\" 每次启动都申请，用户必须允许，用户拒绝时弹出提示框引导用户重新允许",
+          "enum": [
+            "none",
+            "once",
+            "always"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "AppPlusScreenOrientation": {
+      "description": "重力感应、横竖屏方向\n\n\"portrait-primary\" 竖屏正方向\n\n\"portrait-secondary\" 竖屏反方向\n\n\"landscape-primary\" 横屏正方向\n\n\"landscape-secondary\" 横屏反方向",
+      "enum": [
+        "portrait-primary",
+        "portrait-secondary",
+        "landscape-primary",
+        "landscape-secondary"
+      ],
+      "type": "string"
     },
     "AppPlusUserAgent": {
       "description": "App 平台 UserAgent 相关配置",
@@ -3783,6 +3701,83 @@
         "versionCode"
       ],
       "type": "object"
+    },
+    "MaybeArray<(\"audio\"|\"bluetooth-central\"|\"bluetooth-peripheral\"|\"external-accessory\"|\"fetch\"|\"location\"|\"nearby-interaction\"|\"network-authentication\"|\"newsstand-content\"|\"processing\"|\"push-to-talk\"|\"remote-notification\"|\"voip\")>": {
+      "anyOf": [
+        {
+          "const": "audio",
+          "type": "string"
+        },
+        {
+          "const": "bluetooth-central",
+          "type": "string"
+        },
+        {
+          "const": "bluetooth-peripheral",
+          "type": "string"
+        },
+        {
+          "const": "external-accessory",
+          "type": "string"
+        },
+        {
+          "const": "fetch",
+          "type": "string"
+        },
+        {
+          "const": "location",
+          "type": "string"
+        },
+        {
+          "const": "nearby-interaction",
+          "type": "string"
+        },
+        {
+          "const": "network-authentication",
+          "type": "string"
+        },
+        {
+          "const": "newsstand-content",
+          "type": "string"
+        },
+        {
+          "const": "processing",
+          "type": "string"
+        },
+        {
+          "const": "push-to-talk",
+          "type": "string"
+        },
+        {
+          "const": "remote-notification",
+          "type": "string"
+        },
+        {
+          "const": "voip",
+          "type": "string"
+        },
+        {
+          "items": {
+            "enum": [
+              "audio",
+              "bluetooth-central",
+              "bluetooth-peripheral",
+              "external-accessory",
+              "fetch",
+              "location",
+              "nearby-interaction",
+              "network-authentication",
+              "newsstand-content",
+              "processing",
+              "push-to-talk",
+              "remote-notification",
+              "voip"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        }
+      ]
     },
     "MpAlipay": {
       "properties": {

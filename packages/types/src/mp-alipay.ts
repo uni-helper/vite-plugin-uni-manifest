@@ -1,5 +1,15 @@
 import type { PlatformUniStatistics } from './uni-statistics'
 
+/** 插件联调版本信息映射 */
+interface AlipayPluginVersionMap {
+  [x: string]: {
+    /** 插件联调版本信息 */
+    version: string
+
+    [x: string]: any
+  }
+}
+
 export interface MpAlipay {
   /** 使用到的插件，详见 <https://opendocs.alipay.com/mini/plugin/plugin-usage> */
   plugins?: Record<string, Record<string, any>>
@@ -208,24 +218,10 @@ export interface MpAlipay {
     enable?: boolean
 
     /** 指定插件联调的静态插件版本 */
-    plugins?: {
-      [x: string]: {
-        /** 插件联调版本信息 */
-        version: string
-
-        [x: string]: any
-      }
-    }
+    plugins?: AlipayPluginVersionMap
 
     /** 指定插件联调的动态插件版本 */
-    dynamicPlugins?: {
-      [x: string]: {
-        /** 插件联调版本信息 */
-        version: string
-
-        [x: string]: any
-      }
-    }
+    dynamicPlugins?: AlipayPluginVersionMap
 
     [x: string]: any
   }
