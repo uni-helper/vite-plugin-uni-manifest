@@ -31,6 +31,23 @@ export type AndroidFeature
 
 export type AndroidPermissionOrFeature = AndroidPermission | AndroidFeature
 
+/**
+ * App 平台 UserAgent 相关配置
+ */
+export interface AppPlusUserAgent {
+  /** 设置的默认 UserAgent 值 */
+  value?: string
+
+  /**
+   * 是否将 value 值作为追加值连接到系统默认 UserAgent 值之后
+   *
+   * @default false
+   */
+  concatenate?: boolean
+
+  [x: string]: any
+}
+
 export interface AppPlus {
   /**
    * 编译器兼容性配置，详见 <https://ask.dcloud.net.cn/article/35627>
@@ -2169,49 +2186,13 @@ export interface AppPlus {
    *
    * @default 系统 UserAgent，并添加 `uni-app Html5Plus/1.0`
    */
-  useragent?: {
-    /** 设置的默认 UserAgent 值 */
-    value?: string
-
-    /**
-     * 是否将 value 值作为追加值连接到系统默认 UserAgent 值之后
-     *
-     * @default false
-     */
-    concatenate?: boolean
-
-    [x: string]: any
-  }
+  useragent?: AppPlusUserAgent
 
   /** Android 平台应用 UserAgent 相关配置，优先级高于 UserAgent 配置 */
-  useragent_android?: {
-    /** 设置的默认 UserAgent 值 */
-    value?: string
-
-    /**
-     * 是否将 value 值作为追加值连接到系统默认 UserAgent 值之后
-     *
-     * @default false
-     */
-    concatenate?: boolean
-
-    [x: string]: any
-  }
+  useragent_android?: AppPlusUserAgent
 
   /** iOS 平台应用 UserAgent 相关配置，优先级高于 UserAgent 配置 */
-  useragent_ios?: {
-    /** 设置的默认 UserAgent 值 */
-    value?: string
-
-    /**
-     * 是否将 value 值作为追加值连接到系统默认 UserAgent 值之后
-     *
-     * @default false
-     */
-    concatenate?: boolean
-
-    [x: string]: any
-  }
+  useragent_ios?: AppPlusUserAgent
 
   /**
    * 是否开启暗黑模式，详见 <https://uniapp.dcloud.net.cn/tutorial/darkmode.html#app-plus>

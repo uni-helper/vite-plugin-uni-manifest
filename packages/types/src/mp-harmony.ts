@@ -27,8 +27,6 @@ export interface MpHarmonySigningConfig {
   keyPassword?: string
 
   /**
-   * 签名算法
-   *
    * 签名算法，固定为 "SHA256withECDSA"
    */
   signAlg?: string

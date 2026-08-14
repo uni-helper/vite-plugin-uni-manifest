@@ -576,7 +576,7 @@
       "description": "HarmonyOS UserAgent 配置，配置应用的 UserAgent 相关设置\n\n详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-useragent>",
       "properties": {
         "concatenate": {
-          "description": "是否追加到系统默认 userAgent\n\n是否将 value 值作为追加值连接到系统默认 userAgent 值之后",
+          "description": "是否将 value 值作为追加值连接到系统默认 userAgent 值之后",
           "type": "boolean"
         },
         "value": {
@@ -3197,50 +3197,17 @@
           "description": "uni 统计配置项"
         },
         "useragent": {
+          "$ref": "#/definitions/AppPlusUserAgent",
           "default": "系统 UserAgent，并添加 `uni-app Html5Plus/1.0`",
-          "description": "应用 UserAgent 相关配置",
-          "properties": {
-            "concatenate": {
-              "default": false,
-              "description": "是否将 value 值作为追加值连接到系统默认 UserAgent 值之后",
-              "type": "boolean"
-            },
-            "value": {
-              "description": "设置的默认 UserAgent 值",
-              "type": "string"
-            }
-          },
-          "type": "object"
+          "description": "应用 UserAgent 相关配置"
         },
         "useragent_android": {
-          "description": "Android 平台应用 UserAgent 相关配置，优先级高于 UserAgent 配置",
-          "properties": {
-            "concatenate": {
-              "default": false,
-              "description": "是否将 value 值作为追加值连接到系统默认 UserAgent 值之后",
-              "type": "boolean"
-            },
-            "value": {
-              "description": "设置的默认 UserAgent 值",
-              "type": "string"
-            }
-          },
-          "type": "object"
+          "$ref": "#/definitions/AppPlusUserAgent",
+          "description": "Android 平台应用 UserAgent 相关配置，优先级高于 UserAgent 配置"
         },
         "useragent_ios": {
-          "description": "iOS 平台应用 UserAgent 相关配置，优先级高于 UserAgent 配置",
-          "properties": {
-            "concatenate": {
-              "default": false,
-              "description": "是否将 value 值作为追加值连接到系统默认 UserAgent 值之后",
-              "type": "boolean"
-            },
-            "value": {
-              "description": "设置的默认 UserAgent 值",
-              "type": "string"
-            }
-          },
-          "type": "object"
+          "$ref": "#/definitions/AppPlusUserAgent",
+          "description": "iOS 平台应用 UserAgent 相关配置，优先级高于 UserAgent 配置"
         },
         "webView": {
           "description": "系统 webview 低于指定版本时，会弹出提示，或者下载 x5 内核后继续启动，仅 Android 支持",
@@ -3275,6 +3242,21 @@
             }
           },
           "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "AppPlusUserAgent": {
+      "description": "App 平台 UserAgent 相关配置",
+      "properties": {
+        "concatenate": {
+          "default": false,
+          "description": "是否将 value 值作为追加值连接到系统默认 UserAgent 值之后",
+          "type": "boolean"
+        },
+        "value": {
+          "description": "设置的默认 UserAgent 值",
+          "type": "string"
         }
       },
       "type": "object"
@@ -4243,7 +4225,7 @@
           "type": "string"
         },
         "signAlg": {
-          "description": "签名算法\n\n签名算法，固定为 \"SHA256withECDSA\"",
+          "description": "签名算法，固定为 \"SHA256withECDSA\"",
           "type": "string"
         },
         "storeFile": {

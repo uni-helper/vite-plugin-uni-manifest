@@ -228,9 +228,9 @@ export interface AppHarmonyUserAgent {
   value?: string
 
   /**
-   * 是否追加到系统默认 userAgent
-   *
    * 是否将 value 值作为追加值连接到系统默认 userAgent 值之后
+   *
+   * @default false
    */
   concatenate?: boolean
 }

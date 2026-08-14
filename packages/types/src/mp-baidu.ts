@@ -12,7 +12,7 @@ export interface MpBaidu {
    *
    * "audio" 背景音频播放
    */
-  requiredBackgroundModes?: ('audio')[]
+  requiredBackgroundModes?: 'audio'[]
 
   /** 预请求的所有 url 的列表，详见 <https://smartprogram.baidu.com/docs/develop/tutorial/process/#prefetches> */
   prefetches?: string[]
