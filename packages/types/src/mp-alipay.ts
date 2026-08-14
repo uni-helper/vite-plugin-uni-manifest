@@ -100,12 +100,12 @@ export interface MpAlipay {
     treeShaking?: boolean
 
     /**
-     * IDE 3.7.5 开始支持路径别名配置, 详见 <https://opendocs.alipay.com/mini/03dbc3#resolveAlias>
+     * IDE 3.7.5 开始支持路径别名配置，详见 <https://opendocs.alipay.com/mini/03dbc3#resolveAlias>
      */
     resolveAlias?: Record<string, string>
 
     /**
-     * 小程序全局对象（global/globalThis）访问策略, 详见 <https://opendocs.alipay.com/mini/03dbc3#globalObjectMode>
+     * 小程序全局对象（global/globalThis）访问策略，详见 <https://opendocs.alipay.com/mini/03dbc3#globalObjectMode>
      *
      * "legacy" 禁止访问全局对象
      *
@@ -178,14 +178,14 @@ export interface MpAlipay {
     minify?: boolean
 
     /**
-     * IDE 3.8.8 开始支持，是否跳过 ES5 转译, 以加快开发时构建速度
+     * IDE 3.8.8 开始支持，是否跳过 ES5 转译，以加快开发时构建速度
      *
      * @default false
      */
     skipTranspile?: boolean
 
     /**
-     * IDE 3.8.8 开始支持，是否按需编译页面, 以加快开发时构建速度
+     * IDE 3.8.8 开始支持，是否按需编译页面，以加快开发时构建速度
      *
      * 必须在 app.json 中同时开启 lazyCodeLoading
      *
@@ -251,7 +251,7 @@ export interface MpAlipay {
   slotMultipleInstance?: boolean
 
   /**
-   * 是否开启代码按需执行, 详见 <https://opendocs.alipay.com/mini/framework/app-json#lazyCodeLoading>
+   * 是否开启代码按需执行，详见 <https://opendocs.alipay.com/mini/framework/app-json#lazyCodeLoading>
    *
    * "requiredComponents" 按需加载页面
    *

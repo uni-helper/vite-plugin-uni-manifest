@@ -29,11 +29,11 @@ export interface MpWeixin {
     enhance?: boolean
 
     /**
-     * 是否使用增强编译，详见 <https://developers.weixin.qq.com/community/develop/doc/0002ce07a58000a57c5da5e6456c09>
+     * 是否使用增强编译，支持 ES7 语法，详见 <https://developers.weixin.qq.com/community/develop/doc/0002ce07a58000a57c5da5e6456c09>
      */
     es7?: boolean
 
-    /** 上传代码时样式是否自动补全  */
+    /** 上传代码时样式是否自动补全 */
     postcss?: boolean
 
     /** 上传代码时是否自动压缩脚本文件 */
@@ -101,6 +101,36 @@ export interface MpWeixin {
       [x: string]: any
     }
 
+    /** 压缩 wxml 的配置项 */
+    minifyWXMLSetting?: {
+      /**
+       * 是否压缩空格
+       *
+       * true: 标签内所有连续空白符会被压缩成 1 个空格，换行的情况按 preserveLineBreaks 处理
+       *
+       * @default true
+       */
+      collapseWhitespace?: boolean
+
+      /**
+       * false: 标签前后不保留空格
+       *
+       * true: 如果有空格，标签前后会保留一个空格
+       *
+       * @default false
+       */
+      conservativeCollapse?: boolean
+
+      /**
+       * false: 按 collapseWhitespace 处理
+       *
+       * true: 所有换行都会被保留
+       *
+       * @default false
+       */
+      preserveLineBreaks?: boolean
+    }
+
     /** 编译插件配置 */
     useCompilerPlugins?: false | ('typescript' | 'less' | 'sass')[]
 
@@ -141,6 +171,13 @@ export interface MpWeixin {
      */
     ignoreDevUnusedFiles?: boolean
 
+    /**
+     * 预览、真机调试上传等开发阶段是否不执行代码质量检测
+     *
+     * @default false
+     */
+    ignoreCodeQuality?: boolean
+
     /** 是否展示 JSON 文件校验错误信息 */
     checkInvalidKey?: boolean
 
@@ -174,7 +211,7 @@ export interface MpWeixin {
     checkSiteMap?: boolean
   }
 
-  /** 基础库版本， */
+  /** 基础库版本 */
   libVersion?: string
 
   /**
@@ -274,6 +311,25 @@ export interface MpWeixin {
    * vue2 微信小程序是否开启独立分包
    */
   independent?: boolean
+
+  /**
+   * 是否为组件启用 virtualHost，默认启用
+   *
+   * @default true
+   */
+  enableVirtualHost?: boolean
+
+  /**
+   * 是否开启暗黑模式，详见 <https://uniapp.dcloud.net.cn/tutorial/darkmode.html#mp-weixin>
+   */
+  darkmode?: boolean
+
+  /**
+   * 主题配置文件路径，darkmode 开启时生效
+   *
+   * @default "theme.json"
+   */
+  themeLocation?: string
 
   [x: string]: any
 }

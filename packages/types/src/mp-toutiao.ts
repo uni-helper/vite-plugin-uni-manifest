@@ -7,7 +7,7 @@ export interface MpToutiao {
   /** 项目名称 */
   projectname?: string
 
-  /** 字节跳动小程序小程序项目设置 */
+  /** 字节跳动小程序项目设置 */
   setting?: {
     /** 是否启用 ES6 转 ES5 */
     es6?: boolean

@@ -1,6 +1,10 @@
+import type { App } from './app'
+import type { AppAndroid } from './app-android'
 import type { AppHarmony } from './app-harmony'
+import type { AppIos } from './app-ios'
 import type { AppPlus } from './app-plus'
 import type { H5 } from './h5'
+import type { HBuilderX } from './hbuilderx'
 import type { MpAlipay } from './mp-alipay'
 import type { MpBaidu } from './mp-baidu'
 import type { MpHarmony } from './mp-harmony'
@@ -11,7 +15,9 @@ import type { MpToutiao } from './mp-toutiao'
 import type { MpWeixin } from './mp-weixin'
 import type { MpXhs } from './mp-xhs'
 import type { QuickappWebview, QuickappWebviewHuawei, QuickappWebviewUnion } from './quickapp-webview'
+import type { UniAppX } from './uni-app-x'
 import type { UniStatistics } from './uni-statistics'
+import type { Web } from './web'
 
 /**
  * 应用的配置文件，用于指定应用的名称、图标、权限等
@@ -34,6 +40,9 @@ export interface ManifestConfig {
    * @default "auto"
    */
   'locale'?: string
+
+  /** 默认回退语言，当 locale 指定的语言不可用时使用 */
+  'fallbackLocale'?: string
 
   /** 版本名称，在云打包和生成 wgt 资源时使用 */
   'versionName': string
@@ -96,7 +105,7 @@ export interface ManifestConfig {
   /**
    * 使用的 SCSS 预编译库，仅限 Vue2 项目
    *
-   * @desc 4.56+
+   * @since 4.56+
    *
    * @default "dart-sass"
    */
@@ -113,6 +122,9 @@ export interface ManifestConfig {
 
   /** H5 配置 */
   'h5'?: H5
+
+  /** 快应用特有配置，即将支持 */
+  'quickapp'?: Record<string, any>
 
   /** 快应用特有配置 */
   'quickapp-webview'?: QuickappWebview
@@ -146,6 +158,28 @@ export interface ManifestConfig {
 
   /** 小红书小程序特有配置 */
   'mp-xhs'?: MpXhs
+
+  /**
+   * 存在 uni-app-x 节点则表示为 uni-app x 项目，uni-app x 独有配置
+   *
+   * 详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest.html#manifest-uni-app-x>
+   */
+  'uni-app-x'?: UniAppX
+
+  /** uni-app x App 平台（原生 App）配置 */
+  'app'?: App
+
+  /** uni-app x App-Android 平台配置 */
+  'app-android'?: AppAndroid
+
+  /** uni-app x iOS App 平台配置 */
+  'app-ios'?: AppIos
+
+  /** uni-app x Web 平台配置 */
+  'web'?: Web
+
+  /** HBuilderX 可视化界面相关操作配置 */
+  '__hbuilderx'?: HBuilderX
 
   [x: string]: any
 }

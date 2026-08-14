@@ -7,7 +7,7 @@ export interface MpLark {
   /** 项目名称 */
   projectname?: string
 
-  /** 飞书小程序小程序项目设置 */
+  /** 飞书小程序项目设置 */
   setting?: {
     /**
      * 是否启用 ES6 转 ES5

@@ -1,143 +1,225 @@
+import type { HEXColor } from './common'
+
 /**
  * HarmonyOS 签名配置
+ *
+ * 详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-signingconfigs>
  */
-export interface HarmonySigningConfig {
+export interface AppHarmonyDistributeSigningConfig {
   /**
    * 私钥库文件
-   *
    */
   storeFile?: string
 
   /**
    * 私钥库访问密码
-   *
-   * 用于访问密钥库的加密密码
    */
   storePassword?: string
 
   /**
    * 私钥库里面的私钥别名
-   *
-   * 用于标识密钥的别名，如 debugKey
    */
   keyAlias?: string
 
   /**
    * 私钥访问密码
-   *
-   * 用于访问私钥的加密密码
    */
   keyPassword?: string
 
   /**
-   * 签名算法
-   *
    * 签名算法，固定为 "SHA256withECDSA"
    */
   signAlg?: string
 
   /**
    * 证书文件
-   *
-   * 指向 .cer 证书文件的路径
    */
   certpath?: string
 
   /**
    * 签名描述文件
-   *
    */
   profile?: string
 }
 
 /**
  * HarmonyOS 应用图标配置
+ *
+ * 详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-icons>
  */
-export interface HarmonyIcons {
+export interface AppHarmonyIcons {
   /**
-   * 前景图
-   *
-   * 以相对路径指向一个图片文件
+   * 前景图，以相对路径指向一个图片文件
    */
   foreground?: string
 
   /**
-   * 背景图
-   *
-   * 以相对路径指向一个图片文件
+   * 背景图，以相对路径指向一个图片文件
    */
   background?: string
+
+  [x: string]: any
 }
 
 /**
  * HarmonyOS 启动界面配置
+ *
+ * 详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-splashscreens>
  */
-export interface HarmonySplashScreens {
+export interface AppHarmonySplashScreens {
   /**
    * 启动界面背景色
    *
-   * 格式为 #RRGGBB
    * @format color
    */
-  startWindowBackground?: string
+  startWindowBackground?: HEXColor
 
   /**
-   * 启动界面中部图标
-   *
-   * 以相对路径指向一个图片文件
+   * 启动界面中部图标，以相对路径指向一个图片文件
    */
   startWindowIcon?: string
+
+  [x: string]: any
 }
 
 /**
  * HarmonyOS 模块配置
+ *
+ * 详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-modules> 和 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest.html#distribute-modules-3>
  */
-export interface HarmonyModules {
-  /**
-   * 定位模块相关参数
-   *
-   * 设置定位模块相关参数
-   */
+export interface AppHarmonyModules {
+  /** 定位模块相关参数 */
   'uni-location'?: Record<string, any>
 
-  /**
-   * 地图模块相关参数
-   *
-   * 设置地图模块相关参数
-   */
+  /** 地图模块相关参数 */
   'uni-map'?: Record<string, any>
 
-  /**
-   * 登录鉴权模块相关参数
-   *
-   * 设置登录鉴权模块相关参数
-   */
-  'uni-oauth'?: Record<string, any>
+  /** 登录鉴权模块相关参数 */
+  'uni-oauth'?: {
+    /** 华为 OAuth 模块 */
+    huawei?: Record<string, any>
 
-  /**
-   * 支付模块相关参数
-   *
-   * 设置支付模块相关参数
-   */
+    /** 微信 OAuth 模块 */
+    weixin?: {
+      /** 微信开放平台申请的应用 ID（AppID） */
+      appid?: string
+
+      [x: string]: any
+    }
+
+    [x: string]: any
+  }
+
+  /** 支付模块相关参数 */
   'uni-payment'?: Record<string, any>
 
-  /**
-   * 分享模块相关参数
-   *
-   * 设置分享模块相关参数
-   */
-  'uni-share'?: Record<string, any>
+  /** 分享模块相关参数 */
+  'uni-share'?: {
+    /** 微信分享模块 */
+    weixin?: {
+      /** 微信开放平台申请的应用 ID（AppID） */
+      appid?: string
 
-  /**
-   * 其他模块配置
-   */
-  [moduleName: string]: Record<string, any> | undefined
+      [x: string]: any
+    }
+
+    [x: string]: any
+  }
+
+  /** 系统定位模块（uni-app x） */
+  'uni-location-system'?: Record<string, any>
+
+  /** 腾讯地图模块（uni-app x） */
+  'uni-map-tencent'?: Record<string, any>
+
+  /** 支付宝支付模块（uni-app x） */
+  'uni-payment-alipay'?: Record<string, any>
+
+  /** 微信支付模块（uni-app x） */
+  'uni-payment-wxpay'?: Record<string, any>
+
+  /** 统一推送模块（uni-app x） */
+  'uni-push'?: Record<string, any>
+
+  /** 一键登录模块（uni-app x） */
+  'uni-verify'?: Record<string, any>
+
+  /** uni 实人认证模块（uni-app x） */
+  'uni-facialVerify'?: Record<string, any>
+
+  [x: string]: any
 }
 
 /**
- * HarmonyOS UserAgent 配置
+ * HarmonyOS 分发配置
+ *
+ * 详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-distribute> 和 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest.html#app-harmony-distribute>
  */
-export interface HarmonyUserAgent {
+export interface AppHarmonyDistribute {
+  /**
+   * 应用包名
+   *
+   * HarmonyOS 应用的唯一标识符，格式为反向域名
+   */
+  bundleName?: string
+
+  /**
+   * 证书签名配置
+   *
+   * 配置鸿蒙打包时使用的数字签名证书信息，可分别配置调试证书和发布证书
+   *
+   * 详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-signingconfigs>
+   */
+  signingConfigs?: {
+    /**
+     * 调试证书配置
+     */
+    default?: AppHarmonyDistributeSigningConfig
+
+    /**
+     * 发布证书配置
+     */
+    release?: AppHarmonyDistributeSigningConfig
+
+    /**
+     * 其他自定义签名配置
+     */
+    [configName: string]: AppHarmonyDistributeSigningConfig | undefined
+  }
+
+  /**
+   * 应用图标配置
+   *
+   * 配置应用的前景图和背景图，详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-icons>
+   */
+  icons?: AppHarmonyIcons
+
+  /**
+   * 启动界面配置
+   *
+   * 配置启动界面的背景色和中部图标，详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-splashscreens>
+   */
+  splashScreens?: AppHarmonySplashScreens
+
+  /**
+   * 模块配置
+   *
+   * 配置各种功能模块的相关参数，详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-modules>
+   */
+  modules?: AppHarmonyModules
+
+  /**
+   * 其他分发相关配置
+   */
+  [x: string]: any
+}
+
+/**
+ * HarmonyOS UserAgent 配置，配置应用的 UserAgent 相关设置
+ *
+ * 详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-useragent>
+ */
+export interface AppHarmonyUserAgent {
   /**
    * UserAgent 值
    *
@@ -154,108 +236,80 @@ export interface HarmonyUserAgent {
 }
 
 /**
- * HarmonyOS 分发配置
+ * HarmonyOS 底部安全区域配置
+ *
+ * 详见 <https://uniapp.dcloud.net.cn/tutorial/darkmode.html#app-harmony-safearea-bottom>
  */
-export interface HarmonyDistribute {
+export interface AppHarmonySafearea {
   /**
-   * 应用包名
+   * 底部安全区域背景色
    *
-   * HarmonyOS 应用的唯一标识符，格式为反向域名
+   * @format color
    */
-  bundleName?: string
+  background?: HEXColor
 
   /**
-   * 证书签名配置
+   * 暗黑模式下底部安全区域背景色
    *
-   * 配置鸿蒙打包时使用的数字签名证书信息，可分别配置调试证书和发布证书，详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-signingconfigs>
+   * @format color
    */
-  signingConfigs?: {
-    /**
-     * 调试证书配置
-     */
-    default?: HarmonySigningConfig
+  backgroundDark?: HEXColor
 
-    /**
-     * 发布证书配置
-     */
-    release?: HarmonySigningConfig
-
-    /**
-     * 其他自定义签名配置
-     */
-    [configName: string]: HarmonySigningConfig | undefined
+  bottom?: {
+    /** 底部区域占位方式，目前仅支持 none（无 tabBar 时不占位） */
+    offset: 'none'
   }
-
-  /**
-   * 应用图标配置
-   *
-   * 配置应用的前景图和背景图，详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-icons>
-   */
-  icons?: HarmonyIcons
-
-  /**
-   * 启动界面配置
-   *
-   * 配置启动界面的背景色和中部图标，详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-splashscreens>
-   */
-  splashScreens?: HarmonySplashScreens
-
-  /**
-   * 模块配置
-   *
-   * 配置各种功能模块的相关参数，详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-modules>
-   */
-  modules?: HarmonyModules
-
-  /**
-   * 其他分发相关配置
-   */
-  [key: string]: any
 }
 
 /**
- * HarmonyOS 应用配置
+ * uni-app-x App HarmonyOS 应用配置
  *
- * 详见 https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony
+ * 详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest.html#manifest-app-harmony>
  */
 export interface AppHarmony {
   /**
    * HarmonyOS 分发配置
    *
-   * 包含应用包名、签名配置、图标、启动界面等分发相关的设置
+   * 详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-distribute> 和 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest.html#app-harmony-distribute>
    */
-  distribute?: HarmonyDistribute
+  distribute?: AppHarmonyDistribute
 
   /**
-   * UserAgent 配置
+   * UserAgent 配置，配置应用的 UserAgent 相关设置
    *
-   * 配置应用的 UserAgent 相关设置，详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-useragent>
+   * 详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-harmony-useragent>
    */
-  useragent?: HarmonyUserAgent
+  useragent?: AppHarmonyUserAgent
 
   /**
-   * 是否开启暗黑模式，详见 <https://uniapp.dcloud.net.cn/tutorial/darkmode#app-harmony>
+   * 是否开启暗黑模式
+   *
+   * 详见 <https://uniapp.dcloud.net.cn/tutorial/darkmode#app-harmony>
    *
    * @default false
    */
   darkmode?: boolean
 
   /**
-   * 主题配置文件路径，详见 <https://uniapp.dcloud.net.cn/tutorial/darkmode.html#app-harmony>
+   * 主题配置文件路径
+   *
+   * 详见 <https://uniapp.dcloud.net.cn/tutorial/darkmode.html#app-harmony>
    *
    * @default "theme.json"
    */
   themeLocation?: string
 
   /**
-   * 底部安全区域配置，详见 <https://uniapp.dcloud.net.cn/tutorial/darkmode.html#app-harmony-safearea-bottom>
+   * 底部安全区域配置
+   *
+   * 详见 <https://uniapp.dcloud.net.cn/tutorial/darkmode.html#app-harmony-safearea-bottom>
    */
-  safearea?: Record<string, any>
+  safearea?: AppHarmonySafearea
 
   /**
    * 其他扩展配置
    *
    * 支持其他 HarmonyOS 平台特有的配置项
    */
-  [key: string]: any
+  [x: string]: any
 }

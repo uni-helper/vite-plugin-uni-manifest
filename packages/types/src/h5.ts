@@ -7,7 +7,7 @@ export interface H5 {
   title?: string
 
   /**
-   * 相对于应用根目录的 index.html 模板路径，可定制生成的 html 代码，详见 <https://uniapp.dcloud.net.cn/collocation/manifest#h5-template>
+   * 相对于应用根目录的 index.html 模板路径，可定制生成的 HTML 代码，详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#h5-template>
    *
    * Vue3 暂不支持
    */
@@ -102,7 +102,7 @@ export interface H5 {
     maps?: {
       /** 腾讯地图，HBuilderX 4.36 以下版本使用 */
       qqmap?: {
-        /** https://lbs.qq.com/dev/console/key/manage */
+        /** 腾讯地图密钥，申请地址 <https://lbs.qq.com/dev/console/key/manage> */
         key?: string
 
         [x: string]: any
@@ -110,7 +110,7 @@ export interface H5 {
 
       /** 腾讯地图，HBuilderX 4.36 及以上版本使用 */
       tencent?: {
-        /** https://lbs.qq.com/dev/console/key/manage */
+        /** 腾讯地图密钥，申请地址 <https://lbs.qq.com/dev/console/key/manage> */
         key?: string
 
         [x: string]: any
@@ -118,7 +118,7 @@ export interface H5 {
 
       /** 谷歌地图，HBuilderX 3.2.10+ */
       google?: {
-        /** https://developers.google.com/maps/documentation/javascript/get-api-key */
+        /** 谷歌地图密钥，申请地址 <https://developers.google.com/maps/documentation/javascript/get-api-key> */
         key?: string
 
         [x: string]: any
@@ -126,13 +126,13 @@ export interface H5 {
 
       /** 高德地图，HBuilderX 3.6.0+ */
       amap?: {
-        /** https://console.amap.com/dev/key/app */
+        /** 高德地图密钥，申请地址 <https://console.amap.com/dev/key/app> */
         key?: string
 
-        /** https://console.amap.com/dev/key/app */
+        /** 高德地图安全密钥，申请地址 <https://console.amap.com/dev/key/app> */
         securityJsCode?: string
 
-        /** https://lbs.amap.com/api/jsapi-v2/guide/abc/prepare */
+        /** 高德地图安全密钥代理服务器地址，参考 <https://lbs.amap.com/api/jsapi-v2/guide/abc/prepare> */
         serviceHost?: string
 
         [x: string]: any
@@ -140,7 +140,7 @@ export interface H5 {
 
       /** 百度地图，HBuilderX 3.99+ */
       bmap?: {
-        /** http://lbsyun.baidu.com/apiconsole/key#/home */
+        /** 百度地图密钥，申请地址 <http://lbsyun.baidu.com/apiconsole/key#/home> */
         key?: string
 
         [x: string]: any
@@ -185,6 +185,18 @@ export interface H5 {
 
   /** uni 统计配置项 */
   uniStatistics?: PlatformUniStatistics
+
+  /**
+   * 是否开启暗黑模式，详见 <https://uniapp.dcloud.net.cn/tutorial/darkmode.html#h5>
+   */
+  darkmode?: boolean
+
+  /**
+   * 主题配置文件路径，darkmode 开启时生效
+   *
+   * @default "theme.json"
+   */
+  themeLocation?: string
 
   [x: string]: any
 }

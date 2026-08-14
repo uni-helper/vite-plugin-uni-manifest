@@ -301,7 +301,7 @@ export interface AppPlus {
       aliasname?: string
 
       /**
-       * Android 平台 APP 注册的 scheme，多个 scheme 使用 `,` 分割，详见 <https://uniapp.dcloud.net.cn/tutorial/app-android-schemes>
+       * Android 平台 APP 注册的 scheme，多个 scheme 使用 `,` 分隔，详见 <https://uniapp.dcloud.net.cn/tutorial/app-android-schemes>
        */
       schemes?: string
 
@@ -479,20 +479,20 @@ export interface AppPlus {
       password?: string
 
       /**
-       * iOS支持的设备类型
+       * iOS 支持的设备类型
        *
        * "iphone" 仅支持 iPhone 设备
        *
        * "ipad" 仅支持 iPad 设备
        *
-       * "universal" 同时支持iPhone和iPad设备
+       * "universal" 同时支持 iPhone 和 iPad 设备
        */
       devices?: 'iphone' | 'ipad' | 'universal'
 
-      /** 应用访问白名单列表，多个白名单使用 `,` 分割，详见 <https://uniapp.dcloud.net.cn/tutorial/app-ios-schemewhitelist> */
+      /** 应用访问白名单列表，多个白名单使用 `,` 分隔，详见 <https://uniapp.dcloud.net.cn/tutorial/app-ios-schemewhitelist> */
       urlschemewhitelist?: string
 
-      /** iOS 平台 APP 注册的 scheme，多个 scheme 使用 `,` 分割，详见 <https://uniapp.dcloud.net.cn/tutorial/app-ios-schemes> */
+      /** iOS 平台 APP 注册的 scheme，多个 scheme 使用 `,` 分隔，详见 <https://uniapp.dcloud.net.cn/tutorial/app-ios-schemes> */
       urltypes?: string
 
       /**
@@ -507,7 +507,7 @@ export interface AppPlus {
       /**
        * 依赖的系统库，推荐使用 uni 原生插件扩展使用系统依赖库
        *
-       * @deprecate
+       * @deprecated
        */
       frameworks?: string[]
 
@@ -603,7 +603,7 @@ export interface AppPlus {
         /** 合并到工程 entitlements 文件的数据，json 格式 */
         entitlements?: Record<string, any>
 
-        /** 合并到工程 Info.plist 文件的数据，json格式 */
+        /** 合并到工程 Info.plist 文件的数据，json 格式 */
         plists?: Record<string, any>
       }
 
@@ -1228,7 +1228,7 @@ export interface AppPlus {
         /** 快手内容联盟 */
         'ks-content'?: Record<string, any>
 
-        /** Sigmob广告联盟 */
+        /** Sigmob 广告联盟 */
         'sigmob'?: Record<string, any>
 
         /** 华为广告联盟 */
@@ -1237,11 +1237,38 @@ export interface AppPlus {
         /** 百度百青藤广告联盟 */
         'bd'?: Record<string, any>
 
+        /** Octopus 章鱼移动广告联盟 */
+        'zy'?: Record<string, any>
+
+        /** AdScope 倍孜广告联盟 */
+        'bz'?: Record<string, any>
+
+        /** 泛连广告联盟 */
+        'fl'?: Record<string, any>
+
+        /** 聚力广告联盟 */
+        'jl'?: Record<string, any>
+
         /** 互动游戏（变现猫） */
         'BXM-AD'?: Record<string, any>
 
         /** Google AdMob */
         'gg'?: Record<string, any>
+
+        /** Unity Ads 广告联盟 */
+        'unity'?: Record<string, any>
+
+        /** Liftoff 广告联盟 */
+        'liftoff'?: Record<string, any>
+
+        /** InMobi 广告联盟 */
+        'inmobi'?: Record<string, any>
+
+        /** ironSource 广告联盟 */
+        'ironsource'?: Record<string, any>
+
+        /** Mintegral 广告联盟 */
+        'mintegral'?: Record<string, any>
 
         /** Pangle（海外穿山甲） */
         'pg'?: Record<string, any>
@@ -1425,7 +1452,7 @@ export interface AppPlus {
           'landscape-1194h@2x'?: string
 
           /**
-           * 分辨率 2048x2732，12.9 英寸 iPad Pro竖屏启动图片路径
+           * 分辨率 2048x2732，12.9 英寸 iPad Pro 竖屏启动图片路径
            */
           'portrait-1366h@2x'?: string
 
@@ -1452,7 +1479,8 @@ export interface AppPlus {
         /**
          * 低密度屏幕启动图片路径，320x442
          *
-          @deprecated */
+         * @deprecated
+         */
         ldpi?: string
 
         /**
@@ -1479,7 +1507,7 @@ export interface AppPlus {
       /**
        * Android 平台启动界面导航栏颜色，要求颜色值与启动图背景颜色相近
        *
-       * @desc HBuilderX 5.0+
+       * @since HBuilderX 5.0+
        *
        * @format color
        */
@@ -1514,7 +1542,7 @@ export interface AppPlus {
   /**
    * nvue 编译模式，区别详见 <https://ask.dcloud.net.cn/article/36074>
    *
-   * @desc 2.0.3+
+   * @since 2.0.3+
    *
    * @default "uni-app"
    */
@@ -1523,7 +1551,7 @@ export interface AppPlus {
   /**
    * nvue 样式编译模式，区别详见 <https://ask.dcloud.net.cn/article/38751>
    *
-   * @desc 3.1.1+
+   * @since 3.1.1+
    *
    * @default "weex"
    */
@@ -1534,14 +1562,14 @@ export interface AppPlus {
    *
    * "native" 不加载基于 webview 的运行框架，减少包体积、提升启动速度
    *
-   * @desc App-nvue 2.2.0+
+   * @since App-nvue 2.2.0+
    */
   renderer?: 'native'
 
   /**
    * nvue 首页启动模式，详见 <https://ask.dcloud.net.cn/article/36749>
    *
-   * @desc 2.5.0+
+   * @since 2.5.0+
    *
    * @default "normal"
    */
@@ -1550,7 +1578,7 @@ export interface AppPlus {
   /**
    * nvue 页面布局初始配置
    *
-   * @desc 2.0.3+
+   * @since 2.0.3+
    */
   nvue?: {
     /**
@@ -1572,7 +1600,7 @@ export interface AppPlus {
   /**
    * 分包配置，可以减轻启动时加载的脚本数量，提升启动速度，详见 <https://uniapp.dcloud.net.cn/collocation/manifest.html#app-vue-optimization>
    *
-   * @desc 2.7.12+
+   * @since 2.7.12+
    */
   optimization?: {
     /**
@@ -1580,7 +1608,7 @@ export interface AppPlus {
      *
      * 为 true 时必须设置 app-plus.runmode 为 "liberate"
      *
-     * @desc uni-app vue2
+     * @since uni-app vue2
      */
     subPackages?: boolean
 
@@ -1601,14 +1629,14 @@ export interface AppPlus {
   /**
    * uni 统计配置项
    *
-   * @desc 2.2.3+
+   * @since 2.2.3+
    */
   uniStatistics?: PlatformUniStatistics
 
   /**
    * 系统 webview 低于指定版本时，会弹出提示，或者下载 x5 内核后继续启动，仅 Android 支持
    *
-   * @desc 3.5.0+
+   * @since 3.5.0+
    */
   webView?: {
     /**
@@ -1677,11 +1705,16 @@ export interface AppPlus {
    *
    * false 允许 API 控制自动播放
    *
-   * @desc 3.0.1+
+   * @since 3.0.1+
    *
    * @default false
    */
   mediaPlaybackRequiresUserAction?: boolean
+
+  /**
+   * 是否允许本地文件跨域访问其他本地文件，仅 iOS 生效
+   */
+  allowFileAccessFromFileURLs?: boolean
 
   /**
    * 是否校验已拒绝权限，如果拒绝则不会再申请
@@ -2179,6 +2212,18 @@ export interface AppPlus {
 
     [x: string]: any
   }
+
+  /**
+   * 是否开启暗黑模式，详见 <https://uniapp.dcloud.net.cn/tutorial/darkmode.html#app-plus>
+   */
+  darkmode?: boolean
+
+  /**
+   * 主题配置文件路径，darkmode 开启时生效
+   *
+   * @default "theme.json"
+   */
+  themeLocation?: string
 
   [x: string]: any
 }

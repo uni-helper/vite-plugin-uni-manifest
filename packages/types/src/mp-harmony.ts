@@ -2,10 +2,7 @@
  * HarmonyOS 元服务签名配置
  */
 export interface MpHarmonySigningConfig {
-  /**
-   * 私钥库文件
-   *
-   */
+  /** 私钥库文件 */
   storeFile?: string
 
   /**
@@ -43,10 +40,7 @@ export interface MpHarmonySigningConfig {
    */
   certpath?: string
 
-  /**
-   * 签名描述文件
-   *
-   */
+  /** 签名描述文件 */
   profile?: string
 }
 
@@ -109,5 +103,5 @@ export interface MpHarmony {
    *
    * 支持其他 HarmonyOS 元服务平台特有的配置项
    */
-  [key: string]: any
+  [x: string]: any
 }

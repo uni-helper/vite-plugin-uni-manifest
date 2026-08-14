@@ -25,7 +25,7 @@ export interface UniStatistics {
   /**
    * 前端数据上报周期
    *
-   * @desc HBuilderX 3.5.4+ 支持
+   * @since HBuilderX 3.5.4+
    *
    * @default 10
    */
@@ -34,7 +34,7 @@ export interface UniStatistics {
   /**
    * 采集项配置
    *
-   * @desc HBuilderX 3.5.5+ 支持
+   * @since HBuilderX 3.5.5+
    */
   collectItems?: {
     /**
