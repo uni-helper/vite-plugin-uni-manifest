@@ -63,6 +63,8 @@ export default defineManifestConfig({
 
 `UniManifest()` 支持以下选项定义行为：
 
+开发服务器启动后，插件会监听 manifest 配置并同步后续变更。生产构建只会加载并写入一次配置，不会启动文件监听器。
+
 ```ts
 interface UserOptions {
   /**
