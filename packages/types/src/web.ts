@@ -1,7 +1,7 @@
 /**
  * Web 平台配置（uni-app x）
  *
- * 详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest.html#web>
+ * 详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest.html#manifest-web>
  */
 export interface Web {
   /** 页面标题，默认为应用名称 */

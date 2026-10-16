@@ -47,7 +47,7 @@
         },
         "splashScreen": {
           "$ref": "#/definitions/AppSplashScreen",
-          "description": "启动界面关闭时机配置，HBuilderX 4.71 以下版本配置于 app 节点\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#android平台splash关闭时机>"
+          "description": "启动界面关闭时机配置，HBuilderX 4.71 以下版本配置于 app 节点\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#splashscreenclose>"
         }
       },
       "type": "object"
@@ -81,7 +81,7 @@
         },
         "splashScreen": {
           "$ref": "#/definitions/AppSplashScreen",
-          "description": "启动界面关闭时机配置，HBuilderX 4.71 及以上版本配置于 app-android 节点\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#android平台splash关闭时机>"
+          "description": "启动界面关闭时机配置，HBuilderX 4.71 及以上版本配置于 app-android 节点\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#splashscreenclose>"
         }
       },
       "type": "object"
@@ -125,6 +125,7 @@
           "type": "boolean"
         },
         "enableResourceOptimizations": {
+          "default": true,
           "description": "是否开启 Android 原生 res 资源文件优化，开启后 res 资源文件名称会被混淆\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#enableresourceoptimizations>",
           "type": "boolean"
         },
@@ -249,6 +250,7 @@
           "type": "boolean"
         },
         "enableResourceOptimizations": {
+          "default": true,
           "description": "是否开启 Android 原生 res 资源文件优化，开启后 res 资源文件名称会被混淆\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#enableresourceoptimizations>",
           "type": "boolean"
         },
@@ -290,14 +292,18 @@
       "description": "uni-app-x iOS 平台发布配置\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest.html#distribute-ios>",
       "properties": {
         "CFBundleName": {
-          "default": "UniAppX",
-          "description": "应用内部名称（可作为开发者标识），最多可使用 15 个字符\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-ios.html#cfbundlename>",
+          "description": "应用内部名称（可作为开发者标识），最多可使用 15 个字符\n\n默认值为 targetName\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-ios.html#cfbundlename>",
           "type": "string"
         },
         "UIRequiresFullScreen": {
           "default": false,
           "description": "在 iPad 设备是否全屏显示，设置为 false 表示应用能够与其他应用共享屏幕显示（分屏显示）\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-ios.html#uirequiresfullscreen>",
           "type": "boolean"
+        },
+        "deploymentTarget": {
+          "default": "15.0",
+          "description": "应用能安装的最低 iOS 系统版本\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-ios.html#deploymenttarget>",
+          "type": "string"
         },
         "devices": {
           "default": "auto",
@@ -308,6 +314,10 @@
             "ipad",
             "universal"
           ],
+          "type": "string"
+        },
+        "targetName": {
+          "description": "应用构建目标（Target）的标识名称\n\n自定义基座默认为 “UniAppX”，正式版默认为应用标识（AppID）去掉 `__UNI__` 前缀后转大写\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-ios.html#targetname>",
           "type": "string"
         }
       },
@@ -602,7 +612,7 @@
       "type": "object"
     },
     "AppIconsAndroid": {
-      "description": "uni-app-x Android 图标配置\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest.html#icons-android>",
+      "description": "uni-app-x Android 图标配置\n\nHBuilderX 5.25 及以上版本支持自适应图标，图标文件改为打包到 `res/mipmap-*` 目录， 自适应图标需在 nativeResources 目录下配置，详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#adaptiveicon>\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest.html#icons-android>",
       "properties": {
         "hdpi": {
           "description": "高分屏设备应用图标，分辨率要求 72x72，PNG 格式",
@@ -667,14 +677,18 @@
       "description": "uni-app-x iOS 平台发布配置\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest.html#app-ios-distribute>",
       "properties": {
         "CFBundleName": {
-          "default": "UniAppX",
-          "description": "应用内部名称（可作为开发者标识），最多可使用 15 个字符\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-ios.html#cfbundlename>",
+          "description": "应用内部名称（可作为开发者标识），最多可使用 15 个字符\n\n默认值为 targetName\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-ios.html#cfbundlename>",
           "type": "string"
         },
         "UIRequiresFullScreen": {
           "default": false,
           "description": "在 iPad 设备是否全屏显示，设置为 false 表示应用能够与其他应用共享屏幕显示（分屏显示）\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-ios.html#uirequiresfullscreen>",
           "type": "boolean"
+        },
+        "deploymentTarget": {
+          "default": "15.0",
+          "description": "应用能安装的最低 iOS 系统版本\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-ios.html#deploymenttarget>",
+          "type": "string"
         },
         "devices": {
           "default": "auto",
@@ -703,6 +717,10 @@
           "default": false,
           "description": "是否为自定义调试基座",
           "type": "boolean"
+        },
+        "targetName": {
+          "description": "应用构建目标（Target）的标识名称\n\n自定义基座默认为 “UniAppX”，正式版默认为应用标识（AppID）去掉 `__UNI__` 前缀后转大写\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-ios.html#targetname>",
+          "type": "string"
         }
       },
       "type": "object"
@@ -714,12 +732,24 @@
           "$ref": "#/definitions/AppModulesUniAd",
           "description": "uni-ad 广告联盟模块\n\n详见 <https://uniad.dcloud.net.cn/>"
         },
+        "uni-barcode-scanning": {
+          "description": "相机组件扫码模块\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#modulesscan>",
+          "type": "object"
+        },
         "uni-canvas": {
           "description": "canvas 画布组件模块（HBuilderX 4.25+）\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/component/canvas.html>",
           "type": "object"
         },
+        "uni-chooseLocation": {
+          "description": "使用地图选择位置模块，依赖 uni-location（HBuilderX 4.61 之前为 uni-getLocation）和 uni-cloud-client\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/api/choose-location.html>",
+          "type": "object"
+        },
         "uni-cloud-client": {
           "description": "uniCloud 云函数/云对象模块（HBuilderX 4.25+）\n\n详见 <https://doc.dcloud.net.cn/uniCloud/cf-functions.html>",
+          "type": "object"
+        },
+        "uni-createInnerAudioContext": {
+          "description": "内置音频模块\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/api/create-inner-audio-context.html#createinneraudiocontext>",
           "type": "object"
         },
         "uni-createRequestPermissionListener": {
@@ -743,7 +773,7 @@
           "type": "object"
         },
         "uni-getProvider": {
-          "description": "获取服务供应商模块\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/api/get-provider.html#getprovider>",
+          "description": "获取服务供应商模块\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/api/provider.html>",
           "type": "object"
         },
         "uni-installApk": {
@@ -766,12 +796,28 @@
           "description": "网络请求（文件上传/下载）模块\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/api/network-summarize.html>",
           "type": "object"
         },
+        "uni-network-cronet": {
+          "description": "网络模块使用 Cronet，支持 Quic/h3 协议\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#modulesnetwork>",
+          "type": "object"
+        },
+        "uni-oauth": {
+          "$ref": "#/definitions/AppModulesUniOauth",
+          "description": "三方登录模块（HBuilderX 5.08+），需配置使用的登录服务供应商\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-modules.html#uni-oauth>"
+        },
         "uni-payment": {
           "$ref": "#/definitions/AppModulesUniPayment",
           "description": "请求支付模块\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/api/request-payment.html>"
         },
         "uni-push": {
-          "description": "统一推送模块\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/api/uni-push.html>",
+          "$ref": "#/definitions/AppModulesUniPush",
+          "description": "统一推送模块，可分别配置各厂商的离线推送 SDK\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#modulespush>"
+        },
+        "uni-share": {
+          "$ref": "#/definitions/AppModulesUniShare",
+          "description": "三方分享模块（HBuilderX 5.08+），需配置使用的分享服务供应商\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-modules.html#uni-share>"
+        },
+        "uni-shareWithSystem": {
+          "description": "使用系统分享模块\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/api/share-with-system.html>",
           "type": "object"
         },
         "uni-verify": {
@@ -789,31 +835,107 @@
         "uni-websocket": {
           "description": "WebSocket 模块\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/api/websocket.html>",
           "type": "object"
+        },
+        "v8-icu": {
+          "description": "包含 ICU 的 V8 引擎\n\n仅蒸汽模式的 Android 平台生效。云端打包默认禁用 ICU（编译参数 `v8_enable_i18n_support = false`）， 配置此节点后可使用依赖 ICU 的国际化 API，其余影响详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#js引擎>",
+          "type": "object"
         }
       },
       "type": "object"
     },
     "AppModulesUniAd": {
-      "description": "uni-app-x uni-ad 广告联盟配置",
+      "description": "uni-app-x uni-ad 广告联盟配置\n\n添加对应节点后，云端打包会将对应广告平台的 SDK 打包到安装包中\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-modules.html#配置三方广告sdk>",
       "properties": {
+        "applovin": {
+          "description": "AppLovin（HBuilderX 4.81+）",
+          "type": "object"
+        },
         "bd": {
           "description": "百度百青藤广告联盟",
+          "type": "object"
+        },
+        "bz": {
+          "description": "AdScope 倍孜广告，仅 Android 平台支持",
+          "type": "object"
+        },
+        "fl": {
+          "description": "泛连广告，仅 Android 平台支持",
           "type": "object"
         },
         "gdt": {
           "description": "腾讯优量汇广告联盟",
           "type": "object"
         },
+        "gg": {
+          "description": "Google AdMob",
+          "type": "object"
+        },
         "gm": {
           "description": "穿山甲 GroMore",
+          "type": "object"
+        },
+        "gm-content": {
+          "description": "穿山甲内容联盟（短剧/信息流），配置后方可使用短剧广告，仅 Android 平台支持（HBuilderX 5.31+）",
+          "type": "object"
+        },
+        "hw": {
+          "description": "华为鲸鸿动能，仅 Android 平台支持",
+          "type": "object"
+        },
+        "inmobi": {
+          "description": "inMobi",
+          "type": "object"
+        },
+        "ironsource": {
+          "description": "ironSource",
+          "type": "object"
+        },
+        "jt": {
+          "description": "佳投广告（HBuilderX 5.11+），仅 Android 平台支持",
           "type": "object"
         },
         "ks": {
           "description": "快手广告联盟",
           "type": "object"
         },
+        "liftoff": {
+          "description": "Liftoff",
+          "type": "object"
+        },
+        "meta": {
+          "description": "Meta Audience Network",
+          "type": "object"
+        },
+        "mintegral": {
+          "description": "Mintegral",
+          "type": "object"
+        },
+        "ms": {
+          "description": "美数广告（HBuilderX 5.25+）",
+          "type": "object"
+        },
+        "pg": {
+          "description": "Pangle（海外穿山甲）",
+          "type": "object"
+        },
         "sgm": {
-          "description": "Sigmob 广告联盟",
+          "description": "Sigmob 广告联盟（示例代码中记为 sigmob）",
+          "type": "object"
+        },
+        "sigmob": {
+          "description": "Sigmob 广告联盟（配置项列表中记为 sgm）",
+          "type": "object"
+        },
+        "unity": {
+          "description": "Unity Ads",
+          "type": "object"
+        },
+        "wa": {
+          "description": "旺脉广告（HBuilderX 5.11+）",
+          "type": "object"
+        },
+        "zy": {
+          "description": "Octopus 章鱼移动广告",
           "type": "object"
         }
       },
@@ -855,6 +977,30 @@
       },
       "type": "object"
     },
+    "AppModulesUniOauth": {
+      "description": "uni-app-x uni-oauth（三方登录）模块配置",
+      "properties": {
+        "apple": {
+          "description": "Apple 登录，仅 iOS 平台支持",
+          "type": "object"
+        },
+        "weixin": {
+          "description": "微信登录",
+          "properties": {
+            "appid": {
+              "description": "微信开放平台申请的应用 ID（AppID）",
+              "type": "string"
+            },
+            "universalLink": {
+              "description": "通用链接（Universal Link），配置方式参考 <https://uniapp.dcloud.net.cn/tutorial/app-ios-capabilities.html#通用链接-universal-link-配置教程>",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
     "AppModulesUniPayment": {
       "description": "uni-app-x uni-payment（支付）模块 Provider 配置",
       "properties": {
@@ -884,7 +1030,61 @@
               "type": "string"
             },
             "universalLink": {
-              "description": "通用链接（Universal Link），配置方式参考 <https://uniapp.dcloud.net.cn/tutorial/app-ios-capabilities.html#%E9%80%9A%E7%94%A8%E9%93%BE%E6%8E%A5-universal-link>",
+              "description": "通用链接（Universal Link），配置方式参考 <https://uniapp.dcloud.net.cn/tutorial/app-ios-capabilities.html#通用链接-universal-link-配置教程>",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "AppModulesUniPush": {
+      "description": "uni-app-x uni-push（统一推送）模块配置",
+      "properties": {
+        "fcm": {
+          "description": "Google FCM 推送 SDK",
+          "type": "object"
+        },
+        "hms": {
+          "description": "华为厂商推送 SDK",
+          "type": "object"
+        },
+        "honor": {
+          "description": "荣耀厂商推送 SDK",
+          "type": "object"
+        },
+        "meizu": {
+          "description": "魅族厂商推送 SDK",
+          "type": "object"
+        },
+        "oppo": {
+          "description": "OPPO 厂商推送 SDK",
+          "type": "object"
+        },
+        "vivo": {
+          "description": "VIVO 厂商推送 SDK",
+          "type": "object"
+        },
+        "xiaomi": {
+          "description": "小米厂商推送 SDK",
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "AppModulesUniShare": {
+      "description": "uni-app-x uni-share（三方分享）模块配置",
+      "properties": {
+        "weixin": {
+          "description": "微信分享",
+          "properties": {
+            "appid": {
+              "description": "微信开放平台申请的应用 ID（AppID）",
+              "type": "string"
+            },
+            "universalLink": {
+              "description": "通用链接（Universal Link），配置方式参考 <https://uniapp.dcloud.net.cn/tutorial/app-ios-capabilities.html#通用链接-universal-link-配置教程>",
               "type": "string"
             }
           },
@@ -995,6 +1195,18 @@
             "android": {
               "description": "Android 平台云端打包配置",
               "properties": {
+                "aaptOptions": {
+                  "description": "Android 平台云端打包时 build.gradle 的 aaptOptions 配置项，支持的属性参考 <https://developer.android.google.cn/reference/tools/gradle-api/7.1/com/android/build/api/dsl/AaptOptions>\n\n详见 <https://uniapp.dcloud.net.cn/collocation/manifest-app.html#aaptoptions>",
+                  "examples": [
+                    [
+                      "noCompress 'png', 'jpg', 'jpeg'"
+                    ]
+                  ],
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
                 "abiFilters": {
                   "description": "Android 平台 APP 支持的 CPU 类型，详见 <https://uniapp.dcloud.net.cn/tutorial/app-android-abifilters>",
                   "items": {
@@ -1040,6 +1252,11 @@
                 "enableOAID": {
                   "default": true,
                   "description": "是否支持获取 OAID（匿名设备标识符），详见 <https://uniapp.dcloud.net.cn/collocation/manifest-app.html#enableoaid>",
+                  "type": "boolean"
+                },
+                "enableResourceOptimizations": {
+                  "default": true,
+                  "description": "是否开启 Android 原生 res 资源文件优化，开启后 res 资源文件名称会被混淆\n\nHBuilderX 4.25 及以上版本的云端打包环境为 Gradle 8.5，默认值由 false 改为 true\n\n详见 <https://uniapp.dcloud.net.cn/collocation/manifest-app.html#enableresourceoptimizations>",
                   "type": "boolean"
                 },
                 "excludePermissions": {
@@ -1454,7 +1671,7 @@
                   "type": "object"
                 },
                 "privacyRegisterMode": {
-                  "description": "\"manual\" 用户同意隐私政策后才获取相关隐私信息\n\n其它 应用启动时自动获取\n\n详见 <https://uniapp.dcloud.net.cn/collocation/manifest#privacyRegisterMode>",
+                  "description": "\"manual\" 用户同意隐私政策后才获取相关隐私信息\n\n其它 应用启动时自动获取\n\n详见 <https://uniapp.dcloud.net.cn/collocation/manifest-app.html#privacyregistermode>",
                   "type": "string"
                 },
                 "pushRegisterMode": {
@@ -1530,6 +1747,10 @@
                     },
                     "gg": {
                       "description": "Google AdMob",
+                      "type": "object"
+                    },
+                    "gm": {
+                      "description": "穿山甲/GroMore 广告联盟",
                       "type": "object"
                     },
                     "hw": {
@@ -3180,7 +3401,7 @@
       "type": "object"
     },
     "AppSplashScreen": {
-      "description": "uni-app-x 启动界面关闭时机配置\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#android平台splash关闭时机>",
+      "description": "uni-app-x 启动界面关闭时机配置\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#splashscreenclose>",
       "properties": {
         "autoClose": {
           "default": "onShow",
@@ -5201,7 +5422,7 @@
       "type": "object"
     },
     "Web": {
-      "description": "Web 平台配置（uni-app x）\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest.html#web>",
+      "description": "Web 平台配置（uni-app x）\n\n详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest.html#manifest-web>",
       "properties": {
         "darkmode": {
           "description": "是否开启暗黑模式，详见 <https://doc.dcloud.net.cn/uni-app-x/api/theme-change.html>",

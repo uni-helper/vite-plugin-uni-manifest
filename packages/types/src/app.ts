@@ -3,6 +3,9 @@ import type { AndroidPermissionOrFeature } from './common'
 /**
  * uni-app-x Android 图标配置
  *
+ * HBuilderX 5.25 及以上版本支持自适应图标，图标文件改为打包到 `res/mipmap-*` 目录，
+ * 自适应图标需在 nativeResources 目录下配置，详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#adaptiveicon>
+ *
  * 详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest.html#icons-android>
  */
 export interface AppIconsAndroid {
@@ -171,7 +174,7 @@ export interface AppSplashScreens {
 /**
  * uni-app-x 启动界面关闭时机配置
  *
- * 详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#android平台splash关闭时机>
+ * 详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#splashscreenclose>
  */
 export interface AppSplashScreen {
   /**
@@ -235,6 +238,10 @@ export interface AppDistributeAndroid {
    * 是否开启 Android 原生 res 资源文件优化，开启后 res 资源文件名称会被混淆
    *
    * 详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#enableresourceoptimizations>
+   *
+   * @default true
+   *
+   * @since HBuilderX 4.33+
    */
   enableResourceOptimizations?: boolean
 
@@ -285,11 +292,24 @@ export interface AppDistributeIos {
   devices?: 'auto' | 'iphone' | 'ipad' | 'universal'
 
   /**
+   * 应用构建目标（Target）的标识名称
+   *
+   * 自定义基座默认为 “UniAppX”，正式版默认为应用标识（AppID）去掉 `__UNI__` 前缀后转大写
+   *
+   * 详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-ios.html#targetname>
+   *
+   * @since HBuilderX 4.34+
+   */
+  targetName?: string
+
+  /**
    * 应用内部名称（可作为开发者标识），最多可使用 15 个字符
+   *
+   * 默认值为 targetName
    *
    * 详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-ios.html#cfbundlename>
    *
-   * @default "UniAppX"
+   * @since HBuilderX 4.34+
    */
   CFBundleName?: string
 
@@ -301,6 +321,17 @@ export interface AppDistributeIos {
    * @default false
    */
   UIRequiresFullScreen?: boolean
+
+  /**
+   * 应用能安装的最低 iOS 系统版本
+   *
+   * 详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-ios.html#deploymenttarget>
+   *
+   * @default "15.0"
+   *
+   * @since HBuilderX 5.25+
+   */
+  deploymentTarget?: string
 
   [x: string]: any
 }
@@ -391,6 +422,36 @@ export interface AppModules {
   'uni-installApk'?: Record<string, any>
 
   /**
+   * 内置音频模块
+   *
+   * 详见 <https://doc.dcloud.net.cn/uni-app-x/api/create-inner-audio-context.html#createinneraudiocontext>
+   */
+  'uni-createInnerAudioContext'?: Record<string, any>
+
+  /**
+   * 使用地图选择位置模块，依赖 uni-location（HBuilderX 4.61 之前为 uni-getLocation）和 uni-cloud-client
+   *
+   * 详见 <https://doc.dcloud.net.cn/uni-app-x/api/choose-location.html>
+   *
+   * @since HBuilderX 4.33+
+   */
+  'uni-chooseLocation'?: Record<string, any>
+
+  /**
+   * 相机组件扫码模块
+   *
+   * 详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#modulesscan>
+   */
+  'uni-barcode-scanning'?: Record<string, any>
+
+  /**
+   * 网络模块使用 Cronet，支持 Quic/h3 协议
+   *
+   * 详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#modulesnetwork>
+   */
+  'uni-network-cronet'?: Record<string, any>
+
+  /**
    * 请求支付模块
    *
    * 详见 <https://doc.dcloud.net.cn/uni-app-x/api/request-payment.html>
@@ -402,16 +463,39 @@ export interface AppModules {
   /**
    * 获取服务供应商模块
    *
-   * 详见 <https://doc.dcloud.net.cn/uni-app-x/api/get-provider.html#getprovider>
+   * 详见 <https://doc.dcloud.net.cn/uni-app-x/api/provider.html>
    */
   'uni-getProvider'?: Record<string, any>
 
   /**
-   * 统一推送模块
+   * 三方登录模块（HBuilderX 5.08+），需配置使用的登录服务供应商
    *
-   * 详见 <https://doc.dcloud.net.cn/uni-app-x/api/uni-push.html>
+   * 详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-modules.html#uni-oauth>
    */
-  'uni-push'?: Record<string, any>
+  'uni-oauth'?: AppModulesUniOauth
+
+  /**
+   * 三方分享模块（HBuilderX 5.08+），需配置使用的分享服务供应商
+   *
+   * 详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-modules.html#uni-share>
+   */
+  'uni-share'?: AppModulesUniShare
+
+  /**
+   * 使用系统分享模块
+   *
+   * 详见 <https://doc.dcloud.net.cn/uni-app-x/api/share-with-system.html>
+   *
+   * @since HBuilderX 4.33+
+   */
+  'uni-shareWithSystem'?: Record<string, any>
+
+  /**
+   * 统一推送模块，可分别配置各厂商的离线推送 SDK
+   *
+   * 详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#modulespush>
+   */
+  'uni-push'?: AppModulesUniPush
 
   /**
    * 多媒体模块
@@ -455,27 +539,163 @@ export interface AppModules {
    */
   'uni-verify'?: Record<string, any>
 
+  /**
+   * 包含 ICU 的 V8 引擎
+   *
+   * 仅蒸汽模式的 Android 平台生效。云端打包默认禁用 ICU（编译参数 `v8_enable_i18n_support = false`），
+   * 配置此节点后可使用依赖 ICU 的国际化 API，其余影响详见
+   * <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#js引擎>
+   *
+   * @since HBuilderX 5.33+
+   */
+  'v8-icu'?: Record<string, any>
+
+  [x: string]: any
+}
+
+/**
+ * uni-app-x uni-oauth（三方登录）模块配置
+ */
+export interface AppModulesUniOauth {
+  /** 微信登录 */
+  weixin?: {
+    /** 微信开放平台申请的应用 ID（AppID） */
+    appid?: string
+
+    /** 通用链接（Universal Link），配置方式参考 <https://uniapp.dcloud.net.cn/tutorial/app-ios-capabilities.html#通用链接-universal-link-配置教程> */
+    universalLink?: string
+
+    [x: string]: any
+  }
+
+  /** Apple 登录，仅 iOS 平台支持 */
+  apple?: Record<string, any>
+
+  [x: string]: any
+}
+
+/**
+ * uni-app-x uni-share（三方分享）模块配置
+ */
+export interface AppModulesUniShare {
+  /** 微信分享 */
+  weixin?: {
+    /** 微信开放平台申请的应用 ID（AppID） */
+    appid?: string
+
+    /** 通用链接（Universal Link），配置方式参考 <https://uniapp.dcloud.net.cn/tutorial/app-ios-capabilities.html#通用链接-universal-link-配置教程> */
+    universalLink?: string
+
+    [x: string]: any
+  }
+
+  [x: string]: any
+}
+
+/**
+ * uni-app-x uni-push（统一推送）模块配置
+ */
+export interface AppModulesUniPush {
+  /** 华为厂商推送 SDK */
+  hms?: Record<string, any>
+
+  /** OPPO 厂商推送 SDK */
+  oppo?: Record<string, any>
+
+  /** VIVO 厂商推送 SDK */
+  vivo?: Record<string, any>
+
+  /** 小米厂商推送 SDK */
+  xiaomi?: Record<string, any>
+
+  /** 魅族厂商推送 SDK */
+  meizu?: Record<string, any>
+
+  /** 荣耀厂商推送 SDK */
+  honor?: Record<string, any>
+
+  /** Google FCM 推送 SDK */
+  fcm?: Record<string, any>
+
   [x: string]: any
 }
 
 /**
  * uni-app-x uni-ad 广告联盟配置
+ *
+ * 添加对应节点后，云端打包会将对应广告平台的 SDK 打包到安装包中
+ *
+ * 详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-modules.html#配置三方广告sdk>
  */
 export interface AppModulesUniAd {
   /** 腾讯优量汇广告联盟 */
-  gdt?: Record<string, any>
+  'gdt'?: Record<string, any>
 
   /** 穿山甲 GroMore */
-  gm?: Record<string, any>
+  'gm'?: Record<string, any>
+
+  /** 穿山甲内容联盟（短剧/信息流），配置后方可使用短剧广告，仅 Android 平台支持（HBuilderX 5.31+） */
+  'gm-content'?: Record<string, any>
 
   /** 快手广告联盟 */
-  ks?: Record<string, any>
-
-  /** Sigmob 广告联盟 */
-  sgm?: Record<string, any>
+  'ks'?: Record<string, any>
 
   /** 百度百青藤广告联盟 */
-  bd?: Record<string, any>
+  'bd'?: Record<string, any>
+
+  /** Sigmob 广告联盟（配置项列表中记为 sgm） */
+  'sigmob'?: Record<string, any>
+
+  /** Sigmob 广告联盟（示例代码中记为 sigmob） */
+  'sgm'?: Record<string, any>
+
+  /** 华为鲸鸿动能，仅 Android 平台支持 */
+  'hw'?: Record<string, any>
+
+  /** AdScope 倍孜广告，仅 Android 平台支持 */
+  'bz'?: Record<string, any>
+
+  /** Octopus 章鱼移动广告 */
+  'zy'?: Record<string, any>
+
+  /** 泛连广告，仅 Android 平台支持 */
+  'fl'?: Record<string, any>
+
+  /** 旺脉广告（HBuilderX 5.11+） */
+  'wa'?: Record<string, any>
+
+  /** 佳投广告（HBuilderX 5.11+），仅 Android 平台支持 */
+  'jt'?: Record<string, any>
+
+  /** 美数广告（HBuilderX 5.25+） */
+  'ms'?: Record<string, any>
+
+  /** Google AdMob */
+  'gg'?: Record<string, any>
+
+  /** Pangle（海外穿山甲） */
+  'pg'?: Record<string, any>
+
+  /** inMobi */
+  'inmobi'?: Record<string, any>
+
+  /** ironSource */
+  'ironsource'?: Record<string, any>
+
+  /** Liftoff */
+  'liftoff'?: Record<string, any>
+
+  /** Meta Audience Network */
+  'meta'?: Record<string, any>
+
+  /** Mintegral */
+  'mintegral'?: Record<string, any>
+
+  /** Unity Ads */
+  'unity'?: Record<string, any>
+
+  /** AppLovin（HBuilderX 4.81+） */
+  'applovin'?: Record<string, any>
 
   [x: string]: any
 }
@@ -525,7 +745,7 @@ export interface AppModulesUniPaymentWxpay {
     /** 微信开放平台申请的应用 ID（AppID） */
     appid?: string
 
-    /** 通用链接（Universal Link），配置方式参考 <https://uniapp.dcloud.net.cn/tutorial/app-ios-capabilities.html#%E9%80%9A%E7%94%A8%E9%93%BE%E6%8E%A5-universal-link> */
+    /** 通用链接（Universal Link），配置方式参考 <https://uniapp.dcloud.net.cn/tutorial/app-ios-capabilities.html#通用链接-universal-link-配置教程> */
     universalLink?: string
 
     [x: string]: any
@@ -617,7 +837,7 @@ export interface App {
   /**
    * 启动界面关闭时机配置，HBuilderX 4.71 以下版本配置于 app 节点
    *
-   * 详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#android平台splash关闭时机>
+   * 详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#splashscreenclose>
    */
   splashScreen?: AppSplashScreen
 

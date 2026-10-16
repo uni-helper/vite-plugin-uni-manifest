@@ -48,7 +48,7 @@ export interface AppAndroid {
   /**
    * 启动界面关闭时机配置，HBuilderX 4.71 及以上版本配置于 app-android 节点
    *
-   * 详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#android平台splash关闭时机>
+   * 详见 <https://doc.dcloud.net.cn/uni-app-x/collocation/manifest-android.html#splashscreenclose>
    */
   splashScreen?: AppSplashScreen
 

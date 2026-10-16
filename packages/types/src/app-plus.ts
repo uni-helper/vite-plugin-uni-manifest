@@ -359,6 +359,31 @@ export interface AppPlus {
       packagingOptions?: string[]
 
       /**
+       * 是否开启 Android 原生 res 资源文件优化，开启后 res 资源文件名称会被混淆
+       *
+       * HBuilderX 4.25 及以上版本的云端打包环境为 Gradle 8.5，默认值由 false 改为 true
+       *
+       * 详见 <https://uniapp.dcloud.net.cn/collocation/manifest-app.html#enableresourceoptimizations>
+       *
+       * @default true
+       *
+       * @since HBuilderX 4.33+
+       */
+      enableResourceOptimizations?: boolean
+
+      /**
+       * Android 平台云端打包时 build.gradle 的 aaptOptions 配置项，支持的属性参考
+       * <https://developer.android.google.cn/reference/tools/gradle-api/7.1/com/android/build/api/dsl/AaptOptions>
+       *
+       * 详见 <https://uniapp.dcloud.net.cn/collocation/manifest-app.html#aaptoptions>
+       *
+       * @example ["noCompress 'png', 'jpg', 'jpeg'"]
+       *
+       * @since HBuilderX 4.31+
+       */
+      aaptOptions?: string[]
+
+      /**
        * uni-app 使用的 JS 引擎
        *
        * @deprecated
@@ -603,7 +628,7 @@ export interface AppPlus {
        *
        * 其它 应用启动时自动获取
        *
-       * 详见 <https://uniapp.dcloud.net.cn/collocation/manifest#privacyRegisterMode>
+       * 详见 <https://uniapp.dcloud.net.cn/collocation/manifest-app.html#privacyregistermode>
        */
       privacyRegisterMode?: 'manual' | string
 
@@ -1190,6 +1215,9 @@ export interface AppPlus {
 
         /** 今日头条穿山甲广告联盟 */
         'csj'?: Record<string, any>
+
+        /** 穿山甲/GroMore 广告联盟 */
+        'gm'?: Record<string, any>
 
         /** 腾讯优量汇广告联盟 */
         'gdt'?: Record<string, any>
