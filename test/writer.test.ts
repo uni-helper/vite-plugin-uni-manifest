@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, rmSync, statSync, utimesSync, writeFileSync } from 'node:fs'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { debug } from '../packages/core/src/logger'
@@ -101,12 +101,14 @@ describe('writeManifestJson', () => {
 
   it('skips writing when content is unchanged', () => {
     writeManifestJson({ name: 'test' })
-    const before = statSync(testManifestPath).mtimeMs
+    // 先把 mtime 固定到一个过去的时间，避免依赖文件系统时间戳的精度（Windows 上两次写入可能落在同一时刻）
+    const untouched = new Date(2000, 0, 1)
+    utimesSync(testManifestPath, untouched, untouched)
     writeManifestJson({ name: 'test' })
-    expect(statSync(testManifestPath).mtimeMs).toBe(before)
+    expect(statSync(testManifestPath).mtimeMs).toBe(untouched.getTime())
     // sanity check: a changed config does rewrite the file
     writeManifestJson({ name: 'changed' })
-    expect(statSync(testManifestPath).mtimeMs).not.toBe(before)
+    expect(statSync(testManifestPath).mtimeMs).not.toBe(untouched.getTime())
   })
 
   it('logs write and skip decisions via debug.writer', () => {
