@@ -1,10 +1,17 @@
-shellEmulator: true
-
 trustPolicy: off
+shellEmulator: true
 
 packages:
   - packages/*
   - playground
+
+configDependencies:
+  '@pnpm/plugin-trusted-deps': ^0.2.2
+
+allowBuilds:
+  core-js: true
+  core-js-pure: true
+  esbuild: true
 
 catalog:
   '@antfu/eslint-config': ^9.5.1
@@ -40,9 +47,3 @@ catalog:
   vitest: ^3.2.7
   vue: ~3.4.38
   vue-i18n: ^9.14.3
-configDependencies:
-  '@pnpm/plugin-trusted-deps': ^0.2.2
-allowBuilds:
-  core-js: true
-  core-js-pure: true
-  esbuild: true
