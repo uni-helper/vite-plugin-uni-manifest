@@ -11,7 +11,7 @@
 - **测试**：vitest，无配置文件，测试全部在根目录 `test/`，直接 import `packages/*/src`（靠 tsconfig `paths`，不依赖 `dist`）。
 - **Lint**：`@antfu/eslint-config`（`type: 'lib'`），`.md` 里的代码块也会被格式化；`packages/schema/schema.json` 是生成物，已加入 ignores。
 - **workspace**：`packages/*` 是三个发布包（`packages/core`、`packages/types`、`packages/schema`），`playground` 是示例 uni-app 应用，不发布。
-- **peer 依赖**：`packages/core` peer 依赖 `vite ^5.0.0`；`packages/types` 的 `typescript ^5.0.0` peer 是可选的。注意仓库开发时用的 `typescript` 是 `^6.0.3`（catalog），peer 范围尚未跟进。
+- **peer 依赖**：`packages/core` peer 依赖 `vite ^5.0.0`；`packages/types` 的 `typescript` peer 可选，范围是 `^5.0.0 || ^6.0.0 || ^7.0.0`（仓库开发用的 catalog 是 `^6.0.3`）。
 
 ## 命令
 

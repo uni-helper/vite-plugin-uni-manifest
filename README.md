@@ -1,11 +1,14 @@
-<a href="https://uni-helper.js.org/vite-plugin-uni-manifest"><img src="./banner.svg" alt="banner" width="100%"/></a>
+<a href="https://uni-helper.js.org/vite-plugin-uni-manifest"><img src="https://cdn.jsdelivr.net/gh/uni-helper/vite-plugin-uni-manifest@main/banner.svg" alt="banner" width="100%"/></a>
 
-<p style="text-align: center">
-  <a href="https://github.com/uni-helper/vite-plugin-uni-manifest/stargazers"><img src="https://img.shields.io/github/stars/uni-helper/vite-plugin-uni-manifest?colorA=005947&colorB=eee&style=for-the-badge" alt="Stars"></a>
-  <a href="https://npmx.dev/package/@uni-helper/vite-plugin-uni-manifest"><img src="https://img.shields.io/npm/dm/@uni-helper/vite-plugin-uni-manifest?colorA=005947&colorB=eee&style=for-the-badge" alt="Downloads"></a>
-  <a href="https://npmx.dev/package/@uni-helper/vite-plugin-uni-manifest"><img src="https://img.shields.io/npm/v/@uni-helper/vite-plugin-uni-manifest?colorA=005947&colorB=eee&style=for-the-badge" alt="NPM Version"></a>
+# vite-plugin-uni-manifest
+
+<p align="center">
+  <a href="https://github.com/uni-helper/vite-plugin-uni-manifest/blob/main/LICENSE"><img src="https://img.shields.io/github/license/uni-helper/vite-plugin-uni-manifest?style=for-the-badge&labelColor=005947&color=eee" alt="License"></a>
+  <a href="https://github.com/uni-helper/vite-plugin-uni-manifest/stargazers"><img src="https://img.shields.io/github/stars/uni-helper/vite-plugin-uni-manifest?style=for-the-badge&labelColor=005947&color=eee" alt="Stars"></a>
+  <a href="https://npmx.dev/package/@uni-helper/vite-plugin-uni-manifest"><img src="https://img.shields.io/npm/v/@uni-helper/vite-plugin-uni-manifest?style=for-the-badge&labelColor=005947&color=eee" alt="NPM Version"></a>
+  <a href="https://npmx.dev/package/@uni-helper/vite-plugin-uni-manifest"><img src="https://img.shields.io/npm/dm/@uni-helper/vite-plugin-uni-manifest?style=for-the-badge&labelColor=005947&color=eee" alt="NPM Downloads"></a>
 </p>
-<p style="text-align: center">
+<p align="center">
   <a href="https://github.com/kejunmao"><img src="https://img.shields.io/badge/Author-KeJun-blue?style=for-the-badge" alt="Author"></a>
   <a href="https://github.com/ModyQyW"><img src="https://img.shields.io/badge/Maintainer-ModyQyW-blue?style=for-the-badge" alt="Maintainer"></a>
 </p>
@@ -50,3 +53,19 @@ export default defineConfig({
 - [uni-helper/vite-plugin-uni-platform-modifier](https://github.com/uni-helper/vite-plugin-uni-platform-modifier) - 为属性、指令提供平台修饰符并按需编译
 - [uni-helper/vite-plugin-uni-layouts](https://github.com/uni-helper/vite-plugin-uni-layouts) - 为 Vite 下的 uni-app 提供类 nuxt 的 layouts 系统
 - [uni-ku/root](https://github.com/uni-ku/root) - 解决 UniApp 无法使用根部组件问题
+
+## 包
+
+| 包 | 说明 |
+| --- | --- |
+| [`@uni-helper/vite-plugin-uni-manifest`](./packages/core/) | Vite 插件，从 `manifest.config.*` 生成 `manifest.json` |
+| [`@uni-helper/uni-manifest-types`](./packages/types/) | `manifest.json` 的 TypeScript 类型 |
+| [`@uni-helper/manifest-json-schema`](./packages/schema/) | `manifest.json` 的 JSON Schema（由 types 生成） |
+
+## 参与贡献
+
+请阅读 [CONTRIBUTING.md](./CONTRIBUTING.md) 了解本地开发、测试与提交规范；[AGENTS.md](./AGENTS.md) 面向 AI 助手。
+
+## 许可证
+
+本项目基于 [MIT](./LICENSE) 许可发布。

@@ -8,7 +8,7 @@
 pnpm -C packages/types build   # tsdown → dist/index.mjs + dist/index.d.mts
 ```
 
-`dist/` 是产物，不要手改。本包无 `dependencies`；`typescript ^5.0.0` 是可选 peer，但仓库开发用的 catalog 是 `typescript ^6.0.3`。
+`dist/` 是产物，不要手改。本包无 `dependencies`；`typescript` 是可选 peer，范围为 `^5.0.0 || ^6.0.0 || ^7.0.0`（仓库开发用的 catalog 是 `typescript ^6.0.3`）。
 
 ## 命名与注释约定
 
