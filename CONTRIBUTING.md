@@ -61,6 +61,8 @@ test/
 
 ```shell
 vite-plugin-uni-manifest/
+├── .agents/skills/     面向 AI 助手的维护技能（更新 packages/types 时使用）
+├── .github/workflows/  CI 与发布工作流
 ├── packages/
 │   ├── core/           插件核心逻辑
 │   ├── types/          manifest.json TypeScript 类型定义
@@ -73,3 +75,25 @@ vite-plugin-uni-manifest/
 ## 提交规范
 
 提交信息遵循[约定式提交](https://www.conventionalcommits.org/zh-hans/)规范，破坏性变更需在提交信息中标记（如 `feat!:` 或 `BREAKING CHANGE:`）。发布流程由 `bumpp` 驱动（`pnpm release`），通常无需手动操作。
+
+## Pull Request 指南
+
+- 一个 PR 解决一个问题，不要夹带无关改动。
+- 提 PR 前先在本地跑一遍 CI 会执行的检查：`pnpm build`、`pnpm lint`、`pnpm test`、`pnpm typecheck`。
+- CI（`.github/workflows/ci.yml`）在 push 和 PR 到 `main` 时运行，矩阵为 ubuntu / macos / windows × Node 22 / 24 / 26，四个步骤全部通过才会合并。
+- 改动 `packages/types` 时，`packages/schema/schema.json` 必须在同一次提交里重新生成（`pnpm build` 会顺带生成）。
+- 改动脚本、插件选项或导出名时，同步更新根 README、本文件和对应包的 README。
+- 新增选项、重构模块这类改动，先开 issue 讨论方案再动手。
+
+## 发布
+
+仅维护者操作：
+
+1. `pnpm release` 调用 `bumpp`，按 `bump.config.ts` 同步 4 个 `package.json` 的版本号；bumpp 默认会提交、打 `v*` tag 并推送。
+2. tag 推送后 `.github/workflows/release.yml` 触发：用 changelogithub 生成 GitHub Release，再 `pnpm -r publish --access public` 发布到 npm。
+
+## 行为准则
+
+本项目遵循 [uni-helper 行为准则](https://github.com/uni-helper/.github/blob/main/CODE_OF_CONDUCT.md)。
+
+有问题或建议请到 [GitHub Issues](https://github.com/uni-helper/vite-plugin-uni-manifest/issues) 反馈。
