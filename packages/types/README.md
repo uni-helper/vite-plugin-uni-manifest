@@ -25,7 +25,7 @@ pnpm add @uni-helper/uni-manifest-types
 ## 代码内使用
 
 ```js
-import { AndroidPermissionName, HarmonySigningConfig } from '@uni-helper/uni-manifest-types'
+import { AndroidPermissionName, AppHarmonyDistributeSigningConfig } from '@uni-helper/uni-manifest-types'
 ```
 
 完整类型请参考 [./src/index.ts](./src/index.ts)。
