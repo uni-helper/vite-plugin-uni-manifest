@@ -4,7 +4,7 @@
 
 ## 项目
 
-- **语言/模块**：TypeScript，`strict` 全开（`tsconfig.json`）；ESM only（所有 `package.json` 都是 `"type": "module"`），产物只有 `dist/index.mjs` 和 `dist/index.d.mts`。
+- **语言/模块**：TypeScript，`strict` 全开（`tsconfig.json`）；ESM only（三个发布包与根的 `package.json` 都是 `"type": "module"`，playground 没有 `type` 字段），产物：core/types 为 `dist/index.mjs` + `dist/index.d.mts`，schema 为 `schema.json`。
 - **Node**：开发环境用 26（`.node-version`）；只有 `packages/core` 发布 `engines.node: ^20.19.0 || >=22.12.0`，其余包不声明。
 - **包管理器**：pnpm 12.14.0（根 `package.json` 的 `packageManager`）。依赖版本集中在 `pnpm-workspace.yaml` 的 `catalog:`，包里一律写 `"catalog:"`，不要在单个包里写死版本。
 - **构建**：`packages/core`、`packages/types` 用 tsdown；`packages/schema` 用 ts-json-schema-generator 从 `packages/types` 生成 `schema.json`。
