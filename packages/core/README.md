@@ -1,6 +1,9 @@
 # @uni-helper/vite-plugin-uni-manifest
 
 <p align="center">
+  <img src="https://cdn.jsdelivr.net/gh/uni-helper/vite-plugin-uni-manifest@main/logo.svg" alt="logo" width="256" height="256"/>
+</p>
+<p align="center">
   <a href="https://github.com/uni-helper/vite-plugin-uni-manifest/blob/main/LICENSE"><img src="https://img.shields.io/github/license/uni-helper/vite-plugin-uni-manifest?style=for-the-badge&labelColor=005947&color=eee" alt="License"></a>
   <a href="https://github.com/uni-helper/vite-plugin-uni-manifest/stargazers"><img src="https://img.shields.io/github/stars/uni-helper/vite-plugin-uni-manifest?style=for-the-badge&labelColor=005947&color=eee" alt="Stars"></a>
   <a href="https://npmx.dev/package/@uni-helper/vite-plugin-uni-manifest"><img src="https://img.shields.io/npm/v/@uni-helper/vite-plugin-uni-manifest?style=for-the-badge&labelColor=005947&color=eee" alt="NPM Version"></a>

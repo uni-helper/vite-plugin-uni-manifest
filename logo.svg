@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 256 256">
+  <title>uni-helper/vite-plugin-uni-manifest logo</title>
+  <g fill="none" stroke="#2B9939" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 66 40 H 164 L 204 80 V 202 A 14 14 0 0 1 190 216 H 66 A 14 14 0 0 1 52 202 V 54 A 14 14 0 0 1 66 40 Z"/>
+    <path d="M 164 40 V 80 H 204" opacity="0.5"/>
+    <path d="M 114 114 C 106 114 102 119 102 126 L 102 138 C 102 143 97 148 92 148 C 97 148 102 153 102 158 L 102 170 C 102 177 106 182 114 182"/>
+    <path d="M 142 114 C 150 114 154 119 154 126 L 154 138 C 154 143 159 148 164 148 C 159 148 154 153 154 158 L 154 170 C 154 177 150 182 142 182"/>
+  </g>
+</svg>
