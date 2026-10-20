@@ -1,7 +1,8 @@
+import type { LoadConfigOptions } from 'c12'
 import type { UserManifestConfig } from './config'
 import type { ResolvedOptions, UserOptions } from './types'
 import process from 'node:process'
-import { watchConfig } from 'c12'
+import { loadConfig, watchConfig } from 'c12'
 import dbg from 'debug'
 import { defaultManifestConfig } from './defaults'
 import { debug } from './logger'
@@ -21,6 +22,14 @@ export interface ManifestWatcher {
   unwatch: () => Promise<void>
 }
 
+/** Load the manifest config once and write it to `manifest.json`. */
+export async function generateManifest(userOptions: UserOptions = {}): Promise<ResolvedOptions> {
+  const options = prepareOptions(userOptions)
+  const { config } = await loadConfig<UserManifestConfig>(getConfigOptions(options))
+  writeManifestJson(config, options)
+  return options
+}
+
 /** Merge user options with defaults to produce resolved options. */
 function resolveOptions(userOptions: UserOptions): ResolvedOptions {
   return {
@@ -31,6 +40,26 @@ function resolveOptions(userOptions: UserOptions): ResolvedOptions {
     debug: false,
     cwd: process.env.VITE_ROOT_DIR,
     ...userOptions,
+  }
+}
+
+function prepareOptions(userOptions: UserOptions): ResolvedOptions {
+  const options = resolveOptions(userOptions)
+  if (options.debug) {
+    const suffix = typeof options.debug === 'boolean' ? '*' : options.debug
+    dbg.enable(`vite-plugin-uni-manifest:${suffix}`)
+  }
+  debug.options(options)
+  return options
+}
+
+function getConfigOptions(options: ResolvedOptions): LoadConfigOptions<UserManifestConfig> {
+  return {
+    cwd: options.cwd,
+    name: 'manifest',
+    defaultConfig: defaultManifestConfig,
+    rcFile: false,
+    packageJson: false,
   }
 }
 
@@ -54,19 +83,10 @@ function resolveOptions(userOptions: UserOptions): ResolvedOptions {
  * ```
  */
 export async function createManifestWatcher(userOptions: UserOptions = {}): Promise<ManifestWatcher> {
-  const options = resolveOptions(userOptions)
-  if (options.debug) {
-    const suffix = typeof options.debug === 'boolean' ? '*' : options.debug
-    dbg.enable(`vite-plugin-uni-manifest:${suffix}`)
-  }
-  debug.options(options)
+  const options = prepareOptions(userOptions)
 
   const { config, unwatch } = await watchConfig<UserManifestConfig>({
-    cwd: options.cwd,
-    name: 'manifest',
-    defaultConfig: defaultManifestConfig,
-    rcFile: false,
-    packageJson: false,
+    ...getConfigOptions(options),
     onUpdate: ({ newConfig, getDiff }) => {
       const diff = getDiff()
       if (diff.length === 0) {
