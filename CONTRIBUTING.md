@@ -74,7 +74,7 @@ vite-plugin-uni-manifest/
 
 ## 提交规范
 
-提交信息遵循[约定式提交](https://www.conventionalcommits.org/zh-hans/)规范，破坏性变更需在提交信息中标记（如 `feat!:` 或 `BREAKING CHANGE:`）。发布流程由 `bumpp` 驱动（`pnpm release`），通常无需手动操作。
+Fork 仓库并创建分支，分支名使用 `feat/xxx`、`fix/xxx`、`docs/xxx` 风格。提交信息遵循[约定式提交](https://www.conventionalcommits.org/zh-hans/)规范，破坏性变更需在提交信息中标记（如 `feat!:` 或 `BREAKING CHANGE:`）。发布流程由 `bumpp` 驱动（`pnpm release`），通常无需手动操作。
 
 ## Pull Request 指南
 

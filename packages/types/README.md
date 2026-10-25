@@ -24,8 +24,8 @@ pnpm add @uni-helper/uni-manifest-types
 
 ## 代码内使用
 
-```js
-import { AndroidPermissionName, AppHarmonyDistributeSigningConfig } from '@uni-helper/uni-manifest-types'
+```ts
+import type { AndroidPermissionName, AppHarmonyDistributeSigningConfig } from '@uni-helper/uni-manifest-types'
 ```
 
 完整类型请参考 [./src/index.ts](./src/index.ts)。
@@ -34,7 +34,6 @@ import { AndroidPermissionName, AppHarmonyDistributeSigningConfig } from '@uni-h
 
 - [@uni-helper/vite-plugin-uni-manifest](https://github.com/uni-helper/vite-plugin-uni-manifest/tree/main/packages/core) - 使用 TypeScript 编写 `uni-app` 的 `manifest.json`
 - [@uni-helper/manifest-json-schema](https://github.com/uni-helper/vite-plugin-uni-manifest/tree/main/packages/schema) - 为 uni-app 的 manifest.json 提供 schema
-- [@uni-helper/uni-manifest-types](https://github.com/uni-helper/vite-plugin-uni-manifest/tree/main/packages/types) - 为 uni-app 的 manifest.json 提供 TypeScript 类型
 - [uni-helper/vite-plugin-uni-pages](https://github.com/uni-helper/vite-plugin-uni-pages) - 为 Vite 下的 uni-app 提供基于文件系统的路由
 - [uni-helper/vite-plugin-uni-platform](https://github.com/uni-helper/vite-plugin-uni-platform) - 基于文件名 (*.<h5|mp-weixin|app>.*) 的按平台编译插件
 - [uni-helper/vite-plugin-uni-platform-modifier](https://github.com/uni-helper/vite-plugin-uni-platform-modifier) - 为属性、指令提供平台修饰符并按需编译

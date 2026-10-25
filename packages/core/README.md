@@ -338,7 +338,6 @@ index.ts
 
 ## 关联项目
 
-- [@uni-helper/vite-plugin-uni-manifest](https://github.com/uni-helper/vite-plugin-uni-manifest/tree/main/packages/core) - 使用 TypeScript 编写 `uni-app` 的 `manifest.json`
 - [@uni-helper/manifest-json-schema](https://github.com/uni-helper/vite-plugin-uni-manifest/tree/main/packages/schema) - 为 uni-app 的 manifest.json 提供 schema
 - [@uni-helper/uni-manifest-types](https://github.com/uni-helper/vite-plugin-uni-manifest/tree/main/packages/types) - 为 uni-app 的 manifest.json 提供 TypeScript 类型
 - [uni-helper/vite-plugin-uni-pages](https://github.com/uni-helper/vite-plugin-uni-pages) - 为 Vite 下的 uni-app 提供基于文件系统的路由
