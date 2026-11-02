@@ -13,7 +13,9 @@ describe('resolveManifestJsonPath', () => {
   })
 
   it('uses UNI_INPUT_DIR when set, or falls back to cwd/src', () => {
-    const expected = process.env.UNI_INPUT_DIR ? toPosix(process.env.UNI_INPUT_DIR) : `${cwd}/src`
+    const expected = process.env.UNI_INPUT_DIR
+      ? toPosix(process.env.UNI_INPUT_DIR)
+      : `${cwd}/src`
     expect(resolveManifestJsonPath()).toContain(expected)
   })
 

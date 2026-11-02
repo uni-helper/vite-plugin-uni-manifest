@@ -20,7 +20,9 @@ const { testDir, testManifestPath, customOutDir, customManifestPath } = vi.hoist
 vi.mock('../packages/core/src/paths', () => {
   const path = require('node:path')
   return {
-    resolveManifestJsonPath: (outDir?: string) => outDir ? path.join(outDir, 'manifest.json') : testManifestPath,
+    resolveManifestJsonPath: (outDir?: string) => outDir
+      ? path.join(outDir, 'manifest.json')
+      : testManifestPath,
   }
 })
 

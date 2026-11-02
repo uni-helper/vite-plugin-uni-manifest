@@ -7,7 +7,9 @@ import { resolveManifestJsonPath } from './paths'
 export function writeManifestJson(config: any = {}, opts?: UserOptions): void {
   const path = resolveManifestJsonPath(opts?.outDir)
   const eol = opts?.eol ?? '\n'
-  const indent = opts?.minify ? 0 : opts?.indent ?? 2
+  const indent = opts?.minify
+    ? 0
+    : opts?.indent ?? 2
   let content = JSON.stringify(config, null, indent)
   // JSON.stringify always emits LF; convert to the requested end-of-line sequence
   if (eol !== '\n')
