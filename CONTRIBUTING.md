@@ -5,7 +5,7 @@
 ## 前置条件
 
 - [Node.js](https://nodejs.org/) 26（见仓库根目录 `.node-version`）
-- [pnpm](https://pnpm.io/) 12.14.0（见根 `package.json` 的 `packageManager` 字段）
+- [pnpm](https://pnpm.io/) 12.16.1（见根 `package.json` 的 `packageManager` 字段）
 
 ## 常用命令
 

@@ -305,7 +305,7 @@ writer.ts         文件 I/O — writeManifestJson / ensureManifestJsonExists
 paths.ts          路径解析 — resolveManifestJsonPath
 defaults.ts       静态数据 — 默认 manifest 配置
 config.ts         defineManifestConfig 辅助函数 + 类型重导出
-logger.ts         分类调试日志（debug 包）
+logger.ts         分类调试日志（obug）
 types.ts          公共类型定义（Options / UserOptions / ResolvedOptions / DebugType）
 ```
 

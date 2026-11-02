@@ -6,11 +6,12 @@
 
 - **语言/模块**：TypeScript，`strict` 全开（`tsconfig.json`）；ESM only（三个发布包与根的 `package.json` 都是 `"type": "module"`，playground 没有 `type` 字段），产物：core/types 为 `dist/index.mjs` + `dist/index.d.mts`，schema 为 `schema.json`。
 - **Node**：开发环境用 26（`.node-version`）；只有 `packages/core` 发布 `engines.node: ^20.19.0 || >=22.12.0`，其余包不声明。
-- **包管理器**：pnpm 12.14.0（根 `package.json` 的 `packageManager`）。依赖版本集中在 `pnpm-workspace.yaml` 的 `catalog:`，包里一律写 `"catalog:"`，不要在单个包里写死版本。
+- **包管理器**：pnpm 12.16.1（根 `package.json` 的 `packageManager`）。依赖版本集中在 `pnpm-workspace.yaml` 的 `catalog:`，包里一律写 `"catalog:"`，不要在单个包里写死版本。
 - **构建**：`packages/core`、`packages/types` 用 tsdown；`packages/schema` 用 ts-json-schema-generator 从 `packages/types` 生成 `schema.json`。
 - **测试**：vitest，无配置文件，测试全部在根目录 `test/`，直接 import `packages/*/src`（靠 tsconfig `paths`，不依赖 `dist`）。
 - **Lint**：`@antfu/eslint-config`（`type: 'lib'`），`.md` 里的代码块也会被格式化；`packages/schema/schema.json` 是生成物，已加入 ignores。
 - **workspace**：`packages/*` 是三个发布包（`packages/core`、`packages/types`、`packages/schema`），`playground` 是示例 uni-app 应用，不发布。
+- **依赖**：`packages/core` 的运行时依赖是 `@uni-helper/uni-manifest-types`、`c12`、`obug`；根 `devDependencies` 也装了 `obug`，因为根 `test/` 直接 import 它的 `disable()` 来重置命名空间。
 - **peer 依赖**：`packages/core` peer 依赖 `vite ^5.0.0`；`packages/types` 的 `typescript` peer 可选，范围是 `^5.0.0 || ^6.0.0 || ^7.0.0`（仓库开发用的 catalog 是 `^6.0.3`）。
 
 ## 命令
@@ -61,7 +62,7 @@ pnpm release                    # bumpp：改 4 个 package.json 的版本并打
 | `packages/core/src/paths.ts` | `resolveManifestJsonPath`，每次重新读 `UNI_INPUT_DIR` |
 | `packages/core/src/defaults.ts` | `defaultManifestConfig`（c12 的 `defaultConfig`） |
 | `packages/core/src/config.ts` | `defineManifestConfig` 辅助函数，并 re-export 整个 types 包 |
-| `packages/core/src/logger.ts` | `debug` 包封装的分类日志（`options` / `config` / `writer`） |
+| `packages/core/src/logger.ts` | `obug` 封装的分类日志（`options` / `config` / `writer`） |
 | `packages/core/src/types.ts` | `Options` / `UserOptions` / `ResolvedOptions` / `DebugType` |
 | `packages/types/src/*.ts` | `manifest.json` 类型定义，按平台/节点分文件（详见 `packages/types/AGENTS.md`） |
 | `packages/schema/schema.json` | **生成物**：从 `packages/types` 的 `ManifestConfig` 生成，不要手改 |
