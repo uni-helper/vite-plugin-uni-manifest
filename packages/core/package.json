@@ -48,10 +48,9 @@
   "dependencies": {
     "@uni-helper/uni-manifest-types": "workspace:*",
     "c12": "catalog:",
-    "debug": "catalog:"
+    "obug": "catalog:"
   },
   "devDependencies": {
-    "@types/debug": "catalog:",
     "vite": "catalog:"
   }
 }

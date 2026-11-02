@@ -1,4 +1,4 @@
-import dbg from 'debug'
+import { disable } from 'obug'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { debug } from '../packages/core/src/logger'
@@ -72,7 +72,12 @@ describe('createManifestWatcher', () => {
     expect(mockWatchConfig).toHaveBeenCalled()
     mockWriteManifestJson.mockClear()
 
-    capturedOnUpdate!({ newConfig: { config: { name: 'test' } }, getDiff: () => [] })
+    capturedOnUpdate!({
+      newConfig: {
+        config: { name: 'test' },
+      },
+      getDiff: () => [],
+    })
 
     expect(mockWriteManifestJson).not.toHaveBeenCalled()
   })
@@ -81,7 +86,14 @@ describe('createManifestWatcher', () => {
     await createManifestWatcher({})
     mockWriteManifestJson.mockClear()
 
-    capturedOnUpdate!({ newConfig: { config: { name: 'changed' } }, getDiff: () => [['name', 'test', 'changed']] })
+    capturedOnUpdate!({
+      newConfig: {
+        config: { name: 'changed' },
+      },
+      getDiff: () => [
+        ['name', 'test', 'changed'],
+      ],
+    })
 
     expect(mockWriteManifestJson).toHaveBeenCalledWith({ name: 'changed' }, expect.objectContaining({ minify: false, debug: false }))
   })
@@ -89,11 +101,11 @@ describe('createManifestWatcher', () => {
 
 describe('debug option', () => {
   beforeEach(() => {
-    dbg.disable()
+    disable()
   })
 
   afterEach(() => {
-    dbg.disable()
+    disable()
   })
 
   it('uses the vite-plugin-uni-manifest namespace prefix', () => {

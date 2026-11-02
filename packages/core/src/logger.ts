@@ -1,4 +1,4 @@
-import Debug from 'debug'
+import { createDebug } from 'obug'
 
 /**
  * Debug loggers, keyed by category.
@@ -8,9 +8,9 @@ import Debug from 'debug'
  */
 export const debug = {
   /** Option resolution logs */
-  options: Debug('vite-plugin-uni-manifest:options'),
+  options: createDebug('vite-plugin-uni-manifest:options'),
   /** manifest.config loading and change-detection logs */
-  config: Debug('vite-plugin-uni-manifest:config'),
+  config: createDebug('vite-plugin-uni-manifest:config'),
   /** manifest.json write logs */
-  writer: Debug('vite-plugin-uni-manifest:writer'),
+  writer: createDebug('vite-plugin-uni-manifest:writer'),
 }

@@ -2,7 +2,7 @@ import type { UserManifestConfig } from './config'
 import type { ResolvedOptions, UserOptions } from './types'
 import process from 'node:process'
 import { watchConfig } from 'c12'
-import dbg from 'debug'
+import { enable } from 'obug'
 import { defaultManifestConfig } from './defaults'
 import { debug } from './logger'
 import { writeManifestJson } from './writer'
@@ -43,7 +43,7 @@ function resolveOptions(userOptions: UserOptions): ResolvedOptions {
  * a broken config file never leaves a placeholder `manifest.json` behind.
  *
  * When the `debug` option is set, the corresponding logger namespaces
- * are enabled via the `debug` package — `true` enables every category,
+ * are enabled via `obug` — `true` enables every category,
  * a string enables only that one (e.g. `'writer'`).
  *
  * @example
@@ -56,8 +56,10 @@ function resolveOptions(userOptions: UserOptions): ResolvedOptions {
 export async function createManifestWatcher(userOptions: UserOptions = {}): Promise<ManifestWatcher> {
   const options = resolveOptions(userOptions)
   if (options.debug) {
-    const suffix = typeof options.debug === 'boolean' ? '*' : options.debug
-    dbg.enable(`vite-plugin-uni-manifest:${suffix}`)
+    const suffix = typeof options.debug === 'boolean'
+      ? '*'
+      : options.debug
+    enable(`vite-plugin-uni-manifest:${suffix}`)
   }
   debug.options(options)
 

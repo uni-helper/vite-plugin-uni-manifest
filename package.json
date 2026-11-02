@@ -44,11 +44,10 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
-    "@types/debug": "catalog:",
     "@types/node": "catalog:",
     "bumpp": "catalog:",
-    "debug": "catalog:",
     "eslint": "catalog:",
+    "obug": "catalog:",
     "rimraf": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:",
