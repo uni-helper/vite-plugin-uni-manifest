@@ -41,6 +41,12 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Build h5
+        run: pnpm run build:h5
+
+      - name: Build mp-weixin
+        run: pnpm run build:mp-weixin
+
       - name: Lint
         run: pnpm run lint
 
