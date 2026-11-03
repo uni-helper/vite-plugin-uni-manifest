@@ -53,6 +53,23 @@ export interface Options {
    * @since 0.5.7
    */
   debug: boolean | DebugType
+  /**
+   * Load `.env`, `.env.local`, `.env.{mode}` and `.env.{mode}.local` from `cwd`
+   * into `process.env` before reading the config, so `manifest.config.*` can use
+   * them. Uses Vite's `loadEnv` without the `VITE_` prefix filter; variables
+   * already present in `process.env` win over the files.
+   * @default false
+   * @since 0.7.0
+   */
+  dotenv: boolean
+  /**
+   * Let arrays replace each other instead of being concatenated. c12 merges with
+   * `defu`, which joins arrays from every source, so the default config arrays
+   * end up appended to the array you write.
+   * @default false
+   * @since 0.7.0
+   */
+  replaceArrays: boolean
 }
 
 /** User-facing options — all fields are optional. */

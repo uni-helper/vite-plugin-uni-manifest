@@ -1,3 +1,6 @@
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { disable } from 'obug'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
@@ -121,6 +124,68 @@ describe('generateManifest', () => {
       expect.objectContaining({ minify: true }),
     )
     expect(mockWatchConfig).not.toHaveBeenCalled()
+  })
+})
+
+describe('dotenv option', () => {
+  const envKey = 'VITE_PLUGIN_UNI_MANIFEST_WATCHER_ENV'
+  let dir: string
+
+  beforeEach(() => {
+    dir = mkdtempSync(join(tmpdir(), 'vite-plugin-uni-manifest-watcher-dotenv-'))
+    delete process.env[envKey]
+  })
+
+  afterEach(() => {
+    rmSync(dir, { recursive: true, force: true })
+    delete process.env[envKey]
+  })
+
+  it('loads .env and .env.{mode} into process.env when dotenv is on', async () => {
+    writeFileSync(join(dir, '.env'), `${envKey}=from-env\n`)
+    writeFileSync(join(dir, '.env.staging'), `${envKey}=from-mode\n`)
+
+    await createManifestWatcher({ cwd: dir, dotenv: true }, 'staging')
+
+    expect(process.env[envKey]).toBe('from-mode')
+  })
+
+  it('leaves process.env alone when dotenv is off', async () => {
+    writeFileSync(join(dir, '.env'), `${envKey}=from-env\n`)
+
+    await createManifestWatcher({ cwd: dir }, 'staging')
+
+    expect(process.env[envKey]).toBeUndefined()
+  })
+})
+
+describe('c12 config options', () => {
+  it('passes no merger by default', async () => {
+    mockWatchConfig.mockClear()
+
+    await createManifestWatcher({})
+
+    expect(mockWatchConfig.mock.calls[0]![0].merger).toBeUndefined()
+  })
+
+  // defu joins arrays from every source, so the default `permissions: []` of a
+  // preset would end up in front of the arrays a project declares.
+  it('replaces arrays instead of joining them when replaceArrays is on', async () => {
+    mockWatchConfig.mockClear()
+
+    await createManifestWatcher({ replaceArrays: true })
+
+    const { merger } = mockWatchConfig.mock.calls[0]![0]
+    expect(merger({
+      list: ['mine'],
+    }, {
+      list: ['default-a', 'default-b'],
+      other: true,
+    }))
+      .toEqual({
+        list: ['mine'],
+        other: true,
+      })
   })
 })
 

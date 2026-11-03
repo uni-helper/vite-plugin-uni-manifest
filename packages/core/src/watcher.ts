@@ -3,7 +3,9 @@ import type { UserManifestConfig } from './config'
 import type { ResolvedOptions, UserOptions } from './types'
 import process from 'node:process'
 import { loadConfig, watchConfig } from 'c12'
+import { createDefu } from 'defu'
 import { enable } from 'obug'
+import { loadEnv } from 'vite'
 import { defaultManifestConfig } from './defaults'
 import { debug } from './logger'
 import { writeManifestJson } from './writer'
@@ -23,8 +25,12 @@ export interface ManifestWatcher {
 }
 
 /** Load the manifest config once and write it to `manifest.json`. */
-export async function generateManifest(userOptions: UserOptions = {}): Promise<void> {
+export async function generateManifest(
+  userOptions: UserOptions = {},
+  mode = process.env.NODE_ENV,
+): Promise<void> {
   const options = prepareOptions(userOptions)
+  loadDotenv(options, mode)
   const { config } = await loadConfig<UserManifestConfig>(getConfigOptions(options))
   writeManifestJson(config, options)
 }
@@ -37,6 +43,8 @@ function resolveOptions(userOptions: UserOptions): ResolvedOptions {
     indent: 2,
     eol: '\n',
     debug: false,
+    dotenv: false,
+    replaceArrays: false,
     cwd: process.env.VITE_ROOT_DIR,
     ...userOptions,
   }
@@ -54,6 +62,31 @@ function prepareOptions(userOptions: UserOptions): ResolvedOptions {
   return options
 }
 
+/**
+ * c12 merger for the `replaceArrays` option: defu joins arrays from every
+ * source, this one lets the higher-priority array win as a whole.
+ */
+const replaceArrayMerger = createDefu((object, key, value) => {
+  if (Array.isArray(value)) {
+    object[key] = value
+    return true
+  }
+  return false
+}) as NonNullable<LoadConfigOptions<UserManifestConfig>['merger']>
+
+/**
+ * Load `.env`, `.env.local`, `.env.{mode}` and `.env.{mode}.local` into
+ * `process.env`, so `manifest.config.*` can read them.
+ *
+ * Vite's `loadEnv` only returns the values and filters by prefix (`VITE_` by
+ * default), so ask for every key with an empty prefix and write them back here.
+ */
+function loadDotenv(options: ResolvedOptions, mode?: string): void {
+  if (!options.dotenv)
+    return
+  Object.assign(process.env, loadEnv(mode ?? '', options.cwd ?? process.cwd(), ''))
+}
+
 function getConfigOptions(options: ResolvedOptions): LoadConfigOptions<UserManifestConfig> {
   return {
     cwd: options.cwd,
@@ -61,6 +94,7 @@ function getConfigOptions(options: ResolvedOptions): LoadConfigOptions<UserManif
     defaultConfig: defaultManifestConfig,
     rcFile: false,
     packageJson: false,
+    merger: options.replaceArrays ? replaceArrayMerger : undefined,
   }
 }
 
@@ -83,8 +117,12 @@ function getConfigOptions(options: ResolvedOptions): LoadConfigOptions<UserManif
  * await watcher.unwatch()
  * ```
  */
-export async function createManifestWatcher(userOptions: UserOptions = {}): Promise<ManifestWatcher> {
+export async function createManifestWatcher(
+  userOptions: UserOptions = {},
+  mode = process.env.NODE_ENV,
+): Promise<ManifestWatcher> {
   const options = prepareOptions(userOptions)
+  loadDotenv(options, mode)
 
   const { config, unwatch } = await watchConfig<UserManifestConfig>({
     ...getConfigOptions(options),

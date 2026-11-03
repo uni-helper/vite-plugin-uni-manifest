@@ -48,6 +48,7 @@
   "dependencies": {
     "@uni-helper/uni-manifest-types": "workspace:*",
     "c12": "catalog:",
+    "defu": "catalog:",
     "obug": "catalog:"
   },
   "devDependencies": {

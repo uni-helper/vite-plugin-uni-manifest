@@ -24,14 +24,14 @@ export function VitePluginUniManifest(userOptions: UserOptions = {}): Plugin {
       // `command` alone is not enough: uni-app mini program dev runs Vite's
       // build API with `watch`, which still needs a live config watcher.
       if (config.command === 'build' && !config.build.watch) {
-        await generateManifest(userOptions)
+        await generateManifest(userOptions, config.mode)
         return
       }
       // Never closed here: `buildEnd` fires after every rebuild, so closing on
       // it would stop syncing manifest.config.* for the rest of a watch run.
       // The watcher is released when the process exits, which means a caller
       // that closes a programmatic watch build keeps it alive.
-      await createManifestWatcher(userOptions)
+      await createManifestWatcher(userOptions, config.mode)
     },
   }
 }
