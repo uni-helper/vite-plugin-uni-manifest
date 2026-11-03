@@ -34,6 +34,19 @@ const guideSidebar = [
   },
 ]
 
+const blogSidebar = [
+  {
+    text: '博客',
+    items: [
+      { text: '全部文章', link: '/blog/' },
+      {
+        text: 'vite-plugin-uni-manifest 更新了什么',
+        link: '/blog/2026-09-01-vite-plugin-uni-manifest-0-5-0-6',
+      },
+    ],
+  },
+]
+
 export default defineConfig({
   title: 'Vite Plugin Uni Manifest',
   description: '用 TypeScript 编写 uni-app 的 manifest.json。',
@@ -60,6 +73,7 @@ export default defineConfig({
     logo: { src: '/logo.svg', width: 24, height: 24 },
     nav: [
       { text: '指南', link: '/guide/introduction', activeMatch: '/(guide|api|other)/' },
+      { text: '博客', link: '/blog/', activeMatch: '/blog/' },
       {
         text: '更新日志',
         link: 'https://github.com/uni-helper/vite-plugin-uni-manifest/releases',
@@ -67,6 +81,7 @@ export default defineConfig({
     ],
     sidebar: {
       '/': guideSidebar,
+      '/blog/': blogSidebar,
     },
     editLink: {
       pattern: 'https://github.com/uni-helper/vite-plugin-uni-manifest/edit/main/docs/:path',

@@ -39,3 +39,22 @@
   transform: none;
   vertical-align: 1px;
 }
+
+/**
+ * Blog
+ * -------------------------------------------------------------------------- */
+.blog-post-meta {
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+}
+
+.blog-post-meta a {
+  color: inherit;
+  font-weight: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.blog-post-meta a:hover {
+  color: var(--vp-c-brand-1);
+}
