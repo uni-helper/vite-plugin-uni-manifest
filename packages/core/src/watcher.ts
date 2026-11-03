@@ -23,11 +23,10 @@ export interface ManifestWatcher {
 }
 
 /** Load the manifest config once and write it to `manifest.json`. */
-export async function generateManifest(userOptions: UserOptions = {}): Promise<ResolvedOptions> {
+export async function generateManifest(userOptions: UserOptions = {}): Promise<void> {
   const options = prepareOptions(userOptions)
   const { config } = await loadConfig<UserManifestConfig>(getConfigOptions(options))
   writeManifestJson(config, options)
-  return options
 }
 
 /** Merge user options with defaults to produce resolved options. */

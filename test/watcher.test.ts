@@ -8,7 +8,9 @@ const { mockWriteManifestJson, mockUnwatch, mockWatchConfig, mockLoadConfig } = 
   mockWriteManifestJson: vi.fn(),
   mockUnwatch: vi.fn().mockResolvedValue(undefined),
   mockWatchConfig: vi.fn(),
-  mockLoadConfig: vi.fn().mockResolvedValue({ config: { name: 'test' } }),
+  mockLoadConfig: vi.fn().mockResolvedValue({
+    config: { name: 'test' },
+  }),
 }))
 
 vi.mock('../packages/core/src/paths', () => ({

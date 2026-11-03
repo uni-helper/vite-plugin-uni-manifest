@@ -17,8 +17,8 @@ pnpm -C packages/core dev       # tsdown --watch
 
 | 文件 | 职责 |
 | --- | --- |
-| `index.ts` | 插件工厂：`enforce: 'pre'` → `configResolved` 启动 watcher → `buildEnd` 调 `unwatch` |
-| `watcher.ts` | 深模块 `createManifestWatcher`，对外只暴露 `{ options, unwatch }` |
+| `index.ts` | 插件工厂：`enforce: 'pre'` → `configResolved` 启动 watcher，一次性构建（`command === 'build'` 且无 `build.watch`）只调 `generateManifest` → `buildEnd` 调 `unwatch` |
+| `watcher.ts` | 深模块 `createManifestWatcher`，对外只暴露 `{ options, unwatch }`；另有 `generateManifest`（c12 `loadConfig`，不建 watcher） |
 | `writer.ts` | `writeManifestJson` / `ensureManifestJsonExists` |
 | `paths.ts` | `resolveManifestJsonPath` |
 | `defaults.ts` | `defaultManifestConfig` |

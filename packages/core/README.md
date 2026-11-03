@@ -61,9 +61,9 @@ export default defineManifestConfig({
 
 ## 插件配置
 
-`UniManifest()` 支持以下选项定义行为：
+`vite dev` 下插件会监听 manifest 配置，改完自动同步到 `manifest.json`；一次性构建只加载并写入一次，不启动文件监听器。
 
-开发服务器启动后，插件会监听 manifest 配置并同步后续变更。生产构建只会加载并写入一次配置，不会启动文件监听器。
+`UniManifest()` 支持以下选项定义行为：
 
 ```ts
 interface UserOptions {
@@ -301,8 +301,8 @@ export default defineConfig({
 插件围绕一个深模块（`watcher.ts`）构建，对外暴露极简 interface，内部吸收所有编排逻辑：
 
 ```
-index.ts          Vite 插件入口，调用 createManifestWatcher
-watcher.ts        深模块 — 选项解析 + c12 配置监听 + 文件写入
+index.ts          Vite 插件入口，按命令选择 createManifestWatcher 或 generateManifest
+watcher.ts        深模块 — 选项解析 + c12 配置监听 / 一次性加载 + 文件写入
 writer.ts         文件 I/O — writeManifestJson / ensureManifestJsonExists
 paths.ts          路径解析 — resolveManifestJsonPath
 defaults.ts       静态数据 — 默认 manifest 配置

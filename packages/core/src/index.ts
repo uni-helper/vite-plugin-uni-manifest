@@ -12,7 +12,7 @@ export * from './writer'
 /**
  * Vite plugin that generates uni-app `manifest.json` from a TypeScript config file.
  *
- * Watches `manifest.config.ts` during development and loads it once for production builds.
+ * Watches `manifest.config.ts` during development and loads it once for a one-shot build.
  */
 export function VitePluginUniManifest(userOptions: UserOptions = {}): Plugin {
   let watcher: ManifestWatcher | undefined
@@ -21,7 +21,9 @@ export function VitePluginUniManifest(userOptions: UserOptions = {}): Plugin {
     // Run before other configResolved hooks to keep manifest.json in sync
     enforce: 'pre',
     async configResolved(config) {
-      if (config.command === 'build') {
+      // `command` alone is not enough: uni-app mini program dev runs Vite's
+      // build API with `watch`, which still needs a live config watcher.
+      if (config.command === 'build' && !config.build.watch) {
         await generateManifest(userOptions)
         return
       }
