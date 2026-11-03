@@ -109,7 +109,7 @@ interface UserOptions {
   /**
    * 生成 `manifest.json` 的输出目录。
    * 未设置时使用 uni-app 的 `UNI_INPUT_DIR`（或 `cwd/src`）。
-   * 相对路径会基于 `process.cwd()` 解析。
+   * 相对路径基于 `cwd` 解析，和读取配置的目录一致。
    * @default undefined
    * @since 0.5.1
    */
@@ -357,7 +357,7 @@ index.ts
 
 - **深模块设计**：`createManifestWatcher()` 是唯一的核心 interface，选项解析、配置监听、文件写入全部作为 implementation 细节隐藏其后。测试直接通过这一个 interface 验证端到端行为。`generateManifest()` 只服务一次性构建，共用同一套选项解析与 c12 配置。
 - **无导入时副作用**：所有文件系统操作（路径解析、文件写入）都在插件生命周期内执行，而非模块导入时。这使得模块可独立测试。
-- **输出规格只有一份**：`resolveOutputSpec(options)` 把已经解析过的选项折成 `OutputSpec`（目录、缩进、换行符、末尾换行），`minify` 在这里折成 `indent: 0`；writer 不再重复算默认值。目录优先级（`outDir` → `UNI_INPUT_DIR` → `cwd/src`）也在 writer 内，每次写入重新读环境变量，不缓存。
+- **输出规格只有一份**：`resolveOutputSpec(options)` 把已经解析过的选项折成 `OutputSpec`（目录、缩进、换行符、末尾换行），`minify` 在这里折成 `indent: 0`；writer 不再重复算默认值。目录优先级（`outDir` → `UNI_INPUT_DIR` → `cwd/src`）也在 writer 内，相对路径以 `cwd` 为基准，环境变量每次写入重新读，不缓存。
 - **c12 配置加载**：持续运行时用 `c12` 的 `watchConfig` 实现 `manifest.config.ts` 的监听和热更新，一次性构建用 `loadConfig`，两条路径支持同样的 `.ts`、`.mts`、`.js`、`.json` 等格式，也共用同一份 c12 选项；`replaceArrays` 落到 c12 的 `merger`。
 - **没有配置文件就不写**：找不到 `manifest.config.*` 时跳过写入，不会把项目里手写的 `manifest.json` 换成默认值；`outDir` 指向的目录不存在时会先建出来。
 - **幂等写入**：`writeManifestJson` 在内容未变化时跳过写入，避免触发下游不必要的重编译。

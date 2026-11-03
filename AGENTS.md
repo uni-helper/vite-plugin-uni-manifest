@@ -58,7 +58,7 @@ pnpm release                    # bumpp：改 4 个 package.json 的版本并打
 | --- | --- |
 | `packages/core/src/index.ts` | Vite 插件入口：`enforce: 'pre'`，`configResolved` 里启动 watcher（`command === 'build'` 且没有 `build.watch` 时只调一次 `generateManifest`）；插件不 `unwatch`，否则 watch 期间第一次 `buildEnd` 后同步就断了 |
 | `packages/core/src/watcher.ts` | 深模块 `createManifestWatcher`：选项解析 + c12 监听 + 首次写入；一次性构建走同文件的 `generateManifest`（c12 `loadConfig`）；`dotenv` 用 Vite 的 `loadEnv`（空前缀）写回 `process.env`，`replaceArrays` 映射到 c12 的 `merger`；找不到 `manifest.config.*` 时不写文件（避免覆盖手写的 `manifest.json`） |
-| `packages/core/src/writer.ts` | `resolveOutputSpec` 把已解析选项折成 `OutputSpec`，`writeManifestJson(config, spec)` 负责目录优先级（`outDir` → `UNI_INPUT_DIR` → `cwd/src`，每次写入重读）、格式化与幂等写入 |
+| `packages/core/src/writer.ts` | `resolveOutputSpec` 把已解析选项折成 `OutputSpec`，`writeManifestJson(config, spec)` 负责目录优先级（`outDir` → `UNI_INPUT_DIR` → `cwd/src`，相对路径以 `cwd` 为基准，环境变量每次写入重读）、格式化与幂等写入 |
 | `packages/core/src/defaults.ts` | `defaultManifestConfig`（c12 的 `defaultConfig`） |
 | `packages/core/src/config.ts` | `defineManifestConfig` 辅助函数，并 re-export 整个 types 包 |
 | `packages/core/src/logger.ts` | `obug` 封装的分类日志（`options` / `config` / `writer`） |

@@ -8,8 +8,13 @@ import { debug } from './logger'
 /** Everything `writeManifestJson` needs to know about the file it produces. */
 export interface OutputSpec {
   /**
+   * Base directory for a relative `outDir` and for the `src` fallback.
+   * Defaults to `process.cwd()`.
+   */
+  cwd?: string
+  /**
    * Directory that receives `manifest.json`. Falls back to uni-app's
-   * `UNI_INPUT_DIR`, then to `${process.cwd()}/src`.
+   * `UNI_INPUT_DIR`, then to `cwd/src`.
    */
   outDir?: string
   /** Indentation for `JSON.stringify`; `0` writes minified JSON. */
@@ -21,9 +26,10 @@ export interface OutputSpec {
 
 /** Derive the output spec from resolved plugin options. */
 export function resolveOutputSpec(
-  options: Pick<ResolvedOptions, 'outDir' | 'minify' | 'indent' | 'eol' | 'insertFinalNewline'>,
+  options: Pick<ResolvedOptions, 'cwd' | 'outDir' | 'minify' | 'indent' | 'eol' | 'insertFinalNewline'>,
 ): OutputSpec {
   return {
+    cwd: options.cwd,
     outDir: options.outDir,
     indent: options.minify
       ? 0
@@ -35,12 +41,13 @@ export function resolveOutputSpec(
 
 /**
  * Absolute POSIX path of `manifest.json`: `outDir` wins over uni-app's
- * `UNI_INPUT_DIR`, which wins over `cwd/src`. Read on every write so a
- * generator that sets the variable late still gets the right directory.
+ * `UNI_INPUT_DIR`, which wins over `cwd/src`. Relative paths resolve against
+ * the spec's `cwd`, not the process directory. `UNI_INPUT_DIR` is read on every
+ * write so a generator that sets the variable late still gets the right place.
  */
-function resolveManifestJsonPath(outDir?: string): string {
+function resolveManifestJsonPath(spec: OutputSpec): string {
   return normalizePath(
-    resolve(outDir || process.env.UNI_INPUT_DIR || `${process.cwd()}/src`, 'manifest.json'),
+    resolve(spec.cwd ?? process.cwd(), spec.outDir || process.env.UNI_INPUT_DIR || 'src', 'manifest.json'),
   )
 }
 
@@ -51,7 +58,7 @@ function resolveManifestJsonPath(outDir?: string): string {
  * recompiles from firing on every config reload.
  */
 export function writeManifestJson(config: any, spec: OutputSpec): void {
-  const path = resolveManifestJsonPath(spec.outDir)
+  const path = resolveManifestJsonPath(spec)
   let content = JSON.stringify(config, null, spec.indent)
   // JSON.stringify always emits LF; convert to the requested end-of-line sequence
   if (spec.eol !== '\n')

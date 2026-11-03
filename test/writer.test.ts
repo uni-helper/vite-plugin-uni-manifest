@@ -25,6 +25,7 @@ const manifestOf = (dir: string): string => toPosix(join(dir, 'manifest.json'))
 
 function spec(overrides: Partial<OutputSpec> = {}): OutputSpec {
   return {
+    cwd: testDir,
     outDir: testDir,
     indent: 2,
     eol: '\n',
@@ -117,13 +118,26 @@ describe('writeManifestJson', () => {
     expect(JSON.parse(readFileSync(manifestOf(envDir), 'utf-8'))).toEqual({ name: 'env' })
   })
 
-  it('falls back to cwd/src when neither outDir nor UNI_INPUT_DIR is set', () => {
-    mkdirSync(join(cwdDir, 'src'), { recursive: true })
-    vi.spyOn(process, 'cwd').mockReturnValue(cwdDir)
+  it('resolves a relative outDir against the spec cwd', () => {
+    writeManifestJson({ name: 'relative' }, spec({ outDir: 'nested/manifest-dir', cwd: cwdDir }))
 
-    writeManifestJson({ name: 'cwd' }, spec({ outDir: undefined }))
+    expect(JSON.parse(readFileSync(manifestOf(join(cwdDir, 'nested/manifest-dir')), 'utf-8')))
+      .toEqual({ name: 'relative' })
+  })
+
+  it('falls back to cwd/src when neither outDir nor UNI_INPUT_DIR is set', () => {
+    writeManifestJson({ name: 'cwd' }, spec({ outDir: undefined, cwd: cwdDir }))
 
     expect(JSON.parse(readFileSync(manifestOf(join(cwdDir, 'src')), 'utf-8'))).toEqual({ name: 'cwd' })
+  })
+
+  it('uses process.cwd() when the spec has no cwd', () => {
+    vi.spyOn(process, 'cwd').mockReturnValue(cwdDir)
+
+    writeManifestJson({ name: 'default-base' }, spec({ outDir: 'from-process-cwd', cwd: undefined }))
+
+    expect(JSON.parse(readFileSync(manifestOf(join(cwdDir, 'from-process-cwd')), 'utf-8')))
+      .toEqual({ name: 'default-base' })
   })
 
   it('creates the output directory when it does not exist yet', () => {

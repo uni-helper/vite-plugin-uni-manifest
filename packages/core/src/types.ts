@@ -41,6 +41,8 @@ export interface Options {
   /**
    * Output directory for the generated `manifest.json`.
    * When omitted, falls back to uni-app's `UNI_INPUT_DIR` (or `cwd/src`).
+   * Relative paths resolve against `cwd`, the same directory the config is
+   * loaded from.
    * @default undefined
    * @since 0.5.1
    */
