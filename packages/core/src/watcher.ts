@@ -31,7 +31,11 @@ export async function generateManifest(
 ): Promise<void> {
   const options = prepareOptions(userOptions)
   loadDotenv(options, mode)
-  const { config } = await loadConfig<UserManifestConfig>(getConfigOptions(options))
+  const { config, _configFile } = await loadConfig<UserManifestConfig>(getConfigOptions(options))
+  if (!_configFile) {
+    debug.config('no manifest.config.* found, leaving manifest.json untouched')
+    return
+  }
   writeManifestJson(config, resolveOutputSpec(options))
 }
 
@@ -125,9 +129,13 @@ export async function createManifestWatcher(
   loadDotenv(options, mode)
   const spec = resolveOutputSpec(options)
 
-  const { config, unwatch } = await watchConfig<UserManifestConfig>({
+  const { config, unwatch, _configFile } = await watchConfig<UserManifestConfig>({
     ...getConfigOptions(options),
     onUpdate: ({ newConfig, getDiff }) => {
+      if (!newConfig._configFile) {
+        debug.config('manifest.config.* is gone, leaving manifest.json untouched')
+        return
+      }
       const diff = getDiff()
       if (diff.length === 0) {
         debug.config('config changed but produced no diff, skipping write')
@@ -137,7 +145,10 @@ export async function createManifestWatcher(
       writeManifestJson(newConfig.config, spec)
     },
   })
-  writeManifestJson(config, spec)
+  if (_configFile)
+    writeManifestJson(config, spec)
+  else
+    debug.config('no manifest.config.* found, leaving manifest.json untouched')
 
   return { options, unwatch }
 }

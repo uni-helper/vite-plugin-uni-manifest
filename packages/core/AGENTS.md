@@ -26,7 +26,8 @@ pnpm -C packages/core dev       # tsdown --watch
 | `types.ts` | 选项类型 |
 
 - **无导入时副作用**：文件读写只发生在插件生命周期内，模块可以单独 import 测试。
-- **幂等写入**：`writeManifestJson` 先比对文件内容，相同则跳过写入（避免触发下游重编译），比较对象是最终字符串（含缩进、`eol`、末尾换行）。
+- **幂等写入**：`writeManifestJson` 先比对文件内容，相同则跳过写入（避免触发下游重编译），比较对象是最终字符串（含缩进、`eol`、末尾换行）；`outDir` 不存在时用 `mkdirSync` 建出来。
+- **没有配置文件就不写**：`loadConfig` / `watchConfig` 返回的 `_configFile` 为空时跳过写入（初次写入与 `onUpdate` 都要判断），否则会把用户手写的 `manifest.json` 换成默认值。
 - **输出规格与路径**：`resolveOutputSpec(options)` 是唯一的格式来源（`minify` 折成 `indent: 0`），writer 只照 spec 写；目录优先级 `outDir` → `UNI_INPUT_DIR` → `cwd/src` 在 writer 内部，每次写入重新读环境变量，并用 Vite 的 `normalizePath` 归一化成 POSIX 风格（Windows 上返回 `D:/…`）。
 - **c12 配置源**：`watchConfig({ name: 'manifest', rcFile: false, packageJson: false, defaultConfig: defaultManifestConfig })`，所以只认 `manifest.config.(ts|mts|cts|js|cjs|mjs|json)`，不读 `.manifestrc`、不读 `package.json` 字段。
 - **首次写入时机**：配置加载成功后才写（配置语法错误不会留下空 `manifest.json`）。

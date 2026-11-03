@@ -5,7 +5,7 @@
 ## 项目
 
 - **语言/模块**：TypeScript，`strict` 全开（`tsconfig.json`）；ESM only（三个发布包与根的 `package.json` 都是 `"type": "module"`，playground 没有 `type` 字段），产物：core/types 为 `dist/index.mjs` + `dist/index.d.mts`，schema 为 `schema.json`。
-- **Node**：开发环境用 26（`.node-version`）；只有 `packages/core` 发布 `engines.node: ^20.19.0 || >=22.12.0`，其余包不声明。
+- **Node**：开发环境用 26（`.node-version`）；只有 `packages/core` 发布 `engines.node: "^22.22.2 || ^24.15.0 || >=26.0.0"`，其余包不声明。
 - **包管理器**：pnpm 12.16.1（根 `package.json` 的 `packageManager`）。依赖版本集中在 `pnpm-workspace.yaml` 的 `catalog:`，包里一律写 `"catalog:"`，不要在单个包里写死版本。
 - **构建**：`packages/core`、`packages/types` 用 tsdown；`packages/schema` 用 ts-json-schema-generator 从 `packages/types` 生成 `schema.json`。
 - **测试**：vitest，无配置文件，测试全部在根目录 `test/`，直接 import `packages/*/src`（靠 tsconfig `paths`，不依赖 `dist`）。
@@ -57,7 +57,7 @@ pnpm release                    # bumpp：改 4 个 package.json 的版本并打
 | 路径 | 职责 |
 | --- | --- |
 | `packages/core/src/index.ts` | Vite 插件入口：`enforce: 'pre'`，`configResolved` 里启动 watcher（`command === 'build'` 且没有 `build.watch` 时只调一次 `generateManifest`）；插件不 `unwatch`，否则 watch 期间第一次 `buildEnd` 后同步就断了 |
-| `packages/core/src/watcher.ts` | 深模块 `createManifestWatcher`：选项解析 + c12 监听 + 首次写入；一次性构建走同文件的 `generateManifest`（c12 `loadConfig`）；`dotenv` 用 Vite 的 `loadEnv`（空前缀）写回 `process.env`，`replaceArrays` 映射到 c12 的 `merger` |
+| `packages/core/src/watcher.ts` | 深模块 `createManifestWatcher`：选项解析 + c12 监听 + 首次写入；一次性构建走同文件的 `generateManifest`（c12 `loadConfig`）；`dotenv` 用 Vite 的 `loadEnv`（空前缀）写回 `process.env`，`replaceArrays` 映射到 c12 的 `merger`；找不到 `manifest.config.*` 时不写文件（避免覆盖手写的 `manifest.json`） |
 | `packages/core/src/writer.ts` | `resolveOutputSpec` 把已解析选项折成 `OutputSpec`，`writeManifestJson(config, spec)` 负责目录优先级（`outDir` → `UNI_INPUT_DIR` → `cwd/src`，每次写入重读）、格式化与幂等写入 |
 | `packages/core/src/defaults.ts` | `defaultManifestConfig`（c12 的 `defaultConfig`） |
 | `packages/core/src/config.ts` | `defineManifestConfig` 辅助函数，并 re-export 整个 types 包 |

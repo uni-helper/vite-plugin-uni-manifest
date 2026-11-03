@@ -1,6 +1,6 @@
 import type { ResolvedOptions } from './types'
-import { existsSync, readFileSync, writeFileSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { dirname, resolve } from 'node:path'
 import process from 'node:process'
 import { normalizePath } from 'vite'
 import { debug } from './logger'
@@ -63,5 +63,7 @@ export function writeManifestJson(config: any, spec: OutputSpec): void {
     return
   }
   debug.writer('writing', path)
+  // `outDir` may point at a directory the project has not created yet
+  mkdirSync(dirname(path), { recursive: true })
   writeFileSync(path, content)
 }

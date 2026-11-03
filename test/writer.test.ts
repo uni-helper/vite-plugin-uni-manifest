@@ -1,5 +1,5 @@
 import type { OutputSpec } from '../packages/core/src/writer'
-import { mkdirSync, readFileSync, rmSync, statSync, utimesSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, rmSync, statSync, utimesSync } from 'node:fs'
 import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
@@ -124,6 +124,14 @@ describe('writeManifestJson', () => {
     writeManifestJson({ name: 'cwd' }, spec({ outDir: undefined }))
 
     expect(JSON.parse(readFileSync(manifestOf(join(cwdDir, 'src')), 'utf-8'))).toEqual({ name: 'cwd' })
+  })
+
+  it('creates the output directory when it does not exist yet', () => {
+    const nested = join(testDir, 'nested', 'deep')
+
+    writeManifestJson({ name: 'nested' }, spec({ outDir: nested }))
+
+    expect(existsSync(join(nested, 'manifest.json'))).toBe(true)
   })
 
   it('skips writing when content is unchanged', () => {

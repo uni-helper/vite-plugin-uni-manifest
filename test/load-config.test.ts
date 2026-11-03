@@ -1,4 +1,4 @@
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
@@ -67,6 +67,17 @@ describe('dotenv loading', () => {
 
     expect(JSON.parse(readFileSync(join(dir, 'manifest.json'), 'utf-8')).description)
       .toBe('from-process')
+  })
+
+  it('leaves a hand-written manifest.json alone when there is no config file', async () => {
+    const srcDir = join(dir, 'src')
+    mkdirSync(srcDir, { recursive: true })
+    writeFileSync(join(srcDir, 'manifest.json'), '{"name":"hand-written"}')
+    rmSync(join(dir, 'manifest.config.mjs'))
+
+    await generateManifest({ cwd: dir, outDir: srcDir }, 'development')
+
+    expect(readFileSync(join(srcDir, 'manifest.json'), 'utf-8')).toBe('{"name":"hand-written"}')
   })
 
   it('ignores .env files unless dotenv is on', async () => {

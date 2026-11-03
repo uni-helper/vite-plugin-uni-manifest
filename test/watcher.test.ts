@@ -4,6 +4,7 @@ import { join } from 'node:path'
 import { disable } from 'obug'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
+import { defaultManifestConfig } from '../packages/core/src/defaults'
 import { debug } from '../packages/core/src/logger'
 import { createManifestWatcher, generateManifest } from '../packages/core/src/watcher'
 
@@ -12,11 +13,8 @@ const { mockUnwatch, mockWatchConfig, mockLoadConfig } = vi.hoisted(() => ({
   mockWatchConfig: vi.fn(),
   mockLoadConfig: vi.fn().mockResolvedValue({
     config: { name: 'test' },
+    _configFile: '/tmp/manifest.config.ts',
   }),
-}))
-
-vi.mock('../packages/core/src/defaults', () => ({
-  defaultManifestConfig: {},
 }))
 
 // 'c12' is not resolvable from the repo root under pnpm strict node_modules,
@@ -27,11 +25,12 @@ vi.mock('../packages/core/node_modules/c12', () => ({
 }))
 
 // Capture the onUpdate hook so tests can simulate config-change events.
-let capturedOnUpdate: ((params: { newConfig: { config: any }, getDiff: () => unknown[] }) => void) | undefined
+let capturedOnUpdate: ((params: { newConfig: { config: any, _configFile?: string }, getDiff: () => unknown[] }) => void) | undefined
 mockWatchConfig.mockImplementation(async (opts: any) => {
   capturedOnUpdate = opts.onUpdate
   return {
     config: { name: 'test' },
+    _configFile: '/tmp/manifest.config.ts',
     unwatch: mockUnwatch,
   }
 })
@@ -92,11 +91,40 @@ describe('createManifestWatcher', () => {
     capturedOnUpdate!({
       newConfig: {
         config: { name: 'test' },
+        _configFile: '/tmp/manifest.config.ts',
       },
       getDiff: () => [],
     })
 
     expect(readFileSync(manifestPath, 'utf-8')).toBe('{"name":"sentinel"}')
+  })
+
+  it('leaves manifest.json alone when no manifest.config.* exists', async () => {
+    writeFileSync(manifestPath, '{"name":"hand-written"}')
+    mockWatchConfig.mockResolvedValueOnce({
+      config: { name: 'defaults' },
+      unwatch: mockUnwatch,
+    })
+
+    await createManifestWatcher({ outDir })
+
+    expect(readFileSync(manifestPath, 'utf-8')).toBe('{"name":"hand-written"}')
+  })
+
+  it('leaves manifest.json alone when manifest.config.* disappears', async () => {
+    await createManifestWatcher({ outDir })
+    writeFileSync(manifestPath, '{"name":"hand-written"}')
+
+    capturedOnUpdate!({
+      newConfig: {
+        config: { name: 'defaults' },
+      },
+      getDiff: () => [
+        ['name', 'test', 'defaults'],
+      ],
+    })
+
+    expect(readFileSync(manifestPath, 'utf-8')).toBe('{"name":"hand-written"}')
   })
 
   it('rewrites manifest.json when the config diff is not empty', async () => {
@@ -105,6 +133,7 @@ describe('createManifestWatcher', () => {
     capturedOnUpdate!({
       newConfig: {
         config: { name: 'changed' },
+        _configFile: '/tmp/manifest.config.ts',
       },
       getDiff: () => [
         ['name', 'test', 'changed'],
@@ -165,12 +194,14 @@ describe('dotenv option', () => {
 })
 
 describe('c12 config options', () => {
-  it('passes no merger by default', async () => {
+  it('passes the real default config and no merger by default', async () => {
     mockWatchConfig.mockClear()
 
     await createManifestWatcher({ outDir })
 
-    expect(mockWatchConfig.mock.calls[0]![0].merger).toBeUndefined()
+    const options = mockWatchConfig.mock.calls[0]![0]
+    expect(options.defaultConfig).toBe(defaultManifestConfig)
+    expect(options.merger).toBeUndefined()
   })
 
   // defu joins arrays from every source, so the default `permissions: []` of a
