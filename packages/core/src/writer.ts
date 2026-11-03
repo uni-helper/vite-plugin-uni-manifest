@@ -23,9 +23,3 @@ export function writeManifestJson(config: any = {}, opts?: UserOptions): void {
   debug.writer('writing', path)
   writeFileSync(path, content)
 }
-
-/** Ensure `manifest.json` exists; create an empty one if missing. */
-export function ensureManifestJsonExists(opts?: UserOptions): void {
-  if (!existsSync(resolveManifestJsonPath(opts?.outDir)))
-    writeManifestJson({}, opts)
-}

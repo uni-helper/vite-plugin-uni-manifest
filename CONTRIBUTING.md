@@ -50,7 +50,7 @@ test/
 ├── watcher.test.ts     createManifestWatcher 深模块（选项解析 + 监听 + 写入 + debug 日志开关 + c12 选项）
 ├── load-config.test.ts 真实 c12 + Vite loadEnv：.env 四个文件的读取与覆盖顺序
 ├── plugin.test.ts      插件工厂形状 + 生命周期
-├── writer.test.ts      writeManifestJson 格式化 + 幂等写入 + ensureManifestJsonExists
+├── writer.test.ts      writeManifestJson 格式化 + 幂等写入
 ├── paths.test.ts       resolveManifestJsonPath 路径解析
 ├── defaults.test.ts    默认配置结构
 └── config.test.ts      defineManifestConfig 类型断言

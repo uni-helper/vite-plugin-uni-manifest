@@ -1,8 +1,8 @@
-import { existsSync, mkdirSync, readFileSync, rmSync, statSync, utimesSync, writeFileSync } from 'node:fs'
+import { mkdirSync, readFileSync, rmSync, statSync, utimesSync } from 'node:fs'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { debug } from '../packages/core/src/logger'
-import { ensureManifestJsonExists, writeManifestJson } from '../packages/core/src/writer'
+import { writeManifestJson } from '../packages/core/src/writer'
 
 const { testDir, testManifestPath, customOutDir, customManifestPath } = vi.hoisted(() => {
   const os = require('node:os')
@@ -121,33 +121,5 @@ describe('writeManifestJson', () => {
     writeManifestJson({ name: 'test' })
     expect(spy).toHaveBeenCalledWith('content unchanged, skipping write:', testManifestPath)
     spy.mockRestore()
-  })
-})
-
-describe('ensureManifestJsonExists', () => {
-  beforeEach(() => {
-    mkdirSync(testDir, { recursive: true })
-  })
-
-  afterEach(() => {
-    rmSync(testDir, { recursive: true, force: true })
-  })
-
-  it('creates manifest.json if it does not exist', () => {
-    ensureManifestJsonExists()
-    expect(existsSync(testManifestPath)).toBe(true)
-  })
-
-  it('does not overwrite existing manifest.json', () => {
-    writeFileSync(testManifestPath, '{"custom":"data"}')
-    ensureManifestJsonExists()
-    const content = readFileSync(testManifestPath, 'utf-8')
-    expect(JSON.parse(content)).toEqual({ custom: 'data' })
-  })
-
-  it('creates manifest.json in outDir when provided in opts', () => {
-    mkdirSync(customOutDir, { recursive: true })
-    ensureManifestJsonExists({ outDir: customOutDir } as any)
-    expect(existsSync(customManifestPath)).toBe(true)
   })
 })

@@ -328,7 +328,7 @@ export default defineConfig({
 ```
 index.ts          Vite 插件入口，按命令选择 createManifestWatcher 或 generateManifest
 watcher.ts        深模块 — 选项解析 + c12 配置监听 / 一次性加载 + 文件写入
-writer.ts         文件 I/O — writeManifestJson / ensureManifestJsonExists
+writer.ts         文件 I/O — writeManifestJson
 paths.ts          路径解析 — resolveManifestJsonPath
 defaults.ts       静态数据 — 默认 manifest 配置
 config.ts         defineManifestConfig 辅助函数 + 类型重导出

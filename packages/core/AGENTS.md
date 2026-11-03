@@ -19,7 +19,7 @@ pnpm -C packages/core dev       # tsdown --watch
 | --- | --- |
 | `index.ts` | 插件工厂：`enforce: 'pre'` → `configResolved` 启动 watcher，一次性构建（`command === 'build'` 且无 `build.watch`）只调 `generateManifest`；没有 `buildEnd`，因为它在每次重建后都触发，关掉监听会断掉 watch 期间的同步 |
 | `watcher.ts` | 深模块 `createManifestWatcher`，对外只暴露 `{ options, unwatch }`；另有 `generateManifest`（c12 `loadConfig`，不建 watcher）；c12 选项由 `getConfigOptions` 统一生成 |
-| `writer.ts` | `writeManifestJson` / `ensureManifestJsonExists` |
+| `writer.ts` | `writeManifestJson` |
 | `paths.ts` | `resolveManifestJsonPath` |
 | `defaults.ts` | `defaultManifestConfig` |
 | `config.ts` | `defineManifestConfig` + re-export types 包 |
@@ -32,7 +32,6 @@ pnpm -C packages/core dev       # tsdown --watch
 - **c12 配置源**：`watchConfig({ name: 'manifest', rcFile: false, packageJson: false, defaultConfig: defaultManifestConfig })`，所以只认 `manifest.config.(ts|mts|cts|js|cjs|mjs|json)`，不读 `.manifestrc`、不读 `package.json` 字段。
 - **首次写入时机**：配置加载成功后才写（配置语法错误不会留下空 `manifest.json`）。
 - **debug 类别**（`obug` 命名空间）：`options`（选项解析）、`config`（配置加载与变更）、`writer`（写入）；选项为 `true` 时全部开启，字符串只开一类，等效 `DEBUG=vite-plugin-uni-manifest:*`。
-- **`ManifestContext` 已废弃**：保留仅为兼容，新代码用 `createManifestWatcher`。
 - **`.env` 与数组合并**：`dotenv` 开启时用 Vite 的 `loadEnv(mode, cwd, '')` 读 `.env`、`.env.local`、`.env.{mode}`、`.env.{mode}.local`，再 `Object.assign` 进 `process.env`（`loadEnv` 只返回值，且默认按 `VITE_` 过滤）；`mode` 由插件传入的 Vite `config.mode` 决定，直接调 `createManifestWatcher` 时默认取 `process.env.NODE_ENV`。`replaceArrays` 开启时给 c12 传自定义 `merger`（`createDefu`，数组整体替换）。两个选项默认关闭，默认产物不变。
 
 ## 已知时序限制

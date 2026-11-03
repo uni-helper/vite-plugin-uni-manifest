@@ -140,21 +140,3 @@ export async function createManifestWatcher(
 
   return { options, unwatch }
 }
-
-/**
- * @deprecated Use {@link createManifestWatcher} instead.
- */
-export class ManifestContext {
-  options: ResolvedOptions
-  unwatch!: () => Promise<void>
-
-  constructor(options: UserOptions) {
-    this.options = resolveOptions(options)
-  }
-
-  /** Start watching config sources and perform initial write. */
-  async setup(): Promise<void> {
-    const watcher = await createManifestWatcher(this.options)
-    this.unwatch = watcher.unwatch
-  }
-}
