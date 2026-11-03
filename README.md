@@ -30,7 +30,7 @@ pnpm i -D @uni-helper/vite-plugin-uni-manifest
 
 ## 使用
 
-📖 请阅读[在线文档](https://uni-helper.js.org/vite-plugin-uni-manifest)或各包 README 文档了解使用方法。
+📖 请阅读[在线文档](https://uni-helper.js.org/vite-plugin-uni-manifest)、本仓库的 [`docs/`](./docs/)（`pnpm docs:dev` 本地预览）或各包 README 了解使用方法。
 
 ```ts
 // vite.config.mts

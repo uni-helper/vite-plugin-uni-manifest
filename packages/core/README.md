@@ -162,7 +162,26 @@ interface UserOptions {
 
 核心矛盾是时序：必须在 uni-app 进程启动前把 `manifest.json` 生成好。以下按推荐度排序给出方案。
 
-#### 方案一（推荐）：使用 [@uni-helper/unh](https://uni-helper.cn/unh/auto-generate)
+#### 方案一（推荐）：用插件自带的 `prepare()`
+
+`prepare()` 在 Vite 加载配置前先跑一次生成，`manifest.config.*` 的加载和写入与插件内部完全一致，不需要额外依赖。
+
+```ts
+// vite.config.mts
+import UniManifest from '@uni-helper/vite-plugin-uni-manifest'
+import { defineConfig } from 'vite'
+
+export default defineConfig(async () => ({
+  plugins: [
+    await UniManifest().prepare(),
+    // ...其它插件
+  ],
+}))
+```
+
+`defineConfig` 要改成异步工厂。参数、行为和限制见[文档](/docs/api/prepare.md)。
+
+#### 方案二：使用 [@uni-helper/unh](https://uni-helper.cn/unh/auto-generate)
 
 `unh` 在调用 `uni dev/build` 前用 `unconfig` 加载 `manifest.config.ts` 并写盘，再 spawn 子进程，天然解决时序问题。
 
@@ -187,7 +206,7 @@ export default defineConfig({
 })
 ```
 
-#### 方案二：自行编写脚本，在 uni 命令前生成
+#### 方案三：自行编写脚本，在 uni 命令前生成
 
 用一个独立脚本加载 `manifest.config.ts`、写入 `src/manifest.json`，再用 `&&` 串联到 `uni` 命令前。脚本在 uni 进程之外运行，与 Vite 钩子时序无关。
 
@@ -233,7 +252,7 @@ writeFileSync(outPath, JSON.stringify(config, null, 2))
 
 > 说明：`manifest.config.ts` 中的热更新监听在本方案下不生效。脚本只生成一次。开发期间修改 `manifest.config.ts` 需重新执行脚本（或重启 dev server）。本插件仍可作为 Vite 插件保留，用于处理 `manifest.config.ts` 的运行时变更；首次启动的正确性由本脚本兜底。
 
-#### 方案三：用 npm `predev`/`prebuild` 钩子
+#### 方案四：用 npm `predev`/`prebuild` 钩子
 
 ```jsonc
 // package.json
@@ -247,7 +266,7 @@ writeFileSync(outPath, JSON.stringify(config, null, 2))
 }
 ```
 
-> 说明：npm 会在执行 `dev`/`build` 前自动运行同名 `pre*` 脚本。pnpm 10 同样会运行用户自定义的 `predev`/`prebuild`（注意 `enable-pre-post-scripts` 只影响 install 阶段的生命周期脚本，不影响 `run` 时的 `pre*`/`post*`）。比方案二的 `&&` 串联更隐式，开发者可能意识不到 `predev` 被自动触发，排查问题时需额外留意，故排序靠后。
+> 说明：npm 会在执行 `dev`/`build` 前自动运行同名 `pre*` 脚本。pnpm 10 同样会运行用户自定义的 `predev`/`prebuild`（注意 `enable-pre-post-scripts` 只影响 install 阶段的生命周期脚本，不影响 `run` 时的 `pre*`/`post*`）。比方案三的 `&&` 串联更隐式，开发者可能意识不到 `predev` 被自动触发，排查问题时需额外留意，故排序靠后。
 
 ### 修改 `manifest.config.ts` 后，需要重启 dev server 才能生效
 
@@ -297,7 +316,7 @@ pnpm i -D chokidar-cli
 支持。在 monorepo 场景下，uni-app 应用通常位于某个子包目录（如 `packages/app`）中，而命令可能从仓库根目录执行。此时可以通过两个选项调整本插件的路径解析：
 
 - `cwd`：指定插件查找 `manifest.config.*` 的目录。默认为 `process.env.VITE_ROOT_DIR`（由 `@dcloudio/vite-plugin-uni` 注入），该环境变量不存在时回退到 `process.cwd()`。若配置文件不在默认目录，显式指向应用所在目录即可。
-- `outDir`：指定 `manifest.json` 的输出目录。默认写入 uni-app 的输入目录（`UNI_INPUT_DIR`，通常是应用的 `src/`）。相对路径基于 `process.cwd()` 解析。
+- `outDir`：指定 `manifest.json` 的输出目录。默认写入 uni-app 的输入目录（`UNI_INPUT_DIR`，通常是应用的 `src/`）。相对路径基于 `cwd` 解析。
 
 ```ts
 // vite.config.mts

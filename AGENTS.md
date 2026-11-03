@@ -48,6 +48,11 @@ pnpm build:mp-weixin
 pnpm -C playground run dev:app
 pnpm -C playground run build:mp-weixin
 
+# 文档站（VitePress，本地预览会起 dev server）
+pnpm docs:dev
+pnpm docs:build                  # 产物在 docs/.vitepress/dist
+pnpm docs:preview
+
 # 发布（维护者）
 pnpm release                    # bumpp：改 4 个 package.json 的版本并打 tag
 ```
@@ -65,7 +70,8 @@ pnpm release                    # bumpp：改 4 个 package.json 的版本并打
 | `packages/core/src/types.ts` | `Options` / `UserOptions` / `ResolvedOptions` / `DebugType` |
 | `packages/types/src/*.ts` | `manifest.json` 类型定义，按平台/节点分文件（详见 `packages/types/AGENTS.md`） |
 | `packages/schema/schema.json` | **生成物**：从 `packages/types` 的 `ManifestConfig` 生成，不要手改 |
-| `test/` | 根目录的 vitest 测试，模块级 `vi.mock` 隔离 fs 与 c12；`load-config.test.ts` 例外，用真实 c12 验证 `.env` 加载 |
+| `test/` | 根目录的 vitest 测试，模块级 `vi.mock` 隔离 fs 与 c12；`load-config.test.ts` 与 `prepare.test.ts` 例外，用真实 c12 验证 `.env` 与提前生成 |
+| `docs/` | VitePress 文档站（`pnpm docs:dev` / `docs:build` / `docs:preview`），内容以 `packages/core/src` 的实现为准 |
 | `playground/` | 示例 uni-app 应用，`vite.config.mts` 里注册插件 |
 
 数据流：`packages/types` 是类型的事实来源 → `packages/schema` 从中生成 `schema.json` → `packages/core` 通过 `src/config.ts` re-export 类型并消费 `ManifestConfig`。

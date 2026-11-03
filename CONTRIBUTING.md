@@ -39,6 +39,10 @@ pnpm typecheck
 # 启动 playground 调试
 pnpm play:mp-weixin
 pnpm play:h5
+
+# 文档站（VitePress）
+pnpm docs:dev
+pnpm docs:build
 ```
 
 ## 测试
@@ -49,6 +53,7 @@ pnpm play:h5
 test/
 ├── watcher.test.ts     createManifestWatcher 深模块（选项解析 + 监听 + 写入 + debug 日志开关 + c12 选项）
 ├── load-config.test.ts 真实 c12 + Vite loadEnv：.env 四个文件的读取与覆盖顺序
+├── prepare.test.ts     prepare()：提前写入、cwd/mode 覆盖、没有配置文件时不写
 ├── plugin.test.ts      插件工厂形状 + 生命周期
 ├── writer.test.ts      writeManifestJson：目录优先级 + 格式化 + 幂等写入
 ├── defaults.test.ts    默认配置结构
@@ -67,6 +72,7 @@ vite-plugin-uni-manifest/
 │   ├── core/           插件核心逻辑
 │   ├── types/          manifest.json TypeScript 类型定义
 │   └── schema/         JSON Schema（从 types 自动生成）
+├── docs/               VitePress 文档站
 ├── test/               测试文件
 ├── playground/         示例 uni-app 项目
 └── pnpm-workspace.yaml
