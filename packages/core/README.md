@@ -124,8 +124,33 @@ interface UserOptions {
    * @since 0.5.7
    */
   debug?: boolean | DebugType
+
+  /**
+   * 是否加载 `.env`、`.env.local`、`.env.{mode}` 与 `.env.{mode}.local`，
+   * 让 `manifest.config.*` 能读到里面的变量
+   * 用 Vite 的 `loadEnv` 读取，不过滤 `VITE_` 前缀；`mode` 取 Vite 的 mode，
+   * 后读的文件覆盖先读的，`process.env` 里已有的值优先
+   * @default false
+   * @since 0.7.0
+   */
+  dotenv?: boolean
+
+  /**
+   * 数组字段整体覆盖
+   * c12 默认用 `defu` 合并，会把各个来源的数组拼在一起，开启后你写的数组会替换默认配置里的同名数组
+   * @default false
+   * @since 0.7.0
+   */
+  replaceArrays?: boolean
 }
 ```
+
+两个开关默认都关，行为和之前一致，需要时再打开：
+
+- **`dotenv`**，用 Vite 的 `loadEnv` 读取 `cwd` 下的 `.env`、`.env.local`、`.env.{mode}`、`.env.{mode}.local`，写进 `process.env` 供 `manifest.config.*` 使用（`mode` 是 Vite 的 mode，例如 `development`、`production`，用 `--mode` 可以换成别的）。文件之间后读的覆盖先读的，`process.env` 里已经有的变量不会被文件覆盖；变量名不受 `VITE_` 前缀限制。改完 `.env` 要重启才会生效。
+- **`replaceArrays`**，数组字段整体覆盖。c12 默认的合并策略是 `defu`，它会把默认配置里的数组接在你写的数组后面；打开后你用数组写的字段直接替换默认配置里的数组。
+
+`.env` 的读取用 Vite 自己的 `loadEnv`（空前缀），文件和解析规则跟 Vite 完全一致，不再经过 c12。
 
 ## FAQ
 
@@ -334,7 +359,7 @@ index.ts
 - **深模块设计**：`createManifestWatcher()` 是唯一的核心 interface，选项解析、配置监听、文件写入全部作为 implementation 细节隐藏其后。测试直接通过这一个 interface 验证端到端行为。`generateManifest()` 只服务一次性构建，共用同一套选项解析与 c12 配置。
 - **无导入时副作用**：所有文件系统操作（路径解析、文件写入）都在插件生命周期内执行，而非模块导入时。这使得模块可独立测试。
 - **路径解析为函数**：`resolveManifestJsonPath()` 每次调用重新计算路径，依赖 `process.env.UNI_INPUT_DIR`（由 `@dcloudio/vite-plugin-uni` 注入），不缓存。
-- **c12 配置加载**：持续运行时用 `c12` 的 `watchConfig` 实现 `manifest.config.ts` 的监听和热更新，一次性构建用 `loadConfig`，两条路径支持同样的 `.ts`、`.mts`、`.js`、`.json` 等格式。
+- **c12 配置加载**：持续运行时用 `c12` 的 `watchConfig` 实现 `manifest.config.ts` 的监听和热更新，一次性构建用 `loadConfig`，两条路径支持同样的 `.ts`、`.mts`、`.js`、`.json` 等格式，也共用同一份 c12 选项；`replaceArrays` 落到 c12 的 `merger`。
 - **幂等写入**：`writeManifestJson` 在内容未变化时跳过写入，避免触发下游不必要的重编译。
 - **分类调试日志**：通过 `debug` 选项或 `DEBUG=vite-plugin-uni-manifest:*` 环境变量按类别（`options`/`config`/`writer`）输出日志，默认关闭，不影响正常输出。
 
