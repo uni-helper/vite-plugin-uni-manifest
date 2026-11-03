@@ -1,3 +1,4 @@
+import type { Plugin } from 'vite'
 import type { debug } from './logger'
 
 /** Debug log category, corresponds to the loggers exposed by {@link debug}. */
@@ -79,3 +80,36 @@ export interface UserOptions extends Partial<Options> {}
 
 /** Fully resolved options with all defaults applied. */
 export interface ResolvedOptions extends Options {}
+
+/** Options for {@link UniManifestPlugin.prepare}. */
+export interface PrepareOptions {
+  /**
+   * Project root used to find `manifest.config.*`. Overrides the `cwd` option
+   * for this call. Falls back to `VITE_ROOT_DIR`, then `process.cwd()`.
+   */
+  cwd?: string
+  /**
+   * Mode used to pick `.env.{mode}` files. Falls back to `process.env.NODE_ENV`.
+   * Pass the same mode Vite runs with (`--mode`), otherwise the prepared file
+   * can be built from a different `.env` file than the one Vite uses later.
+   */
+  mode?: string
+}
+
+/** Plugin instance returned by {@link VitePluginUniManifest}. */
+export interface UniManifestPlugin extends Plugin {
+  /**
+   * Load `manifest.config.*` and write `manifest.json` before Vite starts.
+   *
+   * uni-app reads `manifest.json` in its `config` hook, before this plugin's
+   * `configResolved`, so waiting for `prepare()` is the only way to have the
+   * generated file in place in time. Returns the same plugin instance, so it can
+   * be awaited inline in the `plugins` array.
+   *
+   * Vite writes the file again when it takes over; the writer skips identical
+   * content, so the second pass is a no-op.
+   *
+   * @throws When the config file cannot be loaded or its content is not an object.
+   */
+  prepare: (options?: PrepareOptions) => Promise<UniManifestPlugin>
+}

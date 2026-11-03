@@ -1,5 +1,4 @@
-import type { Plugin } from 'vite'
-import type { UserOptions } from './types'
+import type { PrepareOptions, UniManifestPlugin, UserOptions } from './types'
 import { createManifestWatcher, generateManifest } from './watcher'
 
 export * from './config'
@@ -14,8 +13,8 @@ export * from './writer'
  * `build` with `watch`, which is how uni-app runs mini program development) and
  * loads it once for a one-shot build.
  */
-export function VitePluginUniManifest(userOptions: UserOptions = {}): Plugin {
-  return {
+export function VitePluginUniManifest(userOptions: UserOptions = {}): UniManifestPlugin {
+  const plugin: UniManifestPlugin = {
     name: 'vite-plugin-uni-manifest',
     // Run before other configResolved hooks to keep manifest.json in sync
     enforce: 'pre',
@@ -32,7 +31,15 @@ export function VitePluginUniManifest(userOptions: UserOptions = {}): Plugin {
       // that closes a programmatic watch build keeps it alive.
       await createManifestWatcher(userOptions, config.mode)
     },
+    async prepare(options: PrepareOptions = {}) {
+      const prepared = options.cwd === undefined
+        ? userOptions
+        : { ...userOptions, cwd: options.cwd }
+      await generateManifest(prepared, options.mode)
+      return plugin
+    },
   }
+  return plugin
 }
 
 export default VitePluginUniManifest
