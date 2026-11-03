@@ -1,6 +1,5 @@
 import type { Plugin } from 'vite'
 import type { UserOptions } from './types'
-import type { ManifestWatcher } from './watcher'
 import { createManifestWatcher, generateManifest } from './watcher'
 
 export * from './config'
@@ -12,10 +11,11 @@ export * from './writer'
 /**
  * Vite plugin that generates uni-app `manifest.json` from a TypeScript config file.
  *
- * Watches `manifest.config.ts` during development and loads it once for a one-shot build.
+ * Watches `manifest.config.ts` whenever the build stays alive (`vite dev`, and
+ * `build` with `watch`, which is how uni-app runs mini program development) and
+ * loads it once for a one-shot build.
  */
 export function VitePluginUniManifest(userOptions: UserOptions = {}): Plugin {
-  let watcher: ManifestWatcher | undefined
   return {
     name: 'vite-plugin-uni-manifest',
     // Run before other configResolved hooks to keep manifest.json in sync
@@ -27,9 +27,12 @@ export function VitePluginUniManifest(userOptions: UserOptions = {}): Plugin {
         await generateManifest(userOptions)
         return
       }
-      watcher = await createManifestWatcher(userOptions)
+      // Never closed here: `buildEnd` fires after every rebuild, so closing on
+      // it would stop syncing manifest.config.* for the rest of a watch run.
+      // The watcher is released when the process exits, which means a caller
+      // that closes a programmatic watch build keeps it alive.
+      await createManifestWatcher(userOptions)
     },
-    buildEnd: () => watcher?.unwatch(),
   }
 }
 

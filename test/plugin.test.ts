@@ -2,14 +2,13 @@ import { describe, expect, it, vi } from 'vitest'
 
 import { VitePluginUniManifest } from '../packages/core/src/index'
 
-const { mockUnwatch, mockCreateManifestWatcher, mockGenerateManifest } = vi.hoisted(() => {
-  const mockUnwatch = vi.fn().mockResolvedValue(undefined)
+const { mockCreateManifestWatcher, mockGenerateManifest } = vi.hoisted(() => {
   const mockCreateManifestWatcher = vi.fn().mockResolvedValue({
     options: { minify: false, insertFinalNewline: false },
-    unwatch: mockUnwatch,
+    unwatch: vi.fn().mockResolvedValue(undefined),
   })
   const mockGenerateManifest = vi.fn().mockResolvedValue(undefined)
-  return { mockUnwatch, mockCreateManifestWatcher, mockGenerateManifest }
+  return { mockCreateManifestWatcher, mockGenerateManifest }
 })
 
 vi.mock('../packages/core/src/watcher', () => ({
@@ -30,11 +29,6 @@ describe('vitePluginUniManifest', () => {
     expect(typeof plugin.configResolved).toBe('function')
   })
 
-  it('has buildEnd hook for cleanup', () => {
-    const plugin = VitePluginUniManifest()
-    expect(typeof plugin.buildEnd).toBe('function')
-  })
-
   it('creates watcher in configResolved for serve', async () => {
     mockCreateManifestWatcher.mockClear()
     mockGenerateManifest.mockClear()
@@ -42,14 +36,6 @@ describe('vitePluginUniManifest', () => {
     await (plugin as any).configResolved({ command: 'serve' } as any)
     expect(mockCreateManifestWatcher).toHaveBeenCalled()
     expect(mockGenerateManifest).not.toHaveBeenCalled()
-  })
-
-  it('calls unwatch on buildEnd after configResolved', async () => {
-    mockUnwatch.mockClear()
-    const plugin = VitePluginUniManifest()
-    await (plugin as any).configResolved({ command: 'serve' } as any)
-    ;(plugin as any).buildEnd()
-    expect(mockUnwatch).toHaveBeenCalled()
   })
 
   it('passes user options to createManifestWatcher', async () => {
@@ -81,16 +67,5 @@ describe('vitePluginUniManifest', () => {
     } as any)
     expect(mockCreateManifestWatcher).toHaveBeenCalled()
     expect(mockGenerateManifest).not.toHaveBeenCalled()
-  })
-
-  it('does not call unwatch after a one-shot build', async () => {
-    mockUnwatch.mockClear()
-    const plugin = VitePluginUniManifest()
-    await (plugin as any).configResolved({
-      command: 'build',
-      build: { watch: null },
-    } as any)
-    ;(plugin as any).buildEnd()
-    expect(mockUnwatch).not.toHaveBeenCalled()
   })
 })

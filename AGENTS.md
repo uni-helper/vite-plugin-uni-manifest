@@ -56,7 +56,7 @@ pnpm release                    # bumpp：改 4 个 package.json 的版本并打
 
 | 路径 | 职责 |
 | --- | --- |
-| `packages/core/src/index.ts` | Vite 插件入口：`enforce: 'pre'`，`configResolved` 里启动 watcher（`command === 'build'` 且没有 `build.watch` 时只调一次 `generateManifest`），`buildEnd` 里 `unwatch` |
+| `packages/core/src/index.ts` | Vite 插件入口：`enforce: 'pre'`，`configResolved` 里启动 watcher（`command === 'build'` 且没有 `build.watch` 时只调一次 `generateManifest`）；插件不 `unwatch`，否则 watch 期间第一次 `buildEnd` 后同步就断了 |
 | `packages/core/src/watcher.ts` | 深模块 `createManifestWatcher`：选项解析 + c12 监听 + 首次写入；一次性构建走同文件的 `generateManifest`（c12 `loadConfig`）；另含已废弃的 `ManifestContext` |
 | `packages/core/src/writer.ts` | `writeManifestJson` / `ensureManifestJsonExists`，内容未变时跳过写入 |
 | `packages/core/src/paths.ts` | `resolveManifestJsonPath`，每次重新读 `UNI_INPUT_DIR` |

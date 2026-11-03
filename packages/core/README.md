@@ -61,7 +61,7 @@ export default defineManifestConfig({
 
 ## 插件配置
 
-`vite dev` 下插件会监听 manifest 配置，改完自动同步到 `manifest.json`；一次性构建只加载并写入一次，不启动文件监听器。
+开发时（`vite dev`，以及 uni-app 小程序那种一直跑着的 `build` + `watch`）插件会监听 manifest 配置，改完自动同步到 `manifest.json`；一次性构建只加载并写入一次，不启动文件监听器。
 
 `UniManifest()` 支持以下选项定义行为：
 
@@ -325,16 +325,16 @@ index.ts
 
 插件通过 Vite 的生命周期钩子驱动，顺序如下：
 
-1. **`configResolved`**（异步）— 调用 `createManifestWatcher(userOptions)`：启动 c12 监听 → 执行首次写入（`manifest.json` 不存在时在此创建，配置加载失败则不会写入占位文件）
+1. **`configResolved`**（异步）— 会持续的构建（`serve`，或带 `build.watch` 的 `build`）调用 `createManifestWatcher(userOptions)`：启动 c12 监听 → 执行首次写入（`manifest.json` 不存在时在此创建，配置加载失败则不会写入占位文件）；一次性构建只调用 `generateManifest(userOptions)`，用 c12 `loadConfig` 加载一次后写入，不建监听器。
 2. **运行时** — c12 检测到 `manifest.config.ts` 变更 → `onUpdate` 回调 → `writeManifestJson()` 写入文件
-3. **`buildEnd`** — 调用 `watcher.unwatch()` 停止 c12 监听
+3. **结束** — 插件不主动 `unwatch`：`buildEnd` 在每次重建后都会触发，在那里关闭监听会让 watch 期间的改动不再同步，监听器随进程退出释放。
 
 ### 关键设计决策
 
-- **深模块设计**：`createManifestWatcher()` 是唯一的核心 interface，选项解析、配置监听、文件写入全部作为 implementation 细节隐藏其后。测试直接通过这一个 interface 验证端到端行为。
+- **深模块设计**：`createManifestWatcher()` 是唯一的核心 interface，选项解析、配置监听、文件写入全部作为 implementation 细节隐藏其后。测试直接通过这一个 interface 验证端到端行为。`generateManifest()` 只服务一次性构建，共用同一套选项解析与 c12 配置。
 - **无导入时副作用**：所有文件系统操作（路径解析、文件写入）都在插件生命周期内执行，而非模块导入时。这使得模块可独立测试。
 - **路径解析为函数**：`resolveManifestJsonPath()` 每次调用重新计算路径，依赖 `process.env.UNI_INPUT_DIR`（由 `@dcloudio/vite-plugin-uni` 注入），不缓存。
-- **c12 配置加载**：通过 `c12` 的 `watchConfig` 实现 `manifest.config.ts` 的监听和热更新，支持 `.ts`、`.mts`、`.js`、`.json` 等格式。
+- **c12 配置加载**：持续运行时用 `c12` 的 `watchConfig` 实现 `manifest.config.ts` 的监听和热更新，一次性构建用 `loadConfig`，两条路径支持同样的 `.ts`、`.mts`、`.js`、`.json` 等格式。
 - **幂等写入**：`writeManifestJson` 在内容未变化时跳过写入，避免触发下游不必要的重编译。
 - **分类调试日志**：通过 `debug` 选项或 `DEBUG=vite-plugin-uni-manifest:*` 环境变量按类别（`options`/`config`/`writer`）输出日志，默认关闭，不影响正常输出。
 
