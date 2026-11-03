@@ -2,7 +2,7 @@
 
 ## 从 0.6 升级到 0.7
 
-`pnpm up @uni-helper/vite-plugin-uni-manifest` 即可。选项新增了两个，默认关闭，普通用法不需要改代码。下面是会影响已有代码的改动。
+`pnpm up @uni-helper/vite-plugin-uni-manifest` 即可。这一版把 Node 下限抬到 `^22.22.2`、`^24.15.0` 或 `>=26.0.0`，还在 Node 20 上的项目要先升级运行时。选项新增了两个，默认关闭，普通用法不需要改代码。下面是会影响已有代码的改动。
 
 ### 新增 prepare()
 

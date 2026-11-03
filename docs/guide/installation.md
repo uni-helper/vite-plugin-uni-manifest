@@ -2,7 +2,7 @@
 
 ## 前置条件
 
-- Node.js `^20.19.0` 或 `>=22.12.0`
+- Node.js `^22.22.2`、`^24.15.0` 或 `>=26.0.0`
 - Vite `^5.0.0`（插件的 peer 依赖）
 - 用 `@dcloudio/vite-plugin-uni` 或 `@uni-helper/plugin-uni` 驱动的 uni-app 项目
 

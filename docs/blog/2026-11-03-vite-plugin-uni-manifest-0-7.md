@@ -178,7 +178,7 @@ CI 和发布流程补了三道闸：`pnpm build` 之后比对 `packages/schema/s
 
 ## 升级清单
 
-1. 升级依赖，跑一次构建，确认 `manifest.json` 的差异。
+1. 升级依赖，确认运行时不低于 Node 22.22.2 或 24.15.0，然后跑一次构建，确认 `manifest.json` 的差异。
 2. 直接调用 `writeManifestJson()` 的地方改用 `resolveOutputSpec()`。
 3. monorepo 里检查相对的 `outDir`，改成相对 `cwd` 的写法。
 4. 用 `ensureManifestJsonExists()`、`ManifestContext` 或入口导出的 `debug` 的地方，按上表替换。
