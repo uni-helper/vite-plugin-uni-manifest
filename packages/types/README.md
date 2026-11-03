@@ -12,6 +12,8 @@
 
 为 `uni-app` 的 `manifest.json` 提供 TypeScript 类型。
 
+完整文档见 [uni-helper.js.org](https://uni-helper.js.org/vite-plugin-uni-manifest)，另有 [Netlify](https://vite-plugin-uni-manifest.netlify.app) 和 [Cloudflare Pages](https://vite-plugin-uni-manifest.pages.dev) 镜像。
+
 不想看文档？直接问 AI 🤖 <a href="https://deepwiki.com/uni-helper/vite-plugin-uni-manifest"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
 
 > **请考虑持续[赞助](https://github.com/ModyQyW/sponsors)以维持该项目的持续健康发展，非常感谢！🙏**
