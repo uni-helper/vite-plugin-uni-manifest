@@ -8,7 +8,7 @@ import { enable } from 'obug'
 import { loadEnv } from 'vite'
 import { defaultManifestConfig } from './defaults'
 import { debug } from './logger'
-import { writeManifestJson } from './writer'
+import { resolveOutputSpec, writeManifestJson } from './writer'
 
 /**
  * The public interface of the manifest watcher.
@@ -32,7 +32,7 @@ export async function generateManifest(
   const options = prepareOptions(userOptions)
   loadDotenv(options, mode)
   const { config } = await loadConfig<UserManifestConfig>(getConfigOptions(options))
-  writeManifestJson(config, options)
+  writeManifestJson(config, resolveOutputSpec(options))
 }
 
 /** Merge user options with defaults to produce resolved options. */
@@ -123,6 +123,7 @@ export async function createManifestWatcher(
 ): Promise<ManifestWatcher> {
   const options = prepareOptions(userOptions)
   loadDotenv(options, mode)
+  const spec = resolveOutputSpec(options)
 
   const { config, unwatch } = await watchConfig<UserManifestConfig>({
     ...getConfigOptions(options),
@@ -133,10 +134,10 @@ export async function createManifestWatcher(
         return
       }
       debug.config('config changed', diff)
-      writeManifestJson(newConfig.config, options)
+      writeManifestJson(newConfig.config, spec)
     },
   })
-  writeManifestJson(config, options)
+  writeManifestJson(config, spec)
 
   return { options, unwatch }
 }

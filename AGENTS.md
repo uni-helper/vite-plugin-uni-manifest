@@ -58,8 +58,7 @@ pnpm release                    # bumpp：改 4 个 package.json 的版本并打
 | --- | --- |
 | `packages/core/src/index.ts` | Vite 插件入口：`enforce: 'pre'`，`configResolved` 里启动 watcher（`command === 'build'` 且没有 `build.watch` 时只调一次 `generateManifest`）；插件不 `unwatch`，否则 watch 期间第一次 `buildEnd` 后同步就断了 |
 | `packages/core/src/watcher.ts` | 深模块 `createManifestWatcher`：选项解析 + c12 监听 + 首次写入；一次性构建走同文件的 `generateManifest`（c12 `loadConfig`）；`dotenv` 用 Vite 的 `loadEnv`（空前缀）写回 `process.env`，`replaceArrays` 映射到 c12 的 `merger` |
-| `packages/core/src/writer.ts` | `writeManifestJson`，内容未变时跳过写入 |
-| `packages/core/src/paths.ts` | `resolveManifestJsonPath`，每次重新读 `UNI_INPUT_DIR` |
+| `packages/core/src/writer.ts` | `resolveOutputSpec` 把已解析选项折成 `OutputSpec`，`writeManifestJson(config, spec)` 负责目录优先级（`outDir` → `UNI_INPUT_DIR` → `cwd/src`，每次写入重读）、格式化与幂等写入 |
 | `packages/core/src/defaults.ts` | `defaultManifestConfig`（c12 的 `defaultConfig`） |
 | `packages/core/src/config.ts` | `defineManifestConfig` 辅助函数，并 re-export 整个 types 包 |
 | `packages/core/src/logger.ts` | `obug` 封装的分类日志（`options` / `config` / `writer`） |
@@ -77,8 +76,8 @@ pnpm release                    # bumpp：改 4 个 package.json 的版本并打
 - **改 types 必须重建 schema**：`packages/schema/schema.json` 是生成物，任何 `packages/types` 的改动都要在同一次提交里跑 `pnpm build`（或 `pnpm -C packages/schema build`）把 `schema.json` 一起带上。
 - **注释语言**：`packages/core/src` 用英文 JSDoc；`packages/types/src` 用中文 JSDoc。
 - **文档链接**：JSDoc 里的链接写成 `<https://…>` 尖括号形式，改完要确认页面与锚点仍存在。
-- **测试方式**：测试放在根 `test/`，用 `vi.mock` 替换 `paths` / `defaults` / `writer` / `c12`，不依赖真实文件系统和真实配置加载。
-- **平台路径**：`resolveManifestJsonPath` 返回 POSIX 风格路径（内部用 Vite 的 `normalizePath`），在 Windows 上是 `D:/…` 形式；断言路径时先归一化。
+- **测试方式**：测试放在根 `test/`，用 `vi.mock` 替换 `defaults` / `c12`。`writer.test.ts` 与 `watcher.test.ts` 用真实临时目录写盘，不再 mock writer。
+- **平台路径**：`writeManifestJson` 写的是 POSIX 风格路径（内部用 Vite 的 `normalizePath`），在 Windows 上是 `D:/…` 形式；断言路径时先归一化。
 - **CI**：`.github/workflows/ci.yml` 在 push / PR 到 `main` 时跑 `build` → `lint` → `test` → `typecheck`，矩阵为 ubuntu / macos / windows × Node 22 / 24 / 26。
 - **发布**：`pnpm release`（bumpp 同步 4 个 `package.json` 的版本并打 `v*` tag）→ `release.yml` 用 changelogithub 建 GitHub Release，再 `pnpm -r publish`。
 - **更新类型**：按 `.agents/skills/bump-types/SKILL.md` 对照 DCloud 官方文档（`uniapp.dcloud.net.cn/collocation/manifest.html`、`doc.dcloud.net.cn/uni-app-x/collocation/manifest.html` 及其外链）核对字段与注释。

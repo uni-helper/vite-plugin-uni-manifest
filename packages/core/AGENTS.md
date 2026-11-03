@@ -19,8 +19,7 @@ pnpm -C packages/core dev       # tsdown --watch
 | --- | --- |
 | `index.ts` | 插件工厂：`enforce: 'pre'` → `configResolved` 启动 watcher，一次性构建（`command === 'build'` 且无 `build.watch`）只调 `generateManifest`；没有 `buildEnd`，因为它在每次重建后都触发，关掉监听会断掉 watch 期间的同步 |
 | `watcher.ts` | 深模块 `createManifestWatcher`，对外只暴露 `{ options, unwatch }`；另有 `generateManifest`（c12 `loadConfig`，不建 watcher）；c12 选项由 `getConfigOptions` 统一生成 |
-| `writer.ts` | `writeManifestJson` |
-| `paths.ts` | `resolveManifestJsonPath` |
+| `writer.ts` | `resolveOutputSpec` + `writeManifestJson(config, spec)`：目录优先级、格式化、幂等写入 |
 | `defaults.ts` | `defaultManifestConfig` |
 | `config.ts` | `defineManifestConfig` + re-export types 包 |
 | `logger.ts` | `obug` 分类日志 |
@@ -28,7 +27,7 @@ pnpm -C packages/core dev       # tsdown --watch
 
 - **无导入时副作用**：文件读写只发生在插件生命周期内，模块可以单独 import 测试。
 - **幂等写入**：`writeManifestJson` 先比对文件内容，相同则跳过写入（避免触发下游重编译），比较对象是最终字符串（含缩进、`eol`、末尾换行）。
-- **路径不缓存**：`resolveManifestJsonPath` 每次重新读 `process.env.UNI_INPUT_DIR`，并用 Vite 的 `normalizePath` 归一化成 POSIX 风格（Windows 上返回 `D:/…`）。
+- **输出规格与路径**：`resolveOutputSpec(options)` 是唯一的格式来源（`minify` 折成 `indent: 0`），writer 只照 spec 写；目录优先级 `outDir` → `UNI_INPUT_DIR` → `cwd/src` 在 writer 内部，每次写入重新读环境变量，并用 Vite 的 `normalizePath` 归一化成 POSIX 风格（Windows 上返回 `D:/…`）。
 - **c12 配置源**：`watchConfig({ name: 'manifest', rcFile: false, packageJson: false, defaultConfig: defaultManifestConfig })`，所以只认 `manifest.config.(ts|mts|cts|js|cjs|mjs|json)`，不读 `.manifestrc`、不读 `package.json` 字段。
 - **首次写入时机**：配置加载成功后才写（配置语法错误不会留下空 `manifest.json`）。
 - **debug 类别**（`obug` 命名空间）：`options`（选项解析）、`config`（配置加载与变更）、`writer`（写入）；选项为 `true` 时全部开启，字符串只开一类，等效 `DEBUG=vite-plugin-uni-manifest:*`。
