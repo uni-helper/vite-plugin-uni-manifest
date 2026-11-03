@@ -40,6 +40,10 @@ const blogSidebar = [
     items: [
       { text: '全部文章', link: '/blog/' },
       {
+        text: '0.7：在 uni-app 读取之前生成',
+        link: '/blog/2026-11-03-vite-plugin-uni-manifest-0-7',
+      },
+      {
         text: 'vite-plugin-uni-manifest 更新了什么',
         link: '/blog/2026-09-01-vite-plugin-uni-manifest-0-5-0-6',
       },
