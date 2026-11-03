@@ -2,12 +2,15 @@ import { disable } from 'obug'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { debug } from '../packages/core/src/logger'
-import { createManifestWatcher } from '../packages/core/src/watcher'
+import { createManifestWatcher, generateManifest } from '../packages/core/src/watcher'
 
-const { mockWriteManifestJson, mockUnwatch, mockWatchConfig } = vi.hoisted(() => ({
+const { mockWriteManifestJson, mockUnwatch, mockWatchConfig, mockLoadConfig } = vi.hoisted(() => ({
   mockWriteManifestJson: vi.fn(),
   mockUnwatch: vi.fn().mockResolvedValue(undefined),
   mockWatchConfig: vi.fn(),
+  mockLoadConfig: vi.fn().mockResolvedValue({
+    config: { name: 'test' },
+  }),
 }))
 
 vi.mock('../packages/core/src/paths', () => ({
@@ -25,6 +28,7 @@ vi.mock('../packages/core/src/writer', () => ({
 // 'c12' is not resolvable from the repo root under pnpm strict node_modules,
 // so mock it via the path that packages/core resolves it to.
 vi.mock('../packages/core/node_modules/c12', () => ({
+  loadConfig: mockLoadConfig,
   watchConfig: mockWatchConfig,
 }))
 
@@ -96,6 +100,27 @@ describe('createManifestWatcher', () => {
     })
 
     expect(mockWriteManifestJson).toHaveBeenCalledWith({ name: 'changed' }, expect.objectContaining({ minify: false, debug: false }))
+  })
+})
+
+describe('generateManifest', () => {
+  it('loads and writes the config without creating a watcher', async () => {
+    mockLoadConfig.mockClear()
+    mockWatchConfig.mockClear()
+    mockWriteManifestJson.mockClear()
+
+    await generateManifest({ minify: true })
+
+    expect(mockLoadConfig).toHaveBeenCalledWith(expect.objectContaining({
+      name: 'manifest',
+      rcFile: false,
+      packageJson: false,
+    }))
+    expect(mockWriteManifestJson).toHaveBeenCalledWith(
+      { name: 'test' },
+      expect.objectContaining({ minify: true }),
+    )
+    expect(mockWatchConfig).not.toHaveBeenCalled()
   })
 })
 
