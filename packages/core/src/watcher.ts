@@ -60,7 +60,14 @@ function prepareOptions(userOptions: UserOptions): ResolvedOptions {
     const suffix = typeof options.debug === 'boolean'
       ? '*'
       : options.debug
+    // obug's `enable` writes the namespaces into `process.env.DEBUG`. Keep the
+    // caller's value so the plugin does not silence their other debuggers.
+    const previousDebug = process.env.DEBUG
     enable(`vite-plugin-uni-manifest:${suffix}`)
+    if (previousDebug === undefined)
+      delete process.env.DEBUG
+    else
+      process.env.DEBUG = previousDebug
   }
   debug.options(options)
   return options

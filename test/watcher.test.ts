@@ -261,6 +261,23 @@ describe('debug option', () => {
     expect(debug.config.enabled).toBeFalsy()
   })
 
+  it('keeps the DEBUG value of the caller', async () => {
+    const previous = process.env.DEBUG
+    process.env.DEBUG = 'someone-else:*'
+    try {
+      await createManifestWatcher({ outDir, debug: 'writer' })
+
+      expect(process.env.DEBUG).toBe('someone-else:*')
+      expect(debug.writer.enabled).toBe(true)
+    }
+    finally {
+      if (previous === undefined)
+        delete process.env.DEBUG
+      else
+        process.env.DEBUG = previous
+    }
+  })
+
   it('writes with the resolved format options', async () => {
     await createManifestWatcher({ outDir, minify: true })
     expect(readFileSync(manifestPath, 'utf-8')).toBe('{"name":"test"}')
