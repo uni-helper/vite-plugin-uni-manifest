@@ -22,7 +22,7 @@ pnpm -C packages/core dev       # tsdown --watch
 | `writer.ts` | `resolveOutputSpec` + `writeManifestJson(config, spec)`：目录优先级、格式化、幂等写入 |
 | `defaults.ts` | `defaultManifestConfig` |
 | `config.ts` | `defineManifestConfig` + re-export types 包 |
-| `logger.ts` | `obug` 分类日志 |
+| `logger.ts` | `obug` 分类日志；仅内部使用，不从入口导出（入口只导出 `DebugType`） |
 | `types.ts` | 选项类型 |
 
 - **无导入时副作用**：文件读写只发生在插件生命周期内，模块可以单独 import 测试。

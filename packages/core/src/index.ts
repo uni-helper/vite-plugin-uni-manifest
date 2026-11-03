@@ -3,7 +3,6 @@ import type { UserOptions } from './types'
 import { createManifestWatcher, generateManifest } from './watcher'
 
 export * from './config'
-export * from './logger'
 export * from './types'
 export * from './watcher'
 export * from './writer'
