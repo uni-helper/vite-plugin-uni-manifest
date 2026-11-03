@@ -140,6 +140,19 @@ describe('writeManifestJson', () => {
       .toEqual({ name: 'default-base' })
   })
 
+  // A syntactically valid but non-object config would replace a working
+  // manifest.json with something uni-app cannot read.
+  it.each([
+    [],
+    [1, 2],
+    'text',
+    42,
+    true,
+  ])('refuses to write a non-object config: %j', (config) => {
+    expect(() => writeManifestJson(config, spec())).toThrowError(/must contain a JSON object/)
+    expect(existsSync(manifestOf(testDir))).toBe(false)
+  })
+
   it('creates the output directory when it does not exist yet', () => {
     const nested = join(testDir, 'nested', 'deep')
 

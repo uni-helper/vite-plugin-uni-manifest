@@ -56,8 +56,16 @@ function resolveManifestJsonPath(spec: OutputSpec): string {
  *
  * Skips the write when the content is unchanged, which keeps downstream
  * recompiles from firing on every config reload.
+ *
+ * `config` must be a plain object: an array or a primitive is valid JSON but
+ * uni-app cannot read it as a manifest, so refuse it before replacing a file
+ * that may hold a working configuration.
  */
 export function writeManifestJson(config: any, spec: OutputSpec): void {
+  if (Object.prototype.toString.call(config) !== '[object Object]') {
+    const type = Object.prototype.toString.call(config).slice(8, -1).toLowerCase()
+    throw new TypeError(`[vite-plugin-uni-manifest] manifest.json must contain a JSON object, refusing to write ${type}.`)
+  }
   const path = resolveManifestJsonPath(spec)
   let content = JSON.stringify(config, null, spec.indent)
   // JSON.stringify always emits LF; convert to the requested end-of-line sequence

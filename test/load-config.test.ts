@@ -80,6 +80,14 @@ describe('dotenv loading', () => {
     expect(readFileSync(join(srcDir, 'manifest.json'), 'utf-8')).toBe('{"name":"hand-written"}')
   })
 
+  it('refuses a config file that exports an array', async () => {
+    writeFileSync(join(dir, 'manifest.config.mjs'), 'export default [{ name: \'a\' }]\n')
+
+    await expect(generateManifest({ cwd: dir, outDir: dir }, 'development'))
+      .rejects
+      .toThrowError(/must contain a JSON object/)
+  })
+
   it('ignores .env files unless dotenv is on', async () => {
     writeFileSync(join(dir, '.env'), `${KEY.env}=env\n`)
 
